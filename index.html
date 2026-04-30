@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 面容与体态智能评估</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #ec4899; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="bg-rose-50 text-gray-800 font-sans min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white max-w-md w-full rounded-3xl shadow-xl overflow-hidden">
+        <div class="bg-gradient-to-r from-pink-400 to-rose-400 h-32 flex items-center justify-center">
+            <h1 class="text-2xl font-bold text-white z-10">AI 颜值体态研究室</h1>
+        </div>
+
+        <div class="p-6">
+            <!-- 阶段 1：上传区 -->
+            <div id="step1" class="space-y-4">
+                <p class="text-sm text-gray-500 text-center">上传照片，AI将在云端分析并立即销毁</p>
+                <input type="file" id="imageInput" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100"/>
+                <button onclick="uploadImage()" class="w-full bg-rose-500 text-white font-bold py-3 px-4 rounded-xl shadow-lg mt-4">开始AI诊断</button>
+            </div>
+
+            <!-- 阶段 2：加载区 -->
+            <div id="step2" class="hidden flex-col items-center justify-center py-10 space-y-4">
+                <div class="loader"></div>
+                <p id="loading-text" class="text-gray-600 font-medium">正在云端进行深度识别...</p>
+            </div>
+
+            <!-- 阶段 3：结果与引流 -->
+            <div id="step3" class="hidden space-y-5">
+                <h2 class="text-xl font-bold text-gray-800 text-center">您的诊断报告</h2>
+                <div class="bg-gray-50 p-4 rounded-xl text-sm space-y-2" id="result-box">
+                    <!-- 动态插入结果 -->
+                </div>
+                <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100 mt-4">
+                    <p class="text-sm text-indigo-700 mb-4">执行比诊断更重要。我已经为您生成了对应的 <b>30天改善计划</b>。请一键导入至您的 Notion。</p>
+                    <button onclick="goToNotion()" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl">一键复制专属 Notion 计划</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function uploadImage() {
+            const fileInput = document.getElementById('imageInput');
+            if (!fileInput.files[0]) {
+                alert("请先选择一张照片！"); return;
+            }
+
+            // 切换到加载界面
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+            document.getElementById('step2').classList.add('flex');
+
+            // 1. 将图片转为 Base64 编码
+            const reader = new FileReader();
+            reader.readAsDataURL(fileInput.files[0]);
+            reader.onload = async function () {
+                const base64Image = reader.result.split(',')[1]; // 去掉头部
+
+                try {
+                    // 2. 发送给我们的 Vercel 后台云函数
+                    const response = await fetch('/api/analyze', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ image: base64Image })
+                    });
+                    
+                    const data = await response.json();
+
+                    // 3. 渲染结果并切换界面
+                    document.getElementById('result-box').innerHTML = `
+                        <p><b>体态评分：</b><span class="text-rose-500 font-bold">${data.score}分</span></p>
+                        <p><b>核心问题：</b>${data.issue}</p>
+                        <p><b>改善建议：</b>${data.suggestion}</p>
+                    `;
+                    document.getElementById('step2').classList.add('hidden');
+                    document.getElementById('step2').classList.remove('flex');
+                    document.getElementById('step3').classList.remove('hidden');
+
+                } catch (error) {
+                    alert("网络错误或分析失败，请重试。");
+                    location.reload();
+                }
+            };
+        }
+
+        function goToNotion() {
+            // 替换为你的 Notion 模板公开链接
+            window.open("https://www.notion.so/你的模板分享链接", "_blank"); 
+        }
+    </script>
+</body>
+</html>
