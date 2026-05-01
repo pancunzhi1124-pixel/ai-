@@ -6,9 +6,12 @@ module.exports = async function handler(req, res) {
     const { image, type } = req.body;
     if (!image) return res.status(400).json({ error: '未接收到图片' });
 
-    // 从环境变量中获取百度 API 密钥
-    const AK = 4tUV7LvmNhf23gu8phRyKjkK;
-    const SK = l1dwgfUgt5przilsf0GHin1g4rhTdwJG;
+    // 【终极修复区】：这里是配置 API 密钥的地方
+    // 首选：自动读取你在 Vercel 填写的环境变量（最安全）
+    // 备选：如果你一定要写死在代码里，请把你的钥匙写在双引号里面！
+    const AK = process.env.BAIDU_API_KEY || "4tUV7LvmNhf23gu8phRyKjkK";
+    const SK = process.env.BAIDU_SECRET_KEY || "l1dwgfUgt5przilsf0GHin1g4rhTdwJG";
+
     if (!AK || !SK) return res.status(500).json({ error: '服务器 API 密钥未配置' });
 
     try {
@@ -18,11 +21,15 @@ module.exports = async function handler(req, res) {
         const tokenData = await tokenResponse.json();
         const token = tokenData.access_token;
 
+        if (!token) {
+            return res.status(500).json({ title: "授权失败", score: "Error", issue: "未能获取百度 AI 接口的 Token，请检查 AK/SK 是否填写正确。", suggestion: "请检查代码或 Vercel 的环境变量配置。" });
+        }
+
         let report = {};
 
         // 第二步：根据前端传来的要求，走不同的 AI 大模型
         if (type === 'face') {
-            // 🤖 调用百度【人脸检测】接口
+            // 🤖 调用百度【人脸检测】真实接口
             const faceApiUrl = `https://aip.baidubce.com/rest/2.0/face/v3/detect?access_token=${token}`;
             const faceRes = await fetch(faceApiUrl, {
                 method: 'POST',
@@ -37,12 +44,12 @@ module.exports = async function handler(req, res) {
 
             // 如果没检测到脸
             if (faceData.error_code) {
-                return res.status(400).json({ title: "诊断失败", score: "N/A", issue: "AI 未能识别到清晰的人脸，请换一张正面照。", suggestion: "请确保光线充足，五官无遮挡。" });
+                return res.status(400).json({ title: "诊断失败", score: "N/A", issue: "AI 未能识别到清晰的人脸。", suggestion: "请确保光线充足，五官无遮挡（如果是侧脸太偏也会识别失败）。" });
             }
 
             // 提取真实数据
             const faceInfo = faceData.result.face_list[0];
-            const beautyScore = Math.round(faceInfo.beauty || 75); // 百度给出的颜值打分
+            const beautyScore = Math.round(faceInfo.beauty || 75); // 百度给出的客观颜值打分
             const age = Math.round(faceInfo.age || 25);
             const shapeType = faceInfo.face_shape.type; 
 
@@ -56,15 +63,14 @@ module.exports = async function handler(req, res) {
             report = {
                 title: "面容状态真实诊断",
                 score: beautyScore,
-                issue: `[AI识别结果：${shapeText} | 视觉年龄：${age}岁] ${shapeIssue}`,
+                issue: `[AI识别结果：${shapeText} | 预估视觉年龄：${age}岁] ${shapeIssue}`,
                 suggestion: "建议根据不同脸型的骨相特征，定制早C晚A抗衰策略及面部瑜伽。详细抗衰食谱已在 Notion 模板中生成。"
             };
 
         } else {
-            // 🤖 调用百度【人体关键点分析】接口
+            // 🤖 调用百度【人体关键点分析】真实接口
             const bodyApiUrl = `https://aip.baidubce.com/rest/2.0/image-classify/v1/body_analysis?access_token=${token}`;
             
-            // 百度人体识别要求使用 URLSearchParams 格式
             const params = new URLSearchParams();
             params.append('image', image);
 
@@ -89,13 +95,13 @@ module.exports = async function handler(req, res) {
             const shoulderDiff = Math.abs(leftShoulderY - rightShoulderY);
             
             let postureScore = 88;
-            let issueText = "肩颈对齐度较好，未见明显高低肩问题。但需警惕久坐导致的骨盆前倾。";
+            let issueText = "肩颈对齐度较好，未见明显高低肩问题。但需警惕日常久坐导致的体态退化。";
             let suggestionText = "维持良好的日常习惯，可配合弹力带进行背部肌肉唤醒，防止体态恶化。";
 
             // 如果左右肩Y轴落差超过 15 个像素，判定为真实高低肩
             if (shoulderDiff > 15) {
                 postureScore = 65;
-                issueText = `AI 骨骼测算显示：左右肩存在明显像素高度差 (落差约 ${Math.round(shoulderDiff)}px)，确诊为【高低肩】。这通常伴随脊柱侧弯或单侧斜方肌代偿肥大。`;
+                issueText = `AI 骨骼测算显示：左右肩存在明显高度差 (像素落差约 ${Math.round(shoulderDiff)}px)，确诊为【高低肩】。这通常伴随脊柱侧弯或单侧斜方肌代偿肥大。`;
                 suggestionText = "需立即停止错误的单侧发力习惯（如单肩背包、跷二郎腿）。定制的对称性康复训练与背部拉伸计划已在 Notion 准备完毕。";
             }
 
@@ -111,6 +117,6 @@ module.exports = async function handler(req, res) {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ title: "系统过载", score: "Error", issue: "云端神经网络正在处理海量请求，请稍后重试。", suggestion: "服务器正在扩容中。" });
+        res.status(500).json({ title: "系统过载", score: "Error", issue: "云端神经网络正在处理海量请求，请稍后重试。", suggestion: "如果一直报错，请前往百度云控制台确认是否已免费领取了该接口的调用额度。" });
     }
 }
