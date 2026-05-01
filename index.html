@@ -1,163 +1,204 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 颜值体态研究室 | Pro版</title>
+    <title>Lumina | 颜值与体态极客研究室</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 高级毛玻璃效果 */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        /* 极致的毛玻璃与发光特效 */
+        .glass-nav { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .glow-text { text-shadow: 0 0 20px rgba(168, 85, 247, 0.4); }
         
-        /* 平滑过渡 */
-        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* 炫酷扫描线动画 */
-        .scan-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 1rem;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .scan-line {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(to right, transparent, #ec4899, #8b5cf6, transparent);
-            box-shadow: 0 0 15px #ec4899;
-            animation: scan 2s linear infinite;
-        }
-        @keyframes scan {
-            0% { top: -5%; }
-            100% { top: 105%; }
-        }
+        /* 加载扫描动画 */
+        .scan-container { position: relative; overflow: hidden; border-radius: 1rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(to right, transparent, #a855f7, #ec4899, transparent); box-shadow: 0 0 15px #ec4899; animation: scan 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+        @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
     </style>
 </head>
-<!-- 使用暗黑系+深紫渐变，极具高级科技感 -->
-<body class="bg-gradient-to-br from-gray-900 via-purple-900 to-black text-gray-100 font-sans min-h-screen flex items-center justify-center p-4">
+<body class="bg-[#0b0f19] text-gray-100 font-sans selection:bg-purple-500 selection:text-white">
 
-    <!-- 主容器，采用毛玻璃效果 -->
-    <div class="glass-card max-w-md w-full rounded-3xl shadow-2xl overflow-hidden fade-in">
-        
-        <!-- 头部 -->
-        <div class="p-8 text-center border-b border-white/10 relative overflow-hidden">
-            <!-- 装饰性发光球 -->
-            <div class="absolute -top-10 -left-10 w-32 h-32 bg-rose-500 rounded-full mix-blend-multiply filter blur-2xl opacity-40"></div>
-            <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-purple-500 rounded-full mix-blend-multiply filter blur-2xl opacity-40"></div>
-            
-            <h1 class="text-2xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-rose-300 to-purple-300 z-10 relative">
-                AI 塑颜体态引擎
-            </h1>
-            <p class="text-xs text-gray-400 mt-2 tracking-wide z-10 relative">Powered by Neural Networks</p>
+    <!-- 顶部导航栏 (Navbar) -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-rose-500 flex items-center justify-center font-bold text-white shadow-[0_0_15px_rgba(168,85,247,0.5)]">L</div>
+                <span class="text-xl font-bold tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">LUMINA</span>
+            </div>
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-gray-300">
+                <a href="#hero" class="hover:text-purple-400 transition">AI 测算</a>
+                <a href="#features" class="hover:text-purple-400 transition">全面成长体系</a>
+                <a href="#about" class="hover:text-purple-400 transition">关于模板</a>
+            </div>
+            <button onclick="goToNotion()" class="bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-2 rounded-full text-sm font-medium transition-all">
+                获取 Notion 模板
+            </button>
         </div>
+    </nav>
 
-        <div class="p-6">
-            <!-- 第 1 阶段：选择与上传 -->
-            <div id="step1" class="space-y-6 block">
-                
-                <!-- 切换面板：面部 VS 体态 -->
-                <div class="flex bg-black/30 rounded-xl p-1 relative border border-white/5">
-                    <button id="btn-face" onclick="switchType('face')" class="flex-1 py-2 text-sm font-medium rounded-lg bg-white/10 text-white transition-all shadow-lg">
-                        ✨ 面容抗衰分析
-                    </button>
-                    <button id="btn-posture" onclick="switchType('posture')" class="flex-1 py-2 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all">
-                        🏃‍♀️ 骨相体态评估
+    <!-- 首屏横幅区 (Hero Section) - 包含文案和测试工具 -->
+    <section id="hero" class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
+        <!-- 炫酷背景光晕 -->
+        <div class="absolute top-1/4 left-0 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-30 animate-blob"></div>
+        <div class="absolute top-1/3 right-0 w-96 h-96 bg-rose-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob animation-delay-2000"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- 左侧：煽动性文案 -->
+            <div class="space-y-8">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-semibold uppercase tracking-wider">
+                    <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span></span>
+                    V 2.0 引擎已上线
+                </div>
+                <h1 class="text-5xl lg:text-6xl font-bold leading-tight glow-text">
+                    停止精神内耗<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-rose-400">用数据重塑你的美</span>
+                </h1>
+                <p class="text-lg text-gray-400 leading-relaxed max-w-lg">
+                    不仅仅是颜值评分。Lumina 采用前沿视觉算法，精准定位你的骨相与体态痛点，并自动生成可落地的 30 天 Notion 管理系统。
+                </p>
+                <div class="flex gap-4">
+                    <a href="#features" class="text-sm font-semibold text-white/70 hover:text-white transition flex items-center gap-2">
+                        了解底层逻辑 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 右侧：AI 测试工具卡片 (原有的功能) -->
+            <div class="glass-card p-6 lg:p-8 rounded-3xl relative">
+                <!-- 阶段 1：上传区 -->
+                <div id="step1" class="space-y-6 block">
+                    <div class="flex bg-black/40 rounded-xl p-1 border border-white/10">
+                        <button id="btn-face" onclick="switchType('face')" class="flex-1 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all">✨ 面容抗衰分析</button>
+                        <button id="btn-posture" onclick="switchType('posture')" class="flex-1 py-2.5 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all">🏃‍♀️ 骨骼体态评估</button>
+                    </div>
+
+                    <div class="text-center"><p id="upload-hint" class="text-sm text-gray-400">请上传一张清晰的正面五官照片</p></div>
+                    
+                    <!-- 优化后的上传框 -->
+                    <div class="relative group cursor-pointer">
+                        <input type="file" id="imageInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
+                        <div id="drop-zone" class="border-2 border-dashed border-purple-500/30 rounded-2xl p-8 text-center transition duration-300 group-hover:border-purple-400 group-hover:bg-purple-900/20 bg-black/20">
+                            <svg class="mx-auto h-10 w-10 text-purple-400/70 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                            <span id="file-name" class="text-sm font-medium text-gray-300">点击此处选择本地图片</span>
+                        </div>
+                    </div>
+
+                    <button onclick="uploadImage()" class="w-full bg-white text-gray-900 hover:bg-gray-200 font-bold py-3.5 px-4 rounded-xl transition-all transform hover:scale-[1.02]">
+                        立刻生成诊断报告
                     </button>
                 </div>
 
-                <!-- 动态提示语 -->
-                <div class="text-center">
-                    <p id="upload-hint" class="text-sm text-purple-200">请上传一张清晰的正面五官照片</p>
-                </div>
-                
-                <!-- 高级上传框 -->
-                <div class="relative group cursor-pointer">
-                    <input type="file" id="imageInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
-                    <div class="border-2 border-dashed border-purple-400/30 rounded-2xl p-10 text-center transition group-hover:border-purple-400/60 group-hover:bg-purple-900/20">
-                        <svg class="mx-auto h-12 w-12 text-purple-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        <span class="text-sm font-medium text-gray-300 bg-white/5 px-4 py-2 rounded-full backdrop-blur-sm border border-white/10">点击选择本地照片</span>
+                <!-- 阶段 2：加载区 -->
+                <div id="step2" class="hidden flex-col items-center justify-center py-10 space-y-6">
+                    <div class="scan-container w-32 h-32 flex items-center justify-center"><svg class="w-16 h-16 text-purple-400/30" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg><div class="scan-line"></div></div>
+                    <div class="text-center">
+                        <p class="text-purple-300 font-medium text-sm animate-pulse">Neural Engine 正在分析特征点...</p>
+                        <p class="text-xs text-gray-500 mt-2">云端加密处理，阅后即焚</p>
                     </div>
                 </div>
 
-                <!-- 提交按钮 -->
-                <button onclick="uploadImage()" class="w-full bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-400 hover:to-purple-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all transform hover:-translate-y-1">
-                    启动 AI 引擎深度测算
-                </button>
-            </div>
-
-            <!-- 第 2 阶段：加载中 (酷炫扫描动画) -->
-            <div id="step2" class="hidden flex-col items-center justify-center py-8 space-y-6 fade-in">
-                <div class="scan-container w-32 h-32 flex items-center justify-center">
-                    <svg class="w-16 h-16 text-purple-300 opacity-20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-                    <div class="scan-line"></div>
-                </div>
-                <div class="text-center">
-                    <p class="text-purple-300 font-medium tracking-widest text-sm animate-pulse">正在提取面庞几何特征...</p>
-                    <p class="text-xs text-gray-500 mt-2">云端计算中，绝不保存图像</p>
-                </div>
-            </div>
-
-            <!-- 第 3 阶段：结果与引流 -->
-            <div id="step3" class="hidden space-y-5 fade-in">
-                <div class="text-center">
-                    <span class="inline-block bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs font-semibold mb-3">测算完成</span>
-                    <h2 class="text-xl font-bold text-white" id="report-title">诊断报告</h2>
-                </div>
-
-                <!-- 诊断内容卡片 -->
-                <div class="glass-card p-5 rounded-2xl space-y-3" id="result-box">
-                    <!-- JS动态插入 -->
-                </div>
-
-                <!-- 引流 CTA -->
-                <div class="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 p-5 rounded-2xl border border-indigo-500/30 mt-6 relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 opacity-10 text-6xl">✨</div>
-                    <h3 class="font-bold text-indigo-200 mb-2">掌控蜕变，从执行开始</h3>
-                    <p class="text-xs text-indigo-300/80 mb-4 leading-relaxed">
-                        您的诊断已完成。我已经为您整合了对应的 <b>30天抗炎饮食与矫正训练库</b>。告别碎片化焦虑，建立您的自我管理系统。
-                    </p>
-                    <button onclick="goToNotion()" class="w-full flex items-center justify-center gap-2 bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-3 px-4 rounded-xl shadow-[0_0_15px_rgba(99,102,241,0.4)] transition-all transform hover:-translate-y-0.5">
-                        一键载入我的 Notion 模板
-                    </button>
+                <!-- 阶段 3：结果引流区 -->
+                <div id="step3" class="hidden space-y-5">
+                    <div class="text-center">
+                        <h2 class="text-2xl font-bold text-white mb-1" id="report-title">诊断报告</h2>
+                        <span class="text-xs text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded">分析成功</span>
+                    </div>
+                    <div class="bg-black/40 border border-white/5 p-5 rounded-2xl space-y-3" id="result-box"></div>
+                    <div class="bg-gradient-to-br from-purple-900/50 to-rose-900/50 p-5 rounded-2xl border border-purple-500/30 mt-4 relative overflow-hidden group">
+                        <div class="absolute right-0 top-0 w-32 h-32 bg-rose-500/20 blur-2xl rounded-full group-hover:bg-rose-500/40 transition duration-500"></div>
+                        <h3 class="font-bold text-white mb-2 relative z-10">这是你的改变起点 🚀</h3>
+                        <p class="text-sm text-gray-300 mb-4 relative z-10">你的专属 <b>30天改善打卡库</b> 和 <b>情绪饮食日记</b> 已在 Notion 准备就绪。</p>
+                        <button onclick="goToNotion()" class="w-full relative z-10 flex items-center justify-center gap-2 bg-purple-500 hover:bg-purple-400 text-white font-bold py-3 rounded-xl transition-all transform hover:-translate-y-0.5 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                            一键部署到我的 Notion
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- 交互逻辑 -->
+    <!-- 分栏：三大核心卖点 (Features) -->
+    <section id="features" class="py-20 bg-[#070a11] border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-white mb-4">为什么你需要一套完整的系统？</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">单一的运动或节食无法带来质变。我们将“颜值管理”与“自我成长”深度融合。</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- 卖点 1 -->
+                <div class="glass-card p-8 rounded-2xl border-t border-t-purple-500/30 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center text-purple-400 mb-6 text-2xl">🧬</div>
+                    <h3 class="text-xl font-bold text-white mb-3">AI 精准诊断</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">彻底告别盲目跟练。底层算法为你找出骨盆前倾、假性垮脸的真实根源，拒绝无效努力。</p>
+                </div>
+                <!-- 卖点 2 -->
+                <div class="glass-card p-8 rounded-2xl border-t border-t-rose-500/30 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-12 h-12 bg-rose-500/20 rounded-xl flex items-center justify-center text-rose-400 mb-6 text-2xl">🥗</div>
+                    <h3 class="text-xl font-bold text-white mb-3">抗炎与习惯重塑</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">提供结合个人偏好的饮食策略。抗击自由基，从内到外改善肌肤质感与情绪稳定性。</p>
+                </div>
+                <!-- 卖点 3 -->
+                <div class="glass-card p-8 rounded-2xl border-t border-t-blue-500/30 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-400 mb-6 text-2xl">📓</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Notion 完美闭环</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">诊断只是第一步。独家定制的 Notion 模板，将每天的打卡、食谱、复盘变成充满成就感的游戏。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer id="about" class="bg-[#04060a] py-10 border-t border-white/5 text-center text-gray-500 text-sm">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <p>© 2024 Lumina AI & Notion Life OS. All rights reserved.</p>
+            <div class="mt-4 md:mt-0 flex space-x-6">
+                <a href="#" class="hover:text-white transition">免责声明</a>
+                <a href="#" class="hover:text-white transition">隐私政策</a>
+                <a href="#" class="hover:text-white transition">联系开发者</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript 交互逻辑 -->
     <script>
-        let currentAnalysisType = 'face'; // 默认是面部
+        let currentAnalysisType = 'face'; 
 
-        // 切换 分析类型 面板
+        // 【新增交互】监听文件选择，提供实时反馈！
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const fileNameDisplay = document.getElementById('file-name');
+            const dropZone = document.getElementById('drop-zone');
+            if (this.files && this.files[0]) {
+                const name = this.files[0].name;
+                // 显示绿色的成功提示
+                fileNameDisplay.innerHTML = `<span class="text-emerald-400 font-bold">✅ 已成功载入: ${name.length > 15 ? name.substring(0,15)+'...' : name}</span>`;
+                dropZone.classList.add('border-emerald-500/50', 'bg-emerald-900/20');
+            }
+        });
+
+        // 切换类型
         function switchType(type) {
             currentAnalysisType = type;
             const btnFace = document.getElementById('btn-face');
             const btnPosture = document.getElementById('btn-posture');
             const uploadHint = document.getElementById('upload-hint');
+            const fileNameDisplay = document.getElementById('file-name');
+            const dropZone = document.getElementById('drop-zone');
 
-            // 切换样式和提示语
+            // 切换后重置上传框样式
+            document.getElementById('imageInput').value = "";
+            fileNameDisplay.innerHTML = "点击此处选择本地图片";
+            dropZone.classList.remove('border-emerald-500/50', 'bg-emerald-900/20');
+
             if (type === 'face') {
-                btnFace.className = "flex-1 py-2 text-sm font-medium rounded-lg bg-white/10 text-white transition-all shadow-lg";
-                btnPosture.className = "flex-1 py-2 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all";
+                btnFace.className = "flex-1 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all";
+                btnPosture.className = "flex-1 py-2.5 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all bg-transparent";
                 uploadHint.innerText = "请上传一张清晰的正面五官照片";
             } else {
-                btnPosture.className = "flex-1 py-2 text-sm font-medium rounded-lg bg-white/10 text-white transition-all shadow-lg";
-                btnFace.className = "flex-1 py-2 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all";
+                btnPosture.className = "flex-1 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all";
+                btnFace.className = "flex-1 py-2.5 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all bg-transparent";
                 uploadHint.innerText = "请上传一张紧身衣着、能看清身体曲线的全身照";
             }
         }
@@ -168,7 +209,6 @@
                 alert("请先点击虚线框选择一张照片！"); return;
             }
 
-            // 界面切换到扫描中
             document.getElementById('step1').classList.remove('block');
             document.getElementById('step1').classList.add('hidden');
             document.getElementById('step2').classList.remove('hidden');
@@ -178,48 +218,40 @@
             reader.readAsDataURL(fileInput.files[0]);
             reader.onload = async function () {
                 const base64Image = reader.result.split(',')[1];
-
                 try {
-                    // 把图片 和 用户选择的类型(type) 一起发给后端
                     const response = await fetch('/api/analyze', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            image: base64Image, 
-                            type: currentAnalysisType // 'face' 或 'posture'
-                        })
+                        body: JSON.stringify({ image: base64Image, type: currentAnalysisType })
                     });
                     
                     const data = await response.json();
 
-                    // 渲染结果
                     document.getElementById('report-title').innerText = data.title;
                     document.getElementById('result-box').innerHTML = `
                         <div class="flex justify-between items-center border-b border-white/10 pb-3">
-                            <span class="text-gray-300 text-sm">综合状态评分</span>
-                            <span class="font-bold text-rose-400 text-lg">${data.score} / 100</span>
+                            <span class="text-gray-400 text-sm">综合维度评分</span>
+                            <span class="font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-purple-400 text-2xl">${data.score}</span>
                         </div>
-                        <p class="text-sm text-gray-300 mt-2">
-                            <span class="text-rose-400 font-bold">⚠️ 发现隐患：</span><br/>${data.issue}
+                        <p class="text-sm text-gray-300 mt-3 leading-relaxed">
+                            <span class="text-rose-400 font-bold">⚠️ 异常侦测：</span><br/>${data.issue}
                         </p>
-                        <p class="text-sm text-gray-300 mt-2">
-                            <span class="text-indigo-400 font-bold">💡 改善靶向：</span><br/>${data.suggestion}
+                        <p class="text-sm text-gray-300 mt-3 leading-relaxed">
+                            <span class="text-purple-400 font-bold">💡 逆转方案：</span><br/>${data.suggestion}
                         </p>
                     `;
                     
                     document.getElementById('step2').classList.add('hidden');
                     document.getElementById('step2').classList.remove('flex');
                     document.getElementById('step3').classList.remove('hidden');
-
                 } catch (error) {
-                    alert("网络错误或上传的图片过大，请截图压缩后重试。");
+                    alert("网络错误，请稍后重试。");
                     location.reload();
                 }
             };
         }
 
         function goToNotion() {
-            // 请在这里换成你的 Notion 模板链接！
             window.open("https://www.notion.so/你的模板分享链接", "_blank"); 
         }
     </script>
