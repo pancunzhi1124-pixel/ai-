@@ -4,9 +4,9 @@ module.exports = async function handler(req, res) {
     const { image, type, angle } = req.body;
     if (!image) return res.status(400).json({ error: '未接收到图片' });
 
-    // 你的真实密钥
-    const AK = process.env.BAIDU_API_KEY || "4tUV7LvmNhf23gu8phRyKjkK";
-    const SK = process.env.BAIDU_SECRET_KEY || "l1dwgfUgt5przilsf0GHin1g4rhTdwJG";
+    // ✅ 你的全新双权限万能钥匙已配置
+    const AK = process.env.BAIDU_API_KEY || "EVJS9M05hqWukheZoqii0TPg";
+    const SK = process.env.BAIDU_SECRET_KEY || "abuyt7rbhDLspy3nL7L0jJqYfXCOjoVU";
 
     try {
         const tokenUrl = `https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=${AK}&client_secret=${SK}`;
@@ -22,6 +22,7 @@ module.exports = async function handler(req, res) {
         let report = {};
 
         if (type === 'face') {
+            // ✨ 真实面容分析模式
             const faceApiUrl = `https://aip.baidubce.com/rest/2.0/face/v3/detect?access_token=${token}`;
             const faceRes = await fetch(faceApiUrl, {
                 method: 'POST',
@@ -30,9 +31,9 @@ module.exports = async function handler(req, res) {
             });
             const faceData = await faceRes.json();
 
-            // 把百度错误码扔出去
+            // 拦截百度错误码
             if (faceData.error_code) {
-                return res.status(400).json({ issue: `百度AI拒绝 (错误码: ${faceData.error_code})\n具体原因: ${faceData.error_msg}` });
+                return res.status(400).json({ issue: `百度AI拒绝 (错误码: ${faceData.error_code})\n具体原因: ${faceData.error_msg}\n解决: 确保已【免费领取】人脸检测额度。` });
             }
 
             const faceInfo = faceData.result.face_list[0];
@@ -50,15 +51,16 @@ module.exports = async function handler(req, res) {
             };
 
         } else {
+            // 🏃‍♀️ 真实体态评估模式
             const bodyApiUrl = `https://aip.baidubce.com/rest/2.0/image-classify/v1/body_analysis?access_token=${token}`;
             const params = new URLSearchParams();
             params.append('image', image);
             const bodyRes = await fetch(bodyApiUrl, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: params });
             const bodyData = await bodyRes.json();
 
-            // 把百度错误码扔出去（99%的人报错是因为没领免费额度，这里会直接显示 Error 17）
+            // 拦截百度错误码
             if (bodyData.error_code) {
-                return res.status(400).json({ issue: `百度云权限不足 (错误码: ${bodyData.error_code})\n原因: ${bodyData.error_msg}\n解决：请去百度云控制台【免费领取】人体分析的调用额度！` });
+                return res.status(400).json({ issue: `百度云权限不足 (错误码: ${bodyData.error_code})\n原因: ${bodyData.error_msg}\n解决：请去百度控制台【免费领取】人体分析调用额度！` });
             }
             if (!bodyData.person_num || bodyData.person_num === 0) {
                 return res.status(400).json({ issue: "AI 未能找到清晰的人体关键点！\n确保全身入镜且背景干净。" });
