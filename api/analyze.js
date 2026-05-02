@@ -4,7 +4,7 @@ module.exports = async function handler(req, res) {
     const { image, type, angle } = req.body;
     if (!image) return res.status(400).json({ error: '未接收到图片' });
 
-    // 🔒 终极锁死配置：完全抛弃 process.env，只认这把新钥匙！
+    // 🔒 你的万能双权限钥匙
     const AK = "EVJS9M05hqWukheZoqii0TPg";
     const SK = "abuyt7rbhDLspy3nL7L0jJqYfXCOjoVU";
 
@@ -13,7 +13,6 @@ module.exports = async function handler(req, res) {
         const tokenResponse = await fetch(tokenUrl, { method: 'POST' });
         const tokenData = await tokenResponse.json();
         
-        // 验证密钥是否有效
         if (tokenData.error) {
             return res.status(400).json({ issue: `API密钥错误！百度返回: ${tokenData.error_description}` });
         }
@@ -26,7 +25,7 @@ module.exports = async function handler(req, res) {
             const faceRes = await fetch(faceApiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ image: image, image_type: 'BASE64', face_field: 'age,beauty,face_shape' })
+                body: JSON.stringify({ image: image, image_type: 'BASE64', face_field: 'beauty,face_shape' }) // 删除了 age 参数
             });
             const faceData = await faceRes.json();
 
@@ -36,16 +35,29 @@ module.exports = async function handler(req, res) {
 
             const faceInfo = faceData.result.face_list[0];
             const shapeType = faceInfo.face_shape.type; 
-            let shapeText = "标准脸型"; let shapeIssue = "面部平整度尚可。";
-            if (shapeType === 'square') shapeText = "方脸/菱形脸"; 
-            if (shapeType === 'round') shapeText = "圆脸"; 
-            if (shapeType === 'oval' || shapeType === 'heart') shapeText = "瓜子脸/心形脸"; 
+            
+            // 📝 【文案大升级】：扩充面部分析的专业度，完全去除年龄
+            let shapeText = "标准比例脸型"; 
+            let shapeIssue = "面部整体平整度与流畅度尚可，骨相与皮相分布较为均衡。但随着日常作息与重力影响，仍需警惕潜在的筋膜层松弛与面中轻微凹陷风险。";
+            
+            if (shapeType === 'square') {
+                shapeText = "方脸 / 骨骼感偏重脸型"; 
+                shapeIssue = "骨相特征明显，下颌角骨骼支撑力强，自带高级冷感。\n\n🔍 潜在痛点解析：此类脸型极易伴随咬肌的代偿性肥大与过度紧张。若日常咀嚼习惯不佳，会导致下庭视觉明显变宽，面部线条显得生硬凌厉，甚至产生明显的劳累感与严肃感。"; 
+            }
+            if (shapeType === 'round') {
+                shapeText = "圆脸 / 皮相丰盈脸型"; 
+                shapeIssue = "面部软组织丰富，皮相饱满，具有极强的亲和力与幼态感。\n\n🔍 潜在痛点解析：由于脂肪层与软组织较厚，随着胶原蛋白不可逆的流失，筋膜层支撑力会迅速下降。这极易导致苹果肌下移、法令纹明显加深，以及下颌线逐渐模糊（出现假性双下巴），属于抗老难度较高的“易垂”体质。"; 
+            }
+            if (shapeType === 'oval' || shapeType === 'heart') {
+                shapeText = "瓜子脸 / 心形脸"; 
+                shapeIssue = "整体轮廓流畅优秀，上宽下窄，符合主流审美的黄金比例。\n\n🔍 潜在痛点解析：由于下庭收窄，面颊两侧支撑力相对较弱。一旦面临胶原蛋白流失或气血不足，极易凸显颧骨高度，导致太阳穴轻微凹陷与面颊干瘪，从而产生骨骼突兀的视觉疲态。"; 
+            }
 
             report = {
-                title: "面容状态真实数据",
+                title: "面容骨相客观诊断",
                 score: Math.round(faceInfo.beauty || 75),
-                issue: `[AI测算：${shapeText} | 预估年龄：${faceInfo.age}岁]`,
-                suggestion: "专属护肤策略已在 Notion 生成。"
+                issue: `[AI 骨相识别判定：${shapeText}]\n\n${shapeIssue}`,
+                suggestion: "单纯的焦虑无法带来改变。系统已根据您的骨皮相特征，在 Notion 中生成了专属的抗衰干预策略（含早C晚A护肤公式与面部抗衰提拉打卡库），请严格执行。"
             };
 
         } else {
@@ -65,15 +77,16 @@ module.exports = async function handler(req, res) {
             const parts = bodyData.person_info[0].body_parts;
             let postureScore = 90; let issueText = ""; let suggestionText = "";
 
+            // 📝 【文案大升级】：扩充体态分析的痛点放大与原理解析
             if (angle === 'front') {
                 const shoulderDiff = Math.abs(parts.left_shoulder.y - parts.right_shoulder.y);
                 if (shoulderDiff > 12) {
                     postureScore = 65;
-                    issueText = `AI 测算：左右肩存在明显高度差 (像素落差 ${Math.round(shoulderDiff)}px)，确诊【高低肩】。`;
-                    suggestionText = "已生成对称性训练计划，请导入 Notion。";
+                    issueText = `AI 节点测算结果：左右肩存在明显的垂直高度差（像素落差达 ${Math.round(shoulderDiff)}px）。\n\n🔍 深度体态解析：系统已确诊您存在显著的【高低肩】及潜在的【脊柱侧弯】风险。这绝不仅仅是视觉上的不美观，它通常意味着您存在严重的单侧发力习惯（如长期单肩背包、歪斜坐姿）。长此以往，会导致单侧斜方肌代偿性严重肥大（视觉上脖子变短），甚至引发胸椎及腰椎的连带代偿扭曲。`;
+                    suggestionText = "体态危机已触发！请立刻停止一切错误的发力习惯。Notion 中已为您生成针对性的【双侧肌肉张力平衡计划】与【斜方肌定向拉伸】，请务必每日打卡跟练。";
                 } else {
-                    issueText = `AI 测算：左右肩高度差仅 ${Math.round(shoulderDiff)}px，肩部对称性极佳。`;
-                    suggestionText = "请继续保持良好体态。";
+                    issueText = `AI 节点测算结果：左右肩高度差仅 ${Math.round(shoulderDiff)}px，处于极佳的健康阈值内。\n\n🔍 深度体态解析：您的肩部水平对称性表现优异，未发现明显的代偿性发力问题，骨骼对齐度良好，展现出了极好的仪态底气。`;
+                    suggestionText = "请继续保持这份自律。可在 Notion 中解锁更高阶的核心巩固与马甲线雕刻计划。";
                 }
             } else if (angle === 'side') {
                 const shoulderCenterX = (parts.left_shoulder.x + parts.right_shoulder.x) / 2;
@@ -82,11 +95,11 @@ module.exports = async function handler(req, res) {
                 
                 if (headForwardDiff > 15) {
                     postureScore = 60;
-                    issueText = `AI 测算：颈椎中心偏离肩膀达 ${Math.round(headForwardDiff)}px，确诊【头前倾（探颈）】。`;
-                    suggestionText = "已生成颈部回位训练计划，请导入 Notion 执行。";
+                    issueText = `AI 节点测算结果：您的颈椎中心已明显偏离肩部垂直生理中轴线（偏离值高达 ${Math.round(headForwardDiff)}px）。\n\n🔍 深度体态解析：系统确诊您存在严重的【头前倾（探颈）】及圆肩问题。这种不良体态不仅会从侧面毁掉气质，更可怕的是，会导致颈后大包（富贵包）脂肪堆积、下颌线消失（假性双下巴），以及长期的慢性肩颈酸痛。`;
+                    suggestionText = "不要任由体态继续恶化！Notion 专属库中已为您匹配了【胸锁乳突肌拉伸】及【深层颈屈肌强化】等系统性回位训练，请务必导入并强制执行。";
                 } else {
-                    issueText = `AI 测算：颈部偏离值仅 ${Math.round(headForwardDiff)}px，无明显探颈。`;
-                    suggestionText = "侧面颈椎曲度健康。";
+                    issueText = `AI 节点测算结果：颈部偏离值仅 ${Math.round(headForwardDiff)}px，无明显探颈问题。\n\n🔍 深度体态解析：侧面颈椎曲度处于非常健康的生理范围内。耳垂与肩峰基本保持在同一条垂直线上，侧颜气质仪态管理得非常到位。`;
+                    suggestionText = "侧面仪态十分优雅。建议日常工作保持屏幕与视线平齐，并使用 Notion 持续追踪体态数据。";
                 }
             }
             report = { title: "骨骼节点真实测算", score: postureScore, issue: issueText, suggestion: suggestionText };
