@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>LUMINA｜人生CEO·女性自我经营系统</title>
-  <meta name="description" content="上传照片生成 AI 状态评估，并导入 Notion 女性自我经营系统，管理体态、面容、经期、财务与习惯。" />
+  <meta name="description" content="人生CEO·女性自我经营系统，帮助女性管理目标、成长、复盘、财务、身体、情绪、习惯与生活秩序。" />
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -23,6 +23,12 @@
       box-shadow: 0 30px 80px rgba(0, 0, 0, 0.42);
     }
 
+    .soft-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+    }
+
     .glow-text {
       text-shadow: 0 0 26px rgba(168, 85, 247, 0.42);
     }
@@ -37,7 +43,7 @@
       inset: 0;
       border-radius: 1.5rem;
       padding: 1px;
-      background: linear-gradient(135deg, rgba(168, 85, 247, 0.7), rgba(236, 72, 153, 0.55), rgba(255, 255, 255, 0.08));
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.75), rgba(236, 72, 153, 0.58), rgba(255, 255, 255, 0.08));
       -webkit-mask:
         linear-gradient(#fff 0 0) content-box,
         linear-gradient(#fff 0 0);
@@ -90,6 +96,21 @@
         linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
       background-size: 44px 44px;
     }
+
+    .mini-dashboard-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+    }
+
+    .mini-link {
+      color: #c0488f;
+    }
+
+    .module-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(236, 72, 153, 0.35);
+    }
   </style>
 </head>
 
@@ -104,14 +125,17 @@
         </div>
         <div>
           <div class="text-lg lg:text-xl font-bold tracking-[0.18em]">LUMINA</div>
-          <div class="hidden sm:block text-[11px] text-gray-500 tracking-wider -mt-1">人生CEO · 女性自我经营系统</div>
+          <div class="hidden sm:block text-[11px] text-gray-500 tracking-wider -mt-1">
+            人生CEO · 女性自我经营系统
+          </div>
         </div>
       </a>
 
       <div class="hidden md:flex items-center gap-8 text-sm text-gray-300">
         <a href="#hero" class="hover:text-purple-300 transition">AI 状态评估</a>
-        <a href="#system" class="hover:text-purple-300 transition">系统功能</a>
-        <a href="#how" class="hover:text-purple-300 transition">使用流程</a>
+        <a href="#system" class="hover:text-purple-300 transition">模板系统</a>
+        <a href="#modules" class="hover:text-purple-300 transition">九大模块</a>
+        <a href="#fit" class="hover:text-purple-300 transition">适合人群</a>
       </div>
 
       <button onclick="goToNotion()" class="px-4 lg:px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-sm font-semibold transition">
@@ -121,7 +145,7 @@
   </nav>
 
   <!-- 首屏 -->
-  <section id="hero" class="relative min-h-screen pt-28 lg:pt-36 pb-16 overflow-hidden bg-grid">
+  <section id="hero" class="relative min-h-screen pt-28 lg:pt-36 pb-20 overflow-hidden bg-grid">
     <div class="absolute top-10 left-[-10rem] w-[28rem] h-[28rem] rounded-full bg-purple-700/30 blur-[140px]"></div>
     <div class="absolute top-44 right-[-8rem] w-[28rem] h-[28rem] rounded-full bg-rose-600/25 blur-[150px]"></div>
     <div class="absolute bottom-0 left-1/3 w-[22rem] h-[22rem] rounded-full bg-fuchsia-600/10 blur-[130px]"></div>
@@ -156,18 +180,18 @@
         <div class="grid sm:grid-cols-3 gap-3 max-w-xl">
           <div class="glass-card rounded-2xl p-4">
             <div class="text-lg font-bold text-white">01</div>
-            <div class="text-sm text-gray-300 mt-1">面容状态</div>
-            <div class="text-xs text-gray-500 mt-1">气色、轮廓、习惯参考</div>
+            <div class="text-sm text-gray-300 mt-1">状态评估</div>
+            <div class="text-xs text-gray-500 mt-1">面容、体态、生活习惯参考</div>
           </div>
           <div class="glass-card rounded-2xl p-4">
             <div class="text-lg font-bold text-white">02</div>
-            <div class="text-sm text-gray-300 mt-1">体态趋势</div>
-            <div class="text-xs text-gray-500 mt-1">肩颈、正侧面、日常风险</div>
+            <div class="text-sm text-gray-300 mt-1">系统整理</div>
+            <div class="text-xs text-gray-500 mt-1">目标、财务、成长、复盘</div>
           </div>
           <div class="glass-card rounded-2xl p-4">
             <div class="text-lg font-bold text-white">03</div>
-            <div class="text-sm text-gray-300 mt-1">Notion 计划</div>
-            <div class="text-xs text-gray-500 mt-1">打卡、复盘、长期经营</div>
+            <div class="text-sm text-gray-300 mt-1">长期执行</div>
+            <div class="text-xs text-gray-500 mt-1">习惯、打卡、记录、追踪</div>
           </div>
         </div>
 
@@ -295,100 +319,401 @@
     </div>
   </section>
 
+  <!-- 模板总介绍 -->
+  <section id="system" class="relative py-24 bg-[#070b15] border-y border-white/5 overflow-hidden">
+    <div class="absolute -top-20 left-[-120px] w-[280px] h-[280px] bg-purple-600/20 blur-[120px] rounded-full"></div>
+    <div class="absolute bottom-0 right-[-100px] w-[260px] h-[260px] bg-rose-500/15 blur-[120px] rounded-full"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8">
+
+      <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-center">
+
+        <!-- 左侧文案 -->
+        <div>
+          <div class="text-sm font-bold tracking-wider text-rose-300 uppercase mb-3">
+            NOTION SYSTEM
+          </div>
+
+          <h2 class="text-3xl lg:text-5xl font-black text-white leading-tight">
+            人生CEO·女性自我经营系统
+          </h2>
+
+          <p class="text-gray-400 mt-5 max-w-2xl leading-relaxed text-base lg:text-lg">
+            这不是一个单一打卡表，而是把你的
+            <span class="text-white font-semibold">目标、成长、复盘、财务、生活、情绪、身体与日常节律</span>
+            放进同一个系统里，帮助你从“想改变”走到“真的长期变好”。
+          </p>
+
+          <div class="grid sm:grid-cols-3 gap-3 mt-7">
+            <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-5">
+              <div class="text-3xl font-black text-white">9</div>
+              <div class="text-sm text-gray-400 mt-1">核心模块</div>
+            </div>
+            <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-5">
+              <div class="text-3xl font-black text-white">30天</div>
+              <div class="text-sm text-gray-400 mt-1">自我经营计划</div>
+            </div>
+            <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-5">
+              <div class="text-3xl font-black text-white">1套</div>
+              <div class="text-sm text-gray-400 mt-1">人生管理后台</div>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 mt-8">
+            <button onclick="goToNotion()" class="rounded-2xl bg-gradient-to-r from-purple-600 to-rose-500 hover:opacity-90 transition text-white font-black py-3.5 px-7">
+              立即获取模板
+            </button>
+            <a href="#modules" class="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition text-white text-center font-semibold py-3.5 px-7">
+              查看九大模块
+            </a>
+          </div>
+        </div>
+
+        <!-- 右侧模拟模板总览图 -->
+        <div class="rounded-[32px] bg-white p-4 lg:p-5 shadow-[0_30px_90px_rgba(0,0,0,0.45)] rotate-0 lg:rotate-1">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[#c0488f]">
+
+            <div class="mini-dashboard-card rounded-2xl p-4">
+              <h3 class="font-black text-sm mb-3">✨ 闪耀人生</h3>
+              <div class="h-px bg-gray-200 mb-3"></div>
+              <p class="mini-link text-xs leading-6">📖 长期目标<br>🎯 核心目标<br>🚩 关键结果</p>
+            </div>
+
+            <div class="mini-dashboard-card rounded-2xl p-4">
+              <h3 class="font-black text-sm mb-3">🪄 成长工坊</h3>
+              <div class="h-px bg-gray-200 mb-3"></div>
+              <p class="mini-link text-xs leading-6">🗂️ 我的项目<br>💎 我的任务<br>✅ 我的待办</p>
+            </div>
+
+            <div class="mini-dashboard-card rounded-2xl p-4">
+              <h3 class="font-black text-sm mb-3">🌙 自我对话</h3>
+              <div class="h-px bg-gray-200 mb-3"></div>
+              <p class="mini-link text-xs leading-6">🗓️ 周度复盘<br>📅 月度复盘<br>🧾 季度复盘<br>📆 年度复盘</p>
+            </div>
+
+            <div class="mini-dashboard-card rounded-2xl p-4">
+              <h3 class="font-black text-sm mb-3">💰 富足指南</h3>
+              <div class="h-px bg-gray-200 mb-3"></div>
+              <p class="mini-link text-xs leading-6">🧾 账单记录<br>📊 月度报表<br>🧭 年度报表</p>
+            </div>
+
+            <div class="mini-dashboard-card rounded-2xl p-4">
+              <h3 class="font-black text-sm mb-3">🫶 身心疗愈</h3>
+              <div class="h-px bg-gray-200 mb-3"></div>
+              <p class="mini-link text-xs leading-6">🏋️ 训练动作<br>📈 身体数据<br>🌧️ 情绪急救箱<br>🌙 经期与状态追踪</p>
+            </div>
+
+            <div class="mini-dashboard-card rounded-2xl p-4">
+              <h3 class="font-black text-sm mb-3">🗓️ 日常节律</h3>
+              <div class="h-px bg-gray-200 mb-3"></div>
+              <p class="mini-link text-xs leading-6">🧭 习惯管理<br>💟 打卡记录<br>🔢 月热力图</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 九大模块 -->
+  <section id="modules" class="relative py-24 bg-[#080c18] overflow-hidden">
+    <div class="absolute top-20 right-[-120px] w-[260px] h-[260px] rounded-full bg-purple-600/15 blur-[120px]"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="max-w-3xl mb-12">
+        <div class="text-sm text-purple-300 font-bold tracking-wider mb-3">9 CORE MODULES</div>
+        <h2 class="text-3xl lg:text-5xl font-black text-white leading-tight">
+          从目标到生活，把自己经营成一个完整系统
+        </h2>
+        <p class="text-gray-400 mt-5 leading-relaxed">
+          你的模板不是简单的“记录工具”，而是一个围绕女性成长、身心状态、财务秩序和日常执行搭建的长期经营系统。
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+
+        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-12 h-12 rounded-2xl bg-pink-500/15 flex items-center justify-center text-2xl">✨</div>
+            <div>
+              <h3 class="text-xl font-black text-white">闪耀人生</h3>
+              <p class="text-xs text-pink-300 mt-1">目标系统</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+            明确长期方向，把人生愿景拆成可持续推进的目标与结果。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">长期目标</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">核心目标</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">关键结果</span>
+          </div>
+        </div>
+
+        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-12 h-12 rounded-2xl bg-violet-500/15 flex items-center justify-center text-2xl">🪄</div>
+            <div>
+              <h3 class="text-xl font-black text-white">成长工坊</h3>
+              <p class="text-xs text-violet-300 mt-1">项目执行区</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+            管理个人项目、任务和待办，让成长不再靠临时冲动。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">我的项目</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">我的任务</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">我的待办</span>
+          </div>
+        </div>
+
+        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-12 h-12 rounded-2xl bg-rose-500/15 flex items-center justify-center text-2xl">🌙</div>
+            <div>
+              <h3 class="text-xl font-black text-white">自我对话</h3>
+              <p class="text-xs text-rose-300 mt-1">复盘系统</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+            通过周、月、季、年复盘，看见自己的节奏、成长与偏离。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">周度复盘</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">月度复盘</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">季度复盘</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">年度复盘</span>
+          </div>
+        </div>
+
+        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-12 h-12 rounded-2xl bg-purple-500/15 flex items-center justify-center text-2xl">💡</div>
+            <div>
+              <h3 class="text-xl font-black text-white">灵感花园</h3>
+              <p class="text-xs text-purple-300 mt-1">信息收藏区</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+            收纳灵感、信息、文档、课程、书籍和媒体内容。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">灵感</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">信息</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">文档</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">课程</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">书籍</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">媒体</span>
+          </div>
+        </div>
+
+        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-500/15 flex items-center justify-center text-2xl">🧠</div>
+            <div>
+              <h3 class="text-xl font-black text-white">理想生活蓝图</h3>
+              <p class="text-xs text-indigo-300 mt-1">认知与内在区</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+            从底层逻辑、自我认知到心理整理，建立稳定的内在秩序。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">底层逻辑</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">自我认知</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">心理整理</span>
+          </div>
+        </div>
+
+        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-12 h-12 rounded-2xl bg-yellow-500/15 flex items-center justify-center text-2xl">💰</div>
+            <div>
+              <h3 class="text-xl font-black text-white">富足指南</h3>
+              <p class="text-xs text-yellow-300 mt-1">财务系统</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+            记录账单、查看月度和年度报表，建立更清晰的财富意识。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">账单记录</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">月度报表</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">年度报表</span>
+          </div>
+        </div>
+
+        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-12 h-12 rounded-2xl bg-orange-500/15 flex items-center justify-center text-2xl">🧺</div>
+            <div>
+              <h3 class="text-xl font-black text-white">质感生活</h3>
+              <p class="text-xs text-orange-300 mt-1">物品管理区</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+            管理保质期物品、长期物品和物品日志，减少浪费与混乱。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">保质期物品</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">长期物品</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">物品日志</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">物品统计</span>
+          </div>
+        </div>
+
+        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 flex items-center justify-center text-2xl">🫶</div>
+            <div>
+              <h3 class="text-xl font-black text-white">身心疗愈</h3>
+              <p class="text-xs text-emerald-300 mt-1">身体管理区</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+            整合训练、健身、身体数据、情绪急救与经期状态追踪。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">训练动作</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">健身安排</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">身体数据</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">情绪急救箱</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">经期与状态追踪</span>
+          </div>
+        </div>
+
+        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 flex items-center justify-center text-2xl">🗓️</div>
+            <div>
+              <h3 class="text-xl font-black text-white">日常节律</h3>
+              <p class="text-xs text-cyan-300 mt-1">习惯追踪区</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+            通过习惯管理、打卡记录和月热力图，把坚持变成可视化行动。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">习惯管理</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">打卡记录</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">月热力图</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- 使用流程 -->
-  <section id="how" class="py-20 bg-[#070b15] border-y border-white/5">
+  <section class="py-24 bg-[#070b15] border-y border-white/5">
     <div class="max-w-7xl mx-auto px-5 lg:px-8">
-      <div class="max-w-2xl mb-10">
-        <div class="text-sm text-purple-300 font-semibold mb-3">HOW IT WORKS</div>
-        <h2 class="text-3xl lg:text-4xl font-black text-white">不是测完就结束，而是进入一个可执行系统</h2>
+      <div class="max-w-3xl mb-12">
+        <div class="text-sm text-rose-300 font-bold tracking-wider mb-3">HOW IT WORKS</div>
+        <h2 class="text-3xl lg:text-5xl font-black text-white leading-tight">
+          不是买一个模板，而是建立一个自我经营流程
+        </h2>
       </div>
 
       <div class="grid md:grid-cols-3 gap-5">
-        <div class="glass-card rounded-3xl p-6">
-          <div class="text-3xl mb-5">📷</div>
-          <h3 class="text-xl font-bold text-white">上传状态照片</h3>
+        <div class="glass-card rounded-3xl p-7">
+          <div class="text-4xl mb-5">📷</div>
+          <h3 class="text-xl font-black text-white">先了解当前状态</h3>
           <p class="text-sm text-gray-400 mt-3 leading-relaxed">
-            根据面容或体态模式上传照片。体态模式支持正面和侧面，方便获得不同角度的状态参考。
+            通过 AI 状态评估，先获得面容、体态或生活习惯的参考建议。
           </p>
         </div>
 
-        <div class="glass-card rounded-3xl p-6">
-          <div class="text-3xl mb-5">🧠</div>
-          <h3 class="text-xl font-bold text-white">生成状态报告</h3>
+        <div class="glass-card rounded-3xl p-7">
+          <div class="text-4xl mb-5">🧭</div>
+          <h3 class="text-xl font-black text-white">再进入系统管理</h3>
           <p class="text-sm text-gray-400 mt-3 leading-relaxed">
-            系统会根据照片给出趋势分析、生活管理建议和今日可执行的小动作。
+            把目标、任务、财务、复盘、身体和习惯放进同一个 Notion 总控台。
           </p>
         </div>
 
-        <div class="glass-card rounded-3xl p-6">
-          <div class="text-3xl mb-5">📒</div>
-          <h3 class="text-xl font-bold text-white">导入 Notion 模板</h3>
+        <div class="glass-card rounded-3xl p-7">
+          <div class="text-4xl mb-5">📈</div>
+          <h3 class="text-xl font-black text-white">最后持续复盘优化</h3>
           <p class="text-sm text-gray-400 mt-3 leading-relaxed">
-            把建议落到经期、财务、健身、饮食、习惯和复盘系统里，持续经营你的状态。
+            通过日常记录、月度复盘和长期追踪，让改变真的沉淀下来。
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 系统功能 -->
-  <section id="system" class="py-20 bg-[#080c18]">
-    <div class="max-w-7xl mx-auto px-5 lg:px-8">
-      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+  <!-- 适合人群 -->
+  <section id="fit" class="relative py-24 bg-[#080c18] overflow-hidden">
+    <div class="absolute top-10 left-[-140px] w-[320px] h-[320px] bg-rose-600/15 blur-[130px] rounded-full"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-14 items-center">
+
         <div>
-          <div class="text-sm text-rose-300 font-semibold mb-3">NOTION SYSTEM</div>
-          <h2 class="text-3xl lg:text-4xl font-black text-white">人生CEO·女性自我经营系统</h2>
-          <p class="text-gray-400 mt-4 max-w-2xl leading-relaxed">
-            不是单一打卡表，而是把身体、金钱、情绪、习惯和目标放进一个总控台，帮助你长期复盘和调整。
+          <div class="text-sm text-purple-300 font-bold tracking-wider mb-3">WHO IS IT FOR</div>
+          <h2 class="text-3xl lg:text-5xl font-black text-white leading-tight">
+            适合想把人生重新整理一遍的女生
+          </h2>
+          <p class="text-gray-400 mt-5 leading-relaxed">
+            这套系统适合那些不想继续混乱、焦虑、拖延，而是想把生活、金钱、身体和目标一点点整理清楚的人。
           </p>
         </div>
 
-        <button onclick="goToNotion()" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-rose-500 hover:opacity-90 font-black text-white transition">
-          立即获取模板
-        </button>
-      </div>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-6">
+            <div class="text-2xl mb-3">🌷</div>
+            <h3 class="font-black text-white">想变美但不想焦虑</h3>
+            <p class="text-sm text-gray-400 mt-2 leading-relaxed">用记录和行动替代自我攻击。</p>
+          </div>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div class="glass-card rounded-3xl p-6">
-          <div class="text-3xl mb-4">🌙</div>
-          <h3 class="text-lg font-bold text-white">经期状态追踪</h3>
-          <p class="text-sm text-gray-400 mt-3 leading-relaxed">记录周期、情绪、能量、身体反应，找到自己的节律。</p>
-        </div>
+          <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-6">
+            <div class="text-2xl mb-3">💰</div>
+            <h3 class="font-black text-white">想开始认真管钱</h3>
+            <p class="text-sm text-gray-400 mt-2 leading-relaxed">把消费、储蓄和财务复盘放到一起。</p>
+          </div>
 
-        <div class="glass-card rounded-3xl p-6">
-          <div class="text-3xl mb-4">💰</div>
-          <h3 class="text-lg font-bold text-white">财务看板</h3>
-          <p class="text-sm text-gray-400 mt-3 leading-relaxed">一键记账，追踪收入、支出、储蓄目标和消费复盘。</p>
-        </div>
+          <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-6">
+            <div class="text-2xl mb-3">🧘‍♀️</div>
+            <h3 class="font-black text-white">想照顾身体状态</h3>
+            <p class="text-sm text-gray-400 mt-2 leading-relaxed">管理经期、运动、体态和情绪状态。</p>
+          </div>
 
-        <div class="glass-card rounded-3xl p-6">
-          <div class="text-3xl mb-4">🏋️‍♀️</div>
-          <h3 class="text-lg font-bold text-white">健身看板</h3>
-          <p class="text-sm text-gray-400 mt-3 leading-relaxed">管理训练计划、体态练习、运动频率和身体数据。</p>
-        </div>
-
-        <div class="glass-card rounded-3xl p-6">
-          <div class="text-3xl mb-4">🧭</div>
-          <h3 class="text-lg font-bold text-white">人生总控台</h3>
-          <p class="text-sm text-gray-400 mt-3 leading-relaxed">把变美、自律、成长和复盘整合成一个长期经营系统。</p>
+          <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-6">
+            <div class="text-2xl mb-3">📝</div>
+            <h3 class="font-black text-white">想建立复盘习惯</h3>
+            <p class="text-sm text-gray-400 mt-2 leading-relaxed">通过周、月、季、年复盘看见长期变化。</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 底部 CTA -->
-  <section class="py-20 bg-[#070b15] border-t border-white/5">
+  <!-- 最终 CTA -->
+  <section class="py-24 bg-[#070b15] border-t border-white/5">
     <div class="max-w-4xl mx-auto px-5 text-center">
+      <div class="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-200 text-xs font-semibold mb-6">
+        从今天开始，把自己当作一家公司来经营
+      </div>
+
       <h2 class="text-3xl lg:text-5xl font-black text-white leading-tight">
         你不需要更焦虑，<br class="hidden sm:block" />
         你需要一个能执行的系统。
       </h2>
+
       <p class="text-gray-400 mt-5 leading-relaxed">
-        从今天开始，把身体状态、财务、运动、经期和目标都放进一个可复盘的 Notion 系统。
+        把目标、成长、财务、身体、情绪、习惯和复盘放进一个 Notion 总控台，开始你的长期自我经营。
       </p>
-      <button onclick="goToNotion()" class="mt-8 px-8 py-4 rounded-2xl bg-white text-gray-950 hover:bg-gray-200 font-black transition">
-        获取《人生CEO·女性自我经营系统》
-      </button>
+
+      <div class="flex flex-col sm:flex-row justify-center gap-3 mt-8">
+        <button onclick="goToNotion()" class="px-8 py-4 rounded-2xl bg-white text-gray-950 hover:bg-gray-200 font-black transition">
+          获取《人生CEO·女性自我经营系统》
+        </button>
+
+        <a href="#hero" class="px-8 py-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold transition">
+          先体验 AI 状态评估
+        </a>
+      </div>
     </div>
   </section>
 
@@ -424,6 +749,7 @@
         alert("请先在 index.html 里把 NOTION_TEMPLATE_URL 替换成你的真实 Notion 模板链接。");
         return;
       }
+
       window.open(NOTION_TEMPLATE_URL, "_blank", "noopener,noreferrer");
     }
 
