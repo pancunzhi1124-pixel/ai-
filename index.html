@@ -12,20 +12,17 @@
         .scan-container { position: relative; overflow: hidden; border-radius: 1rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255, 255, 255, 0.1); }
         .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(to right, transparent, #a855f7, #ec4899, transparent); box-shadow: 0 0 15px #ec4899; animation: scan 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
         @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
+        /* 让单选按钮更明显 */
+        input[type="radio"] { transform: scale(1.2); cursor: pointer; }
     </style>
 </head>
 <body class="bg-[#0b0f19] text-gray-100 font-sans selection:bg-purple-500 selection:text-white">
 
-    <!-- 顶部导航栏 -->
-    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+    <nav class="fixed w-full z-50 glass-nav">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-rose-500 flex items-center justify-center font-bold text-white shadow-[0_0_15px_rgba(168,85,247,0.5)]">L</div>
                 <span class="text-xl font-bold tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">LUMINA</span>
-            </div>
-            <div class="hidden md:flex space-x-8 text-sm font-medium text-gray-300">
-                <a href="#hero" class="hover:text-purple-400 transition">真实 AI 测算</a>
-                <a href="#features" class="hover:text-purple-400 transition">全面成长体系</a>
             </div>
             <button onclick="goToNotion()" class="bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-2 rounded-full text-sm font-medium transition-all">
                 获取 Notion 模板
@@ -33,58 +30,59 @@
         </div>
     </nav>
 
-    <!-- 首屏横幅区 -->
     <section id="hero" class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
         <div class="absolute top-1/4 left-0 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-30"></div>
         <div class="absolute top-1/3 right-0 w-96 h-96 bg-rose-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-20"></div>
 
         <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
-            <!-- 左侧文案 -->
             <div class="space-y-8">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-semibold uppercase tracking-wider">
                     <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span></span>
                     真实 AI 视觉引擎运行中
                 </div>
                 <h1 class="text-5xl lg:text-6xl font-bold leading-tight glow-text">
-                    停止精神内耗<br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-rose-400">用真实数据重塑你的美</span>
+                    停止精神内耗<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-rose-400">用真实数据重塑你的美</span>
                 </h1>
                 <p class="text-lg text-gray-400 leading-relaxed max-w-lg">
-                    拒绝宽泛建议。接入大厂原生视觉算法，精准输出骨相与体态的像素级落差，并自动生成可落地的 30 天 Notion 管理系统。
+                    直接调用原生视觉算法，精准输出骨相与体态的像素级落差，并自动生成可落地的 Notion 管理系统。
                 </p>
             </div>
 
-            <!-- 右侧测试卡片 -->
-            <div class="glass-card p-6 lg:p-8 rounded-3xl relative">
+            <div class="glass-card p-6 lg:p-8 rounded-3xl relative border-purple-500/30 border">
                 <div id="step1" class="space-y-6 block">
+                    <!-- 顶部分类 -->
                     <div class="flex bg-black/40 rounded-xl p-1 border border-white/10">
-                        <button id="btn-face" onclick="switchType('face')" class="flex-1 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all">✨ 面容分析</button>
-                        <button id="btn-posture" onclick="switchType('posture')" class="flex-1 py-2.5 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all bg-transparent">🏃‍♀️ 体态评估</button>
+                        <!-- 注意：这次默认激活的是 体态评估 -->
+                        <button id="btn-posture" onclick="switchType('posture')" class="flex-1 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all">🏃‍♀️ 体态评估</button>
+                        <button id="btn-face" onclick="switchType('face')" class="flex-1 py-2.5 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all bg-transparent">✨ 面容分析</button>
                     </div>
 
-                    <!-- 【正侧面选择器】 -->
-                    <div id="posture-angle-selector" class="hidden flex gap-4 justify-center mt-2">
-                        <label class="text-xs text-gray-300 flex items-center gap-1.5 cursor-pointer hover:text-white transition">
-                            <input type="radio" name="angle" value="front" checked class="accent-purple-500 w-4 h-4"> 🧍‍♀️ 正面照
-                        </label>
-                        <label class="text-xs text-gray-300 flex items-center gap-1.5 cursor-pointer hover:text-white transition">
-                            <input type="radio" name="angle" value="side" class="accent-rose-500 w-4 h-4"> 🚶‍♀️ 侧面照
-                        </label>
-                    </div>
-
-                    <div class="text-center"><p id="upload-hint" class="text-sm text-gray-400">请上传一张清晰的正面五官照片</p></div>
-                    
-                    <div class="relative group cursor-pointer">
-                        <input type="file" id="imageInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
-                        <div id="drop-zone" class="border-2 border-dashed border-purple-500/30 rounded-2xl p-8 text-center transition duration-300 group-hover:border-purple-400 group-hover:bg-purple-900/20 bg-black/20">
-                            <svg class="mx-auto h-10 w-10 text-purple-400/70 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-                            <span id="file-name" class="text-sm font-medium text-gray-300">点击此处选择本地图片</span>
+                    <!-- 【正侧面选择器】默认直接显示！ -->
+                    <div id="posture-angle-selector" class="flex flex-col gap-3 justify-center mt-4 bg-purple-900/20 p-4 rounded-xl border border-purple-500/30">
+                        <p class="text-xs text-purple-300 font-bold text-center">👇 第一步：请选择你要测算的视角 👇</p>
+                        <div class="flex justify-center gap-6">
+                            <label class="text-sm font-bold text-gray-100 flex items-center gap-2 cursor-pointer hover:text-purple-300 transition">
+                                <input type="radio" name="angle" value="front" checked class="accent-purple-500"> 🧍‍♀️ 正面全身照 (测高低肩)
+                            </label>
+                            <label class="text-sm font-bold text-gray-100 flex items-center gap-2 cursor-pointer hover:text-rose-300 transition">
+                                <input type="radio" name="angle" value="side" class="accent-rose-500"> 🚶‍♀️ 侧面全身照 (测探颈)
+                            </label>
                         </div>
                     </div>
 
-                    <button onclick="processAndUpload()" class="w-full bg-white text-gray-900 hover:bg-gray-200 font-bold py-3.5 px-4 rounded-xl transition-all transform hover:scale-[1.02]">
-                        启动真实云端测算
+                    <div class="text-center"><p id="upload-hint" class="text-sm text-rose-400 font-bold">【硬核要求】：请全身入镜，衣服紧身，背景必须干净无杂物！</p></div>
+                    
+                    <div class="relative group cursor-pointer">
+                        <input type="file" id="imageInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
+                        <div id="drop-zone" class="border-2 border-dashed border-purple-500/50 rounded-2xl p-8 text-center transition duration-300 group-hover:border-purple-400 group-hover:bg-purple-900/40 bg-black/40">
+                            <svg class="mx-auto h-10 w-10 text-purple-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                            <span id="file-name" class="text-base font-bold text-white">点击此处，选取照片</span>
+                        </div>
+                    </div>
+
+                    <button onclick="processAndUpload()" class="w-full bg-gradient-to-r from-gray-100 to-white text-gray-900 hover:scale-105 font-black py-4 px-4 rounded-xl transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                        🚀 启动真实云端测算
                     </button>
                 </div>
 
@@ -96,53 +94,27 @@
                 </div>
 
                 <div id="step3" class="hidden space-y-5">
-                    <div class="text-center">
-                        <h2 class="text-2xl font-bold text-white mb-1" id="report-title">诊断报告</h2>
-                    </div>
+                    <div class="text-center"><h2 class="text-2xl font-bold text-white mb-1" id="report-title">诊断报告</h2></div>
                     <div class="bg-black/40 border border-white/5 p-5 rounded-2xl space-y-3" id="result-box"></div>
-                    <div class="bg-gradient-to-br from-purple-900/50 to-rose-900/50 p-5 rounded-2xl border border-purple-500/30 mt-4">
-                        <h3 class="font-bold text-white mb-2">这是你的改变起点 🚀</h3>
-                        <p class="text-sm text-gray-300 mb-4">你的专属改善计划已准备就绪。</p>
-                        <button onclick="goToNotion()" class="w-full flex items-center justify-center gap-2 bg-purple-500 hover:bg-purple-400 text-white font-bold py-3 rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)]">
-                            一键部署到我的 Notion
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 下方三大卖点 -->
-    <section id="features" class="py-20 bg-[#070a11] border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass-card p-8 rounded-2xl border-t border-t-purple-500/30">
-                    <h3 class="text-xl font-bold text-white mb-3">原生 AI 数据测算</h3>
-                    <p class="text-gray-400 text-sm">拒绝伪科学。直接调用百度视觉引擎，用像素级落差找出体态痛点的真实根源。</p>
-                </div>
-                <div class="glass-card p-8 rounded-2xl border-t border-t-rose-500/30">
-                    <h3 class="text-xl font-bold text-white mb-3">抗炎与习惯重塑</h3>
-                    <p class="text-gray-400 text-sm">提供结合个人偏好的饮食策略，从内到外改善肌肤质感。</p>
-                </div>
-                <div class="glass-card p-8 rounded-2xl border-t border-t-blue-500/30">
-                    <h3 class="text-xl font-bold text-white mb-3">Notion 完美闭环</h3>
-                    <p class="text-gray-400 text-sm">独家定制模板，将打卡、食谱、复盘变成充满成就感的游戏。</p>
+                    <button onclick="goToNotion()" class="w-full flex items-center justify-center gap-2 bg-purple-500 hover:bg-purple-400 text-white font-bold py-3 rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                        一键部署到我的 Notion
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
     <script>
-        let currentType = 'face'; 
+        // 默认状态改为体态评估
+        let currentType = 'posture'; 
 
-        // 监听图片选择
         document.getElementById('imageInput').addEventListener('change', function(e) {
             const fileNameDisplay = document.getElementById('file-name');
             const dropZone = document.getElementById('drop-zone');
             if (this.files && this.files[0]) {
                 const name = this.files[0].name;
-                fileNameDisplay.innerHTML = `<span class="text-emerald-400 font-bold">✅ 已成功载入: ${name.length > 15 ? name.substring(0,15)+'...' : name}</span>`;
-                dropZone.classList.add('border-emerald-500/50', 'bg-emerald-900/20');
+                fileNameDisplay.innerHTML = `<span class="text-emerald-400 font-black text-lg">✅ 已选中: ${name.length > 15 ? name.substring(0,15)+'...' : name}</span>`;
+                dropZone.classList.add('border-emerald-500', 'bg-emerald-900/30');
             }
         });
 
@@ -154,23 +126,24 @@
             const angleSelector = document.getElementById('posture-angle-selector');
 
             document.getElementById('imageInput').value = "";
-            document.getElementById('file-name').innerHTML = "点击此处选择本地图片";
-            document.getElementById('drop-zone').classList.remove('border-emerald-500/50', 'bg-emerald-900/20');
+            document.getElementById('file-name').innerHTML = "点击此处，选取照片";
+            document.getElementById('drop-zone').classList.remove('border-emerald-500', 'bg-emerald-900/30');
 
             if (type === 'face') {
                 btnFace.className = "flex-1 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all";
                 btnPosture.className = "flex-1 py-2.5 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all bg-transparent";
                 uploadHint.innerText = "请上传一张清晰的正面五官照片";
-                angleSelector.classList.add('hidden');
+                angleSelector.classList.add('hidden'); // 测脸时隐藏选择器
             } else {
                 btnPosture.className = "flex-1 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all";
                 btnFace.className = "flex-1 py-2.5 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all bg-transparent";
-                uploadHint.innerText = "【硬核测算要求】：请全身入镜，衣服紧身，背景干净无杂物！";
-                angleSelector.classList.remove('hidden');
+                uploadHint.innerText = "【硬核要求】：请全身入镜，衣服紧身，背景必须干净无杂物！";
+                angleSelector.classList.remove('hidden'); // 测体态时显示选择器
+                angleSelector.classList.add('flex');
             }
         }
 
-        // 图片压缩黑科技
+        // 强力图片压缩
         function compressImage(file, callback) {
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -199,7 +172,7 @@
 
         async function processAndUpload() {
             const fileInput = document.getElementById('imageInput');
-            if (!fileInput.files[0]) { alert("请先选择照片！"); return; }
+            if (!fileInput.files[0]) { alert("❌ 请先点击虚线框，选择一张照片！"); return; }
 
             document.getElementById('step1').classList.add('hidden');
             document.getElementById('step2').classList.remove('hidden');
@@ -217,24 +190,24 @@
                     
                     const data = await response.json();
                     
-                    // 如果后端返回错误（百度AI没看清），直接弹窗告诉用户真相！
-                    if (!response.ok) throw new Error(data.issue || '服务器测算异常');
+                    // 核心报错拦截：如果报错，把详细原因抛出来
+                    if (!response.ok) throw new Error(data.issue || '未知网络错误');
 
                     document.getElementById('report-title').innerText = data.title;
                     document.getElementById('result-box').innerHTML = `
                         <div class="flex justify-between items-center border-b border-white/10 pb-3">
-                            <span class="text-gray-400 text-sm">客观综合评分</span>
+                            <span class="text-gray-400 text-sm">客观测算评分</span>
                             <span class="font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-purple-400 text-2xl">${data.score}</span>
                         </div>
-                        <p class="text-sm text-gray-300 mt-3 whitespace-pre-line"><span class="text-rose-400 font-bold">⚠️ 数据分析：</span><br/>${data.issue}</p>
+                        <p class="text-sm text-gray-300 mt-3 whitespace-pre-line"><span class="text-rose-400 font-bold">⚠️ 原始数据解析：</span><br/>${data.issue}</p>
                         <p class="text-sm text-gray-300 mt-3 whitespace-pre-line"><span class="text-purple-400 font-bold">💡 改善建议：</span><br/>${data.suggestion}</p>
                     `;
                     document.getElementById('step2').classList.add('hidden');
                     document.getElementById('step2').classList.remove('flex');
                     document.getElementById('step3').classList.remove('hidden');
                 } catch (error) {
-                    // 最真实的报错弹窗！
-                    alert("⚠️ 测算被拒绝：\n\n" + error.message);
+                    // 【终极排错弹窗】
+                    alert("❌ 测算中断！\n\n拦截原因：\n" + error.message + "\n\n👇 排查指南 👇\n1. 如果提示 Error_code: 17 或 6 等数字，说明你的百度智能云【没有免费领取】接口额度！请登录百度云控制台领取。\n2. 如果提示未能找到人体，请换一张背景完全干净的全身照！");
                     location.reload();
                 }
             });
