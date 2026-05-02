@@ -64,7 +64,21 @@ module.exports = async function handler(req, res) {
   } catch (error) {
     console.error("Analyze error:", error);
 
-    return res.status(200).json(getSystemFallback(type));
+    return res.status(500).json({
+      error: "云端评估暂时不可用",
+      title: "暂时无法生成报告",
+      score: "--",
+      issue: "云端评估暂时不稳定，可能是网络、接口响应或服务器配置导致。",
+      suggestion: "请稍后重试，或者检查 Vercel 环境变量和百度智能云接口是否可用。",
+      nextStep: "你也可以先查看 Notion 自我经营系统，从日常记录开始使用。",
+      actions: [
+        "确认 BAIDU_API_KEY 是否正确",
+        "确认 BAIDU_SECRET_KEY 是否正确",
+        "重新部署 Vercel 项目"
+      ],
+      note: "系统错误时不生成评分，避免给出不准确结果。",
+      isFallback: true
+    });
   }
 };
 
@@ -107,9 +121,15 @@ async function analyzeFaceState(token, image) {
 
   const data = await response.json();
 
-  if (!response.ok || data.error_code || !data.result || !Array.isArray(data.result.face_list) || data.result.face_list.length === 0) {
-    console.warn("Face API fallback:", data);
-    return getFaceFallback();
+  if (
+    !response.ok ||
+    data.error_code ||
+    !data.result ||
+    !Array.isArray(data.result.face_list) ||
+    data.result.face_list.length === 0
+  ) {
+    console.warn("Face API needs reupload:", data);
+    return getFaceReuploadResult("这张照片没有稳定识别到清晰人脸，可能是光线、角度、遮挡或画面距离导致。");
   }
 
   const face = data.result.face_list[0];
@@ -121,9 +141,12 @@ async function analyzeFaceState(token, image) {
   const shapeInfo = getFaceShapeInfo(shapeType);
 
   const age = Number(face.age);
-  const ageText = Number.isFinite(age) ? `视觉状态参考约 ${Math.round(age)} 岁，仅供观察。` : "视觉状态参考未稳定识别。";
+  const ageText = Number.isFinite(age)
+    ? `视觉状态参考约 ${Math.round(age)} 岁，仅供观察。`
+    : "视觉状态参考未稳定识别。";
 
   return {
+    status: "success",
     title: "面容状态评估",
     score,
     issue: `AI 识别到你的脸型倾向为「${shapeInfo.label}」。${shapeInfo.issue} ${ageText}`,
@@ -197,8 +220,8 @@ async function analyzePostureState(token, image, angle) {
     data.person_info.length === 0 ||
     !data.person_info[0].body_parts
   ) {
-    console.warn("Body API fallback:", data);
-    return getPostureFallback("照片角度、光线、衣物或背景可能影响了人体关键点识别。");
+    console.warn("Body API needs reupload:", data);
+    return getPostureReuploadResult("照片角度、光线、衣物或背景可能影响了人体关键点识别。");
   }
 
   const parts = data.person_info[0].body_parts;
@@ -215,7 +238,7 @@ function analyzeFrontPosture(parts) {
   const rightShoulder = getPart(parts, "right_shoulder");
 
   if (!leftShoulder || !rightShoulder) {
-    return getPostureFallback("这张照片没有稳定识别到左右肩位置。");
+    return getPostureReuploadResult("这张照片没有稳定识别到左右肩位置。");
   }
 
   const shoulderWidth = Math.abs(leftShoulder.x - rightShoulder.x);
@@ -257,6 +280,7 @@ function analyzeFrontPosture(parts) {
   }
 
   return {
+    status: "success",
     title: "体态趋势评估",
     score,
     issue,
@@ -276,7 +300,7 @@ function analyzeSidePosture(parts) {
   const rightHip = getPart(parts, "right_hip");
 
   if (!leftShoulder || !rightShoulder || !neck) {
-    return getPostureFallback("这张侧面照没有稳定识别到肩颈位置。");
+    return getPostureReuploadResult("这张侧面照没有稳定识别到肩颈位置。");
   }
 
   const shoulderCenter = {
@@ -336,6 +360,7 @@ function analyzeSidePosture(parts) {
   }
 
   return {
+    status: "success",
     title: "侧面体态趋势评估",
     score,
     issue,
@@ -363,48 +388,39 @@ function getPart(parts, name) {
   return part;
 }
 
-function getFaceFallback() {
+function getFaceReuploadResult(reason) {
   return {
-    title: "面容状态参考",
-    score: 76,
-    issue: "这张照片的光线、角度或遮挡可能不适合精细识别，因此先为你生成一份通用面容状态建议。",
-    suggestion: "建议从睡眠、饮水、经期状态、饮食和情绪记录入手，观察哪些生活变量最影响你的气色和精神感。",
-    nextStep: "你可以换一张更清晰的正脸照重新评估，也可以先导入 Notion 模板，从今天开始记录状态。",
+    status: "needs_reupload",
+    title: "照片不适合识别",
+    score: "--",
+    issue: reason || "这张照片没有稳定识别到清晰人脸。",
+    suggestion: "请重新上传一张更适合面容识别的照片。建议使用正面照，保持光线充足，五官无遮挡，避免过度美颜、侧脸、低头或远景照片。",
+    nextStep: "你也可以先查看 Notion 自我经营系统，从睡眠、饮水、经期状态、饮食和情绪记录开始使用。",
     actions: [
-      "今晚记录睡眠和饮水",
-      "做 3 分钟面部放松",
-      "在 Notion 中记录今日气色"
+      "使用清晰正脸照",
+      "五官无遮挡",
+      "避免过暗光线、强滤镜和远距离照片"
     ],
-    note: "本结果是通用生活管理建议，不代表医学判断，也不用于评价个人价值。",
+    note: "未成功识别时不生成面容评分，避免给出不准确结果。",
     isFallback: true
   };
 }
 
-function getPostureFallback(reason) {
+function getPostureReuploadResult(reason) {
   return {
-    title: "体态状态参考",
-    score: 74,
-    issue: `${reason} 因此本次先生成通用体态自查建议。`,
-    suggestion: "建议重新上传一张光线清晰、能看见肩颈线条的照片。也可以先从久坐时间、低头时间、肩颈紧张程度和背部训练完成度开始记录。",
-    nextStep: "导入 Notion 体态管理计划，连续记录 7 天，你会更容易发现体态问题背后的生活习惯。",
+    status: "needs_reupload",
+    title: "照片不适合识别",
+    score: "--",
+    issue: reason || "这张照片没有稳定识别到人体关键点。",
+    suggestion: "请重新上传一张更适合体态识别的照片。正面照建议露出双肩、腰胯并保持站直；侧面照建议露出头颈、肩膀和躯干线条。",
+    nextStep: "你也可以先查看 Notion 自我经营系统，从久坐时间、运动打卡、经期状态和身体数据开始记录。",
     actions: [
-      "今天记录久坐总时长",
-      "做 5 分钟肩颈拉伸",
-      "完成 2 组肩胛后缩练习"
+      "正面照：露出双肩和上半身",
+      "侧面照：露出头颈、肩膀和躯干",
+      "避免宽松外套、复杂背景和过暗光线"
     ],
-    note: "本结果是通用生活管理建议，不替代医学诊断或专业康复评估。",
+    note: "未成功识别时不生成体态评分，避免给出不准确结果。",
     isFallback: true
-  };
-}
-
-function getSystemFallback(type) {
-  if (type === "posture") {
-    return getPostureFallback("云端评估暂时不稳定，可能是网络、图片格式或接口响应导致。");
-  }
-
-  return {
-    ...getFaceFallback(),
-    issue: "云端评估暂时不稳定，可能是网络、图片格式或接口响应导致。因此本次先生成通用面容状态建议。"
   };
 }
 
