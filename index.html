@@ -10,54 +10,76 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    .glass-nav {
-      background: rgba(8, 12, 24, 0.72);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    :root {
+      --bg-main: #fff7fb;
+      --bg-soft: #fdf0f7;
+      --card: #ffffff;
+      --text-main: #2b2330;
+      --text-soft: #7a6a78;
+      --primary: #c94f8c;
+      --primary-dark: #a83e77;
+      --secondary: #9b6bc8;
+      --accent: #d9a441;
+      --border: #eedde8;
+      --rose-light: #fbe4f0;
+      --purple-light: #f0e7fb;
     }
 
-    .glass-card {
-      background: rgba(255, 255, 255, 0.045);
-      backdrop-filter: blur(22px);
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.42);
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(201, 79, 140, 0.16), transparent 32rem),
+        radial-gradient(circle at top right, rgba(155, 107, 200, 0.15), transparent 34rem),
+        var(--bg-main);
+      color: var(--text-main);
+    }
+
+    .cream-nav {
+      background: rgba(255, 247, 251, 0.86);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(238, 221, 232, 0.9);
     }
 
     .soft-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 60px rgba(122, 80, 106, 0.12);
     }
 
-    .glow-text {
-      text-shadow: 0 0 26px rgba(168, 85, 247, 0.42);
+    .solid-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 45px rgba(122, 80, 106, 0.10);
     }
 
-    .gradient-border {
-      position: relative;
+    .gradient-text {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
-    .gradient-border::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 1.5rem;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(168, 85, 247, 0.75), rgba(236, 72, 153, 0.58), rgba(255, 255, 255, 0.08));
-      -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
+    .primary-gradient {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    .gold-gradient {
+      background: linear-gradient(135deg, #f2cf7b, #d9a441);
+    }
+
+    .soft-grid {
+      background-image:
+        linear-gradient(rgba(201, 79, 140, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 79, 140, 0.055) 1px, transparent 1px);
+      background-size: 42px 42px;
     }
 
     .scan-container {
       position: relative;
       overflow: hidden;
       border-radius: 1.25rem;
-      background: rgba(255, 255, 255, 0.035);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: linear-gradient(135deg, rgba(251, 228, 240, 0.9), rgba(240, 231, 251, 0.9));
+      border: 1px solid var(--border);
     }
 
     .scan-line {
@@ -65,8 +87,8 @@
       left: 0;
       width: 100%;
       height: 3px;
-      background: linear-gradient(to right, transparent, #a855f7, #ec4899, transparent);
-      box-shadow: 0 0 18px rgba(236, 72, 153, 0.95);
+      background: linear-gradient(to right, transparent, var(--primary), var(--secondary), transparent);
+      box-shadow: 0 0 18px rgba(201, 79, 140, 0.65);
       animation: scan 1.55s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
 
@@ -90,183 +112,193 @@
       }
     }
 
-    .bg-grid {
-      background-image:
-        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-      background-size: 44px 44px;
+    .module-card {
+      transition: all 0.28s ease;
+    }
+
+    .module-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(201, 79, 140, 0.35);
+      box-shadow: 0 28px 65px rgba(122, 80, 106, 0.16);
     }
 
     .mini-dashboard-card {
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(15, 23, 42, 0.08);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(238, 221, 232, 0.95);
+      box-shadow: 0 16px 36px rgba(122, 80, 106, 0.12);
     }
 
     .mini-link {
       color: #c0488f;
     }
 
-    .module-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(236, 72, 153, 0.35);
+    .upload-zone {
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(253, 240, 247, 0.84));
+      border: 2px dashed rgba(201, 79, 140, 0.32);
+    }
+
+    .upload-zone:hover {
+      background:
+        linear-gradient(135deg, rgba(253, 240, 247, 0.94), rgba(240, 231, 251, 0.94));
+      border-color: rgba(201, 79, 140, 0.58);
     }
   </style>
 </head>
 
-<body class="bg-[#080c18] text-gray-100 font-sans selection:bg-purple-500 selection:text-white">
+<body class="font-sans selection:bg-[#C94F8C] selection:text-white">
 
   <!-- 顶部导航 -->
-  <nav class="fixed top-0 left-0 w-full z-50 glass-nav">
+  <nav class="fixed top-0 left-0 w-full z-50 cream-nav">
     <div class="max-w-7xl mx-auto px-5 lg:px-8 h-16 lg:h-20 flex items-center justify-between">
       <a href="#hero" class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-rose-500 flex items-center justify-center font-black text-white shadow-[0_0_20px_rgba(168,85,247,0.55)]">
+        <div class="w-9 h-9 rounded-xl primary-gradient flex items-center justify-center font-black text-white shadow-[0_10px_26px_rgba(201,79,140,0.28)]">
           L
         </div>
         <div>
-          <div class="text-lg lg:text-xl font-bold tracking-[0.18em]">LUMINA</div>
-          <div class="hidden sm:block text-[11px] text-gray-500 tracking-wider -mt-1">
+          <div class="text-lg lg:text-xl font-black tracking-[0.16em] text-[#2B2330]">LUMINA</div>
+          <div class="hidden sm:block text-[11px] text-[#9A8294] tracking-wider -mt-1">
             人生CEO · 女性自我经营系统
           </div>
         </div>
       </a>
 
-      <div class="hidden md:flex items-center gap-8 text-sm text-gray-300">
-        <a href="#hero" class="hover:text-purple-300 transition">AI 状态评估</a>
-        <a href="#system" class="hover:text-purple-300 transition">模板系统</a>
-        <a href="#modules" class="hover:text-purple-300 transition">九大模块</a>
-        <a href="#fit" class="hover:text-purple-300 transition">适合人群</a>
+      <div class="hidden md:flex items-center gap-8 text-sm text-[#7A6A78]">
+        <a href="#hero" class="hover:text-[#C94F8C] transition">AI 状态评估</a>
+        <a href="#system" class="hover:text-[#C94F8C] transition">模板系统</a>
+        <a href="#modules" class="hover:text-[#C94F8C] transition">九大模块</a>
+        <a href="#fit" class="hover:text-[#C94F8C] transition">适合人群</a>
       </div>
 
-      <button onclick="goToNotion()" class="px-4 lg:px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-sm font-semibold transition">
+      <button onclick="goToNotion()" class="px-4 lg:px-5 py-2 rounded-full primary-gradient text-white text-sm font-bold shadow-[0_12px_30px_rgba(201,79,140,0.25)] hover:opacity-90 transition">
         获取模板
       </button>
     </div>
   </nav>
 
   <!-- 首屏 -->
-  <section id="hero" class="relative min-h-screen pt-28 lg:pt-36 pb-20 overflow-hidden bg-grid">
-    <div class="absolute top-10 left-[-10rem] w-[28rem] h-[28rem] rounded-full bg-purple-700/30 blur-[140px]"></div>
-    <div class="absolute top-44 right-[-8rem] w-[28rem] h-[28rem] rounded-full bg-rose-600/25 blur-[150px]"></div>
-    <div class="absolute bottom-0 left-1/3 w-[22rem] h-[22rem] rounded-full bg-fuchsia-600/10 blur-[130px]"></div>
+  <section id="hero" class="relative min-h-screen pt-28 lg:pt-36 pb-20 overflow-hidden soft-grid">
+    <div class="absolute top-12 left-[-9rem] w-[30rem] h-[30rem] rounded-full bg-[#FBE4F0] blur-[120px]"></div>
+    <div class="absolute top-36 right-[-10rem] w-[30rem] h-[30rem] rounded-full bg-[#F0E7FB] blur-[120px]"></div>
+    <div class="absolute bottom-0 left-1/3 w-[22rem] h-[22rem] rounded-full bg-[#FFF1D6] blur-[130px]"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
       <!-- 左侧文案 -->
       <div class="space-y-7 lg:space-y-8">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-200 text-xs font-semibold">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 border border-[#EEDDE8] text-[#C94F8C] text-xs font-bold shadow-sm">
           <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-purple-400"></span>
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C94F8C] opacity-55"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-[#C94F8C]"></span>
           </span>
           AI 状态评估 · Notion 自我经营计划
         </div>
 
         <div class="space-y-5">
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight glow-text">
-            用数据经营状态<br />
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-fuchsia-300 to-rose-300">
-              把变美变成系统
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight text-[#2B2330]">
+            用系统经营自己<br />
+            <span class="gradient-text">
+              把变好变成日常
             </span>
           </h1>
 
-          <p class="text-base lg:text-lg text-gray-400 leading-relaxed max-w-xl">
+          <p class="text-base lg:text-lg text-[#7A6A78] leading-relaxed max-w-xl">
             上传一张照片，获得面容与体态的状态参考，并把改善计划导入你的
-            <span class="text-white font-semibold">《人生CEO·女性自我经营系统》</span>。
+            <span class="text-[#2B2330] font-bold">《人生CEO·女性自我经营系统》</span>。
             不靠焦虑内耗，靠记录、复盘和执行慢慢变好。
           </p>
         </div>
 
         <div class="grid sm:grid-cols-3 gap-3 max-w-xl">
-          <div class="glass-card rounded-2xl p-4">
-            <div class="text-lg font-bold text-white">01</div>
-            <div class="text-sm text-gray-300 mt-1">状态评估</div>
-            <div class="text-xs text-gray-500 mt-1">面容、体态、生活习惯参考</div>
+          <div class="solid-card rounded-2xl p-4">
+            <div class="text-lg font-black text-[#C94F8C]">01</div>
+            <div class="text-sm text-[#2B2330] font-bold mt-1">状态评估</div>
+            <div class="text-xs text-[#9A8294] mt-1">面容、体态、生活习惯参考</div>
           </div>
-          <div class="glass-card rounded-2xl p-4">
-            <div class="text-lg font-bold text-white">02</div>
-            <div class="text-sm text-gray-300 mt-1">系统整理</div>
-            <div class="text-xs text-gray-500 mt-1">目标、财务、成长、复盘</div>
+          <div class="solid-card rounded-2xl p-4">
+            <div class="text-lg font-black text-[#9B6BC8]">02</div>
+            <div class="text-sm text-[#2B2330] font-bold mt-1">系统整理</div>
+            <div class="text-xs text-[#9A8294] mt-1">目标、财务、成长、复盘</div>
           </div>
-          <div class="glass-card rounded-2xl p-4">
-            <div class="text-lg font-bold text-white">03</div>
-            <div class="text-sm text-gray-300 mt-1">长期执行</div>
-            <div class="text-xs text-gray-500 mt-1">习惯、打卡、记录、追踪</div>
+          <div class="solid-card rounded-2xl p-4">
+            <div class="text-lg font-black text-[#D9A441]">03</div>
+            <div class="text-sm text-[#2B2330] font-bold mt-1">长期执行</div>
+            <div class="text-xs text-[#9A8294] mt-1">习惯、打卡、记录、追踪</div>
           </div>
         </div>
 
-        <div class="flex flex-wrap gap-2 text-xs text-gray-400">
-          <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">不公开展示照片</span>
-          <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">仅用于本次状态评估</span>
-          <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">结果仅作生活管理参考</span>
+        <div class="flex flex-wrap gap-2 text-xs text-[#7A6A78]">
+          <span class="px-3 py-1 rounded-full bg-white/75 border border-[#EEDDE8]">不公开展示照片</span>
+          <span class="px-3 py-1 rounded-full bg-white/75 border border-[#EEDDE8]">仅用于本次状态评估</span>
+          <span class="px-3 py-1 rounded-full bg-white/75 border border-[#EEDDE8]">结果仅作生活管理参考</span>
         </div>
       </div>
 
       <!-- 右侧评估卡片 -->
-      <div class="glass-card gradient-border rounded-3xl p-5 sm:p-6 lg:p-8">
+      <div class="soft-card rounded-[32px] p-5 sm:p-6 lg:p-8">
 
         <!-- Step 1 上传 -->
         <div id="step1" class="space-y-6 fade-in">
-          <div class="flex bg-black/35 rounded-2xl p-1 border border-white/10">
-            <button id="btn-face" onclick="switchType('face')" class="flex-1 py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all">
+          <div class="flex bg-[#FDF0F7] rounded-2xl p-1 border border-[#EEDDE8]">
+            <button id="btn-face" onclick="switchType('face')" class="flex-1 py-3 text-sm font-bold rounded-xl primary-gradient text-white shadow-lg transition-all">
               ✨ 面容状态
             </button>
-            <button id="btn-posture" onclick="switchType('posture')" class="flex-1 py-3 text-sm font-semibold rounded-xl text-gray-400 hover:text-white transition-all bg-transparent">
+            <button id="btn-posture" onclick="switchType('posture')" class="flex-1 py-3 text-sm font-bold rounded-xl text-[#7A6A78] hover:text-[#C94F8C] transition-all bg-transparent">
               🧘‍♀️ 体态趋势
             </button>
           </div>
 
           <div id="posture-angle-selector" class="hidden grid grid-cols-2 gap-3">
-            <label class="cursor-pointer rounded-2xl bg-white/5 border border-white/10 hover:border-purple-400/50 p-3 flex items-center gap-2 text-sm text-gray-300 transition">
-              <input type="radio" name="angle" value="front" checked class="accent-purple-500" />
+            <label class="cursor-pointer rounded-2xl bg-white border border-[#EEDDE8] hover:border-[#C94F8C]/50 p-3 flex items-center gap-2 text-sm text-[#5F5360] transition">
+              <input type="radio" name="angle" value="front" checked class="accent-[#C94F8C]" />
               <span>正面照</span>
             </label>
-            <label class="cursor-pointer rounded-2xl bg-white/5 border border-white/10 hover:border-rose-400/50 p-3 flex items-center gap-2 text-sm text-gray-300 transition">
-              <input type="radio" name="angle" value="side" class="accent-rose-500" />
+            <label class="cursor-pointer rounded-2xl bg-white border border-[#EEDDE8] hover:border-[#9B6BC8]/50 p-3 flex items-center gap-2 text-sm text-[#5F5360] transition">
+              <input type="radio" name="angle" value="side" class="accent-[#9B6BC8]" />
               <span>侧面照</span>
             </label>
           </div>
 
-          <div class="rounded-2xl bg-purple-500/10 border border-purple-500/20 p-4">
-            <div class="text-sm font-semibold text-purple-100 mb-1" id="upload-title">上传一张清晰正脸照</div>
-            <p class="text-xs leading-relaxed text-gray-400" id="upload-hint">
+          <div class="rounded-2xl bg-[#FFF7FB] border border-[#EEDDE8] p-4">
+            <div class="text-sm font-black text-[#C94F8C] mb-1" id="upload-title">上传一张清晰正脸照</div>
+            <p class="text-xs leading-relaxed text-[#7A6A78]" id="upload-hint">
               建议光线充足、五官无遮挡。系统会生成面容状态参考，并给出适合导入 Notion 的行动建议。
             </p>
           </div>
 
           <div class="grid grid-cols-3 gap-2 text-center text-xs">
-            <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
+            <div class="rounded-2xl bg-white border border-[#EEDDE8] p-3">
               <div class="text-lg mb-1">1</div>
-              <div class="text-gray-400">上传照片</div>
+              <div class="text-[#7A6A78]">上传照片</div>
             </div>
-            <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
+            <div class="rounded-2xl bg-white border border-[#EEDDE8] p-3">
               <div class="text-lg mb-1">2</div>
-              <div class="text-gray-400">生成报告</div>
+              <div class="text-[#7A6A78]">生成报告</div>
             </div>
-            <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
+            <div class="rounded-2xl bg-white border border-[#EEDDE8] p-3">
               <div class="text-lg mb-1">3</div>
-              <div class="text-gray-400">导入 Notion</div>
+              <div class="text-[#7A6A78]">导入 Notion</div>
             </div>
           </div>
 
           <div class="relative group cursor-pointer">
             <input id="imageInput" type="file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
-            <div id="drop-zone" class="min-h-[190px] rounded-3xl border-2 border-dashed border-purple-500/35 bg-black/25 group-hover:bg-purple-900/15 group-hover:border-purple-400/70 transition flex flex-col items-center justify-center p-6 text-center overflow-hidden">
-              <img id="preview-img" alt="预览图" class="hidden max-h-48 rounded-2xl object-contain mb-4 border border-white/10" />
-              <div id="upload-icon" class="w-14 h-14 rounded-2xl bg-purple-500/15 flex items-center justify-center mb-4 text-3xl">
+            <div id="drop-zone" class="upload-zone min-h-[190px] rounded-3xl transition flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+              <img id="preview-img" alt="预览图" class="hidden max-h-48 rounded-2xl object-contain mb-4 border border-[#EEDDE8]" />
+              <div id="upload-icon" class="w-14 h-14 rounded-2xl bg-[#FBE4F0] flex items-center justify-center mb-4 text-3xl text-[#C94F8C]">
                 ↑
               </div>
-              <div id="file-name" class="text-sm font-semibold text-gray-200">点击此处选择本地图片</div>
-              <div class="text-xs text-gray-500 mt-2">支持 JPG / PNG / HEIC 截图转存图片</div>
+              <div id="file-name" class="text-sm font-bold text-[#2B2330]">点击此处选择本地图片</div>
+              <div class="text-xs text-[#9A8294] mt-2">支持 JPG / PNG / 手机相册图片</div>
             </div>
           </div>
 
-          <div class="rounded-2xl bg-white/[0.035] border border-white/10 p-4 text-xs leading-relaxed text-gray-400">
-            <span class="text-gray-200 font-semibold">提示：</span>
+          <div class="rounded-2xl bg-white border border-[#EEDDE8] p-4 text-xs leading-relaxed text-[#7A6A78]">
+            <span class="text-[#2B2330] font-bold">提示：</span>
             本结果是生活管理参考，不替代医学诊断或专业建议。若有明显疼痛、长期不适或健康疑虑，请咨询专业人士。
           </div>
 
-          <button onclick="processAndUpload()" class="w-full bg-white text-gray-950 hover:bg-gray-200 font-black py-4 px-5 rounded-2xl transition-all transform hover:scale-[1.015] active:scale-[0.99] shadow-[0_18px_45px_rgba(255,255,255,0.12)]">
+          <button onclick="processAndUpload()" class="w-full primary-gradient text-white hover:opacity-90 font-black py-4 px-5 rounded-2xl transition-all transform hover:scale-[1.015] active:scale-[0.99] shadow-[0_18px_45px_rgba(201,79,140,0.24)]">
             生成我的状态报告
           </button>
         </div>
@@ -274,43 +306,43 @@
         <!-- Step 2 加载 -->
         <div id="step2" class="hidden flex-col items-center justify-center py-14 space-y-7 fade-in">
           <div class="scan-container w-36 h-36 flex items-center justify-center">
-            <div class="text-5xl text-purple-300/30">✦</div>
+            <div class="text-5xl text-[#C94F8C]/40">✦</div>
             <div class="scan-line"></div>
           </div>
           <div class="text-center">
-            <div id="loading-title" class="text-lg font-bold text-white">正在生成状态报告</div>
-            <p id="loading-text" class="text-sm text-purple-200 mt-2 animate-pulse">图片压缩与云端评估中...</p>
+            <div id="loading-title" class="text-lg font-black text-[#2B2330]">正在生成状态报告</div>
+            <p id="loading-text" class="text-sm text-[#C94F8C] mt-2 animate-pulse">图片压缩与云端评估中...</p>
           </div>
         </div>
 
         <!-- Step 3 结果 -->
         <div id="step3" class="hidden space-y-5 fade-in">
           <div class="text-center">
-            <div class="inline-flex items-center justify-center px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs mb-3">
+            <div id="result-badge" class="inline-flex items-center justify-center px-3 py-1 rounded-full bg-[#EAF8EF] border border-[#CFEEDB] text-[#2E8A56] text-xs font-bold mb-3">
               报告已生成
             </div>
-            <h2 id="report-title" class="text-2xl font-black text-white">状态报告</h2>
-            <p id="report-subtitle" class="text-sm text-gray-500 mt-1">以下内容仅作为生活管理参考</p>
+            <h2 id="report-title" class="text-2xl font-black text-[#2B2330]">状态报告</h2>
+            <p id="report-subtitle" class="text-sm text-[#9A8294] mt-1">以下内容仅作为生活管理参考</p>
           </div>
 
-          <div id="result-box" class="rounded-3xl bg-black/35 border border-white/10 p-5 space-y-4"></div>
+          <div id="result-box" class="rounded-3xl bg-white border border-[#EEDDE8] p-5 space-y-4 shadow-[0_18px_45px_rgba(122,80,106,0.10)]"></div>
 
-          <div class="rounded-3xl bg-gradient-to-br from-purple-900/55 to-rose-900/45 p-5 border border-purple-400/25">
+          <div class="rounded-3xl bg-gradient-to-br from-[#FBE4F0] to-[#F0E7FB] p-5 border border-[#EEDDE8]">
             <div class="flex items-start gap-3">
-              <div class="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center">🚀</div>
+              <div class="w-10 h-10 rounded-2xl bg-white/80 flex items-center justify-center">🚀</div>
               <div>
-                <h3 class="font-black text-white">下一步：把建议变成执行系统</h3>
-                <p class="text-sm text-gray-300 mt-2 leading-relaxed">
+                <h3 class="font-black text-[#2B2330]">下一步：把建议变成执行系统</h3>
+                <p class="text-sm text-[#6F5F6B] mt-2 leading-relaxed">
                   状态评估只解决“知道问题”，Notion 自我经营系统解决“持续改变”。你可以把体态、经期、财务、健身和复盘统一记录起来。
                 </p>
               </div>
             </div>
 
-            <button onclick="goToNotion()" class="mt-5 w-full bg-white hover:bg-gray-200 text-gray-950 font-black py-3.5 rounded-2xl transition">
+            <button onclick="goToNotion()" class="mt-5 w-full primary-gradient hover:opacity-90 text-white font-black py-3.5 rounded-2xl transition shadow-[0_16px_35px_rgba(201,79,140,0.22)]">
               导入我的 30 天自我经营计划
             </button>
 
-            <button onclick="resetAssessment()" class="mt-3 w-full bg-white/5 hover:bg-white/10 text-gray-300 font-semibold py-3 rounded-2xl transition border border-white/10">
+            <button onclick="resetAssessment()" class="mt-3 w-full bg-white hover:bg-[#FFF7FB] text-[#A83E77] font-bold py-3 rounded-2xl transition border border-[#EEDDE8]">
               重新上传一张照片
             </button>
           </div>
@@ -320,9 +352,9 @@
   </section>
 
   <!-- 模板总介绍 -->
-  <section id="system" class="relative py-24 bg-[#070b15] border-y border-white/5 overflow-hidden">
-    <div class="absolute -top-20 left-[-120px] w-[280px] h-[280px] bg-purple-600/20 blur-[120px] rounded-full"></div>
-    <div class="absolute bottom-0 right-[-100px] w-[260px] h-[260px] bg-rose-500/15 blur-[120px] rounded-full"></div>
+  <section id="system" class="relative py-24 bg-[#FFF7FB] border-y border-[#EEDDE8] overflow-hidden">
+    <div class="absolute -top-20 left-[-120px] w-[280px] h-[280px] bg-[#FBE4F0] blur-[105px] rounded-full"></div>
+    <div class="absolute bottom-0 right-[-100px] w-[260px] h-[260px] bg-[#F0E7FB] blur-[105px] rounded-full"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8">
 
@@ -330,47 +362,47 @@
 
         <!-- 左侧文案 -->
         <div>
-          <div class="text-sm font-bold tracking-wider text-rose-300 uppercase mb-3">
+          <div class="text-sm font-black tracking-wider text-[#C94F8C] uppercase mb-3">
             NOTION SYSTEM
           </div>
 
-          <h2 class="text-3xl lg:text-5xl font-black text-white leading-tight">
+          <h2 class="text-3xl lg:text-5xl font-black text-[#2B2330] leading-tight">
             人生CEO·女性自我经营系统
           </h2>
 
-          <p class="text-gray-400 mt-5 max-w-2xl leading-relaxed text-base lg:text-lg">
+          <p class="text-[#7A6A78] mt-5 max-w-2xl leading-relaxed text-base lg:text-lg">
             这不是一个单一打卡表，而是把你的
-            <span class="text-white font-semibold">目标、成长、复盘、财务、生活、情绪、身体与日常节律</span>
+            <span class="text-[#2B2330] font-bold">目标、成长、复盘、财务、生活、情绪、身体与日常节律</span>
             放进同一个系统里，帮助你从“想改变”走到“真的长期变好”。
           </p>
 
           <div class="grid sm:grid-cols-3 gap-3 mt-7">
-            <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-5">
-              <div class="text-3xl font-black text-white">9</div>
-              <div class="text-sm text-gray-400 mt-1">核心模块</div>
+            <div class="solid-card rounded-3xl p-5">
+              <div class="text-3xl font-black text-[#C94F8C]">9</div>
+              <div class="text-sm text-[#7A6A78] mt-1">核心模块</div>
             </div>
-            <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-5">
-              <div class="text-3xl font-black text-white">30天</div>
-              <div class="text-sm text-gray-400 mt-1">自我经营计划</div>
+            <div class="solid-card rounded-3xl p-5">
+              <div class="text-3xl font-black text-[#9B6BC8]">30天</div>
+              <div class="text-sm text-[#7A6A78] mt-1">自我经营计划</div>
             </div>
-            <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-5">
-              <div class="text-3xl font-black text-white">1套</div>
-              <div class="text-sm text-gray-400 mt-1">人生管理后台</div>
+            <div class="solid-card rounded-3xl p-5">
+              <div class="text-3xl font-black text-[#D9A441]">1套</div>
+              <div class="text-sm text-[#7A6A78] mt-1">人生管理后台</div>
             </div>
           </div>
 
           <div class="flex flex-col sm:flex-row gap-3 mt-8">
-            <button onclick="goToNotion()" class="rounded-2xl bg-gradient-to-r from-purple-600 to-rose-500 hover:opacity-90 transition text-white font-black py-3.5 px-7">
+            <button onclick="goToNotion()" class="rounded-2xl primary-gradient hover:opacity-90 transition text-white font-black py-3.5 px-7 shadow-[0_16px_36px_rgba(201,79,140,0.22)]">
               立即获取模板
             </button>
-            <a href="#modules" class="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition text-white text-center font-semibold py-3.5 px-7">
+            <a href="#modules" class="rounded-2xl border border-[#EEDDE8] bg-white hover:bg-[#FDF0F7] transition text-[#A83E77] text-center font-bold py-3.5 px-7">
               查看九大模块
             </a>
           </div>
         </div>
 
         <!-- 右侧模拟模板总览图 -->
-        <div class="rounded-[32px] bg-white p-4 lg:p-5 shadow-[0_30px_90px_rgba(0,0,0,0.45)] rotate-0 lg:rotate-1">
+        <div class="rounded-[32px] bg-white p-4 lg:p-5 shadow-[0_30px_90px_rgba(122,80,106,0.18)] rotate-0 lg:rotate-1 border border-[#EEDDE8]">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[#c0488f]">
 
             <div class="mini-dashboard-card rounded-2xl p-4">
@@ -416,188 +448,188 @@
   </section>
 
   <!-- 九大模块 -->
-  <section id="modules" class="relative py-24 bg-[#080c18] overflow-hidden">
-    <div class="absolute top-20 right-[-120px] w-[260px] h-[260px] rounded-full bg-purple-600/15 blur-[120px]"></div>
+  <section id="modules" class="relative py-24 bg-[#FDF0F7] overflow-hidden">
+    <div class="absolute top-20 right-[-120px] w-[260px] h-[260px] rounded-full bg-[#F0E7FB] blur-[110px]"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8">
       <div class="max-w-3xl mb-12">
-        <div class="text-sm text-purple-300 font-bold tracking-wider mb-3">9 CORE MODULES</div>
-        <h2 class="text-3xl lg:text-5xl font-black text-white leading-tight">
+        <div class="text-sm text-[#C94F8C] font-black tracking-wider mb-3">9 CORE MODULES</div>
+        <h2 class="text-3xl lg:text-5xl font-black text-[#2B2330] leading-tight">
           从目标到生活，把自己经营成一个完整系统
         </h2>
-        <p class="text-gray-400 mt-5 leading-relaxed">
+        <p class="text-[#7A6A78] mt-5 leading-relaxed">
           你的模板不是简单的“记录工具”，而是一个围绕女性成长、身心状态、财务秩序和日常执行搭建的长期经营系统。
         </p>
       </div>
 
       <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
 
-        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-pink-500/15 flex items-center justify-center text-2xl">✨</div>
+            <div class="w-12 h-12 rounded-2xl bg-[#FBE4F0] flex items-center justify-center text-2xl">✨</div>
             <div>
-              <h3 class="text-xl font-black text-white">闪耀人生</h3>
-              <p class="text-xs text-pink-300 mt-1">目标系统</p>
+              <h3 class="text-xl font-black text-[#2B2330]">闪耀人生</h3>
+              <p class="text-xs text-[#C94F8C] mt-1">目标系统</p>
             </div>
           </div>
-          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
             明确长期方向，把人生愿景拆成可持续推进的目标与结果。
           </p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">长期目标</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">核心目标</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">关键结果</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">长期目标</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">核心目标</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">关键结果</span>
           </div>
         </div>
 
-        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-violet-500/15 flex items-center justify-center text-2xl">🪄</div>
+            <div class="w-12 h-12 rounded-2xl bg-[#F0E7FB] flex items-center justify-center text-2xl">🪄</div>
             <div>
-              <h3 class="text-xl font-black text-white">成长工坊</h3>
-              <p class="text-xs text-violet-300 mt-1">项目执行区</p>
+              <h3 class="text-xl font-black text-[#2B2330]">成长工坊</h3>
+              <p class="text-xs text-[#9B6BC8] mt-1">项目执行区</p>
             </div>
           </div>
-          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
             管理个人项目、任务和待办，让成长不再靠临时冲动。
           </p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">我的项目</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">我的任务</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">我的待办</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">我的项目</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">我的任务</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">我的待办</span>
           </div>
         </div>
 
-        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-rose-500/15 flex items-center justify-center text-2xl">🌙</div>
+            <div class="w-12 h-12 rounded-2xl bg-[#FBE4F0] flex items-center justify-center text-2xl">🌙</div>
             <div>
-              <h3 class="text-xl font-black text-white">自我对话</h3>
-              <p class="text-xs text-rose-300 mt-1">复盘系统</p>
+              <h3 class="text-xl font-black text-[#2B2330]">自我对话</h3>
+              <p class="text-xs text-[#C94F8C] mt-1">复盘系统</p>
             </div>
           </div>
-          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
             通过周、月、季、年复盘，看见自己的节奏、成长与偏离。
           </p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">周度复盘</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">月度复盘</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">季度复盘</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">年度复盘</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">周度复盘</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">月度复盘</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">季度复盘</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">年度复盘</span>
           </div>
         </div>
 
-        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-purple-500/15 flex items-center justify-center text-2xl">💡</div>
+            <div class="w-12 h-12 rounded-2xl bg-[#F0E7FB] flex items-center justify-center text-2xl">💡</div>
             <div>
-              <h3 class="text-xl font-black text-white">灵感花园</h3>
-              <p class="text-xs text-purple-300 mt-1">信息收藏区</p>
+              <h3 class="text-xl font-black text-[#2B2330]">灵感花园</h3>
+              <p class="text-xs text-[#9B6BC8] mt-1">信息收藏区</p>
             </div>
           </div>
-          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
             收纳灵感、信息、文档、课程、书籍和媒体内容。
           </p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">灵感</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">信息</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">文档</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">课程</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">书籍</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">媒体</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">灵感</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">信息</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">文档</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">课程</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">书籍</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">媒体</span>
           </div>
         </div>
 
-        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-indigo-500/15 flex items-center justify-center text-2xl">🧠</div>
+            <div class="w-12 h-12 rounded-2xl bg-[#F0E7FB] flex items-center justify-center text-2xl">🧠</div>
             <div>
-              <h3 class="text-xl font-black text-white">理想生活蓝图</h3>
-              <p class="text-xs text-indigo-300 mt-1">认知与内在区</p>
+              <h3 class="text-xl font-black text-[#2B2330]">理想生活蓝图</h3>
+              <p class="text-xs text-[#9B6BC8] mt-1">认知与内在区</p>
             </div>
           </div>
-          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
             从底层逻辑、自我认知到心理整理，建立稳定的内在秩序。
           </p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">底层逻辑</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">自我认知</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">心理整理</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">底层逻辑</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">自我认知</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">心理整理</span>
           </div>
         </div>
 
-        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-yellow-500/15 flex items-center justify-center text-2xl">💰</div>
+            <div class="w-12 h-12 rounded-2xl bg-[#FFF1D6] flex items-center justify-center text-2xl">💰</div>
             <div>
-              <h3 class="text-xl font-black text-white">富足指南</h3>
-              <p class="text-xs text-yellow-300 mt-1">财务系统</p>
+              <h3 class="text-xl font-black text-[#2B2330]">富足指南</h3>
+              <p class="text-xs text-[#B78322] mt-1">财务系统</p>
             </div>
           </div>
-          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
             记录账单、查看月度和年度报表，建立更清晰的财富意识。
           </p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">账单记录</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">月度报表</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">年度报表</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">账单记录</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">月度报表</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">年度报表</span>
           </div>
         </div>
 
-        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-orange-500/15 flex items-center justify-center text-2xl">🧺</div>
+            <div class="w-12 h-12 rounded-2xl bg-[#FFF1D6] flex items-center justify-center text-2xl">🧺</div>
             <div>
-              <h3 class="text-xl font-black text-white">质感生活</h3>
-              <p class="text-xs text-orange-300 mt-1">物品管理区</p>
+              <h3 class="text-xl font-black text-[#2B2330]">质感生活</h3>
+              <p class="text-xs text-[#B78322] mt-1">物品管理区</p>
             </div>
           </div>
-          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
             管理保质期物品、长期物品和物品日志，减少浪费与混乱。
           </p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">保质期物品</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">长期物品</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">物品日志</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">物品统计</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">保质期物品</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">长期物品</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">物品日志</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">物品统计</span>
           </div>
         </div>
 
-        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 flex items-center justify-center text-2xl">🫶</div>
+            <div class="w-12 h-12 rounded-2xl bg-[#EAF8EF] flex items-center justify-center text-2xl">🫶</div>
             <div>
-              <h3 class="text-xl font-black text-white">身心疗愈</h3>
-              <p class="text-xs text-emerald-300 mt-1">身体管理区</p>
+              <h3 class="text-xl font-black text-[#2B2330]">身心疗愈</h3>
+              <p class="text-xs text-[#2E8A56] mt-1">身体管理区</p>
             </div>
           </div>
-          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
             整合训练、健身、身体数据、情绪急救与经期状态追踪。
           </p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">训练动作</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">健身安排</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">身体数据</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">情绪急救箱</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">经期与状态追踪</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">训练动作</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">健身安排</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">身体数据</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">情绪急救箱</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">经期与状态追踪</span>
           </div>
         </div>
 
-        <div class="module-card transition-all duration-300 rounded-[28px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 flex items-center justify-center text-2xl">🗓️</div>
+            <div class="w-12 h-12 rounded-2xl bg-[#EAF5FF] flex items-center justify-center text-2xl">🗓️</div>
             <div>
-              <h3 class="text-xl font-black text-white">日常节律</h3>
-              <p class="text-xs text-cyan-300 mt-1">习惯追踪区</p>
+              <h3 class="text-xl font-black text-[#2B2330]">日常节律</h3>
+              <p class="text-xs text-[#3F7DB7] mt-1">习惯追踪区</p>
             </div>
           </div>
-          <p class="text-sm text-gray-400 leading-relaxed mb-4">
+          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
             通过习惯管理、打卡记录和月热力图，把坚持变成可视化行动。
           </p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">习惯管理</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">打卡记录</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 text-xs text-gray-300 border border-white/10">月热力图</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">习惯管理</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">打卡记录</span>
+            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">月热力图</span>
           </div>
         </div>
 
@@ -606,36 +638,36 @@
   </section>
 
   <!-- 使用流程 -->
-  <section class="py-24 bg-[#070b15] border-y border-white/5">
+  <section class="py-24 bg-[#FFF7FB] border-y border-[#EEDDE8]">
     <div class="max-w-7xl mx-auto px-5 lg:px-8">
       <div class="max-w-3xl mb-12">
-        <div class="text-sm text-rose-300 font-bold tracking-wider mb-3">HOW IT WORKS</div>
-        <h2 class="text-3xl lg:text-5xl font-black text-white leading-tight">
+        <div class="text-sm text-[#C94F8C] font-black tracking-wider mb-3">HOW IT WORKS</div>
+        <h2 class="text-3xl lg:text-5xl font-black text-[#2B2330] leading-tight">
           不是买一个模板，而是建立一个自我经营流程
         </h2>
       </div>
 
       <div class="grid md:grid-cols-3 gap-5">
-        <div class="glass-card rounded-3xl p-7">
+        <div class="solid-card rounded-3xl p-7">
           <div class="text-4xl mb-5">📷</div>
-          <h3 class="text-xl font-black text-white">先了解当前状态</h3>
-          <p class="text-sm text-gray-400 mt-3 leading-relaxed">
+          <h3 class="text-xl font-black text-[#2B2330]">先了解当前状态</h3>
+          <p class="text-sm text-[#7A6A78] mt-3 leading-relaxed">
             通过 AI 状态评估，先获得面容、体态或生活习惯的参考建议。
           </p>
         </div>
 
-        <div class="glass-card rounded-3xl p-7">
+        <div class="solid-card rounded-3xl p-7">
           <div class="text-4xl mb-5">🧭</div>
-          <h3 class="text-xl font-black text-white">再进入系统管理</h3>
-          <p class="text-sm text-gray-400 mt-3 leading-relaxed">
+          <h3 class="text-xl font-black text-[#2B2330]">再进入系统管理</h3>
+          <p class="text-sm text-[#7A6A78] mt-3 leading-relaxed">
             把目标、任务、财务、复盘、身体和习惯放进同一个 Notion 总控台。
           </p>
         </div>
 
-        <div class="glass-card rounded-3xl p-7">
+        <div class="solid-card rounded-3xl p-7">
           <div class="text-4xl mb-5">📈</div>
-          <h3 class="text-xl font-black text-white">最后持续复盘优化</h3>
-          <p class="text-sm text-gray-400 mt-3 leading-relaxed">
+          <h3 class="text-xl font-black text-[#2B2330]">最后持续复盘优化</h3>
+          <p class="text-sm text-[#7A6A78] mt-3 leading-relaxed">
             通过日常记录、月度复盘和长期追踪，让改变真的沉淀下来。
           </p>
         </div>
@@ -644,45 +676,45 @@
   </section>
 
   <!-- 适合人群 -->
-  <section id="fit" class="relative py-24 bg-[#080c18] overflow-hidden">
-    <div class="absolute top-10 left-[-140px] w-[320px] h-[320px] bg-rose-600/15 blur-[130px] rounded-full"></div>
+  <section id="fit" class="relative py-24 bg-[#FDF0F7] overflow-hidden">
+    <div class="absolute top-10 left-[-140px] w-[320px] h-[320px] bg-[#FBE4F0] blur-[120px] rounded-full"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8">
       <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-14 items-center">
 
         <div>
-          <div class="text-sm text-purple-300 font-bold tracking-wider mb-3">WHO IS IT FOR</div>
-          <h2 class="text-3xl lg:text-5xl font-black text-white leading-tight">
+          <div class="text-sm text-[#C94F8C] font-black tracking-wider mb-3">WHO IS IT FOR</div>
+          <h2 class="text-3xl lg:text-5xl font-black text-[#2B2330] leading-tight">
             适合想把人生重新整理一遍的女生
           </h2>
-          <p class="text-gray-400 mt-5 leading-relaxed">
+          <p class="text-[#7A6A78] mt-5 leading-relaxed">
             这套系统适合那些不想继续混乱、焦虑、拖延，而是想把生活、金钱、身体和目标一点点整理清楚的人。
           </p>
         </div>
 
         <div class="grid sm:grid-cols-2 gap-4">
-          <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-6">
+          <div class="solid-card rounded-3xl p-6">
             <div class="text-2xl mb-3">🌷</div>
-            <h3 class="font-black text-white">想变美但不想焦虑</h3>
-            <p class="text-sm text-gray-400 mt-2 leading-relaxed">用记录和行动替代自我攻击。</p>
+            <h3 class="font-black text-[#2B2330]">想变美但不想焦虑</h3>
+            <p class="text-sm text-[#7A6A78] mt-2 leading-relaxed">用记录和行动替代自我攻击。</p>
           </div>
 
-          <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-6">
+          <div class="solid-card rounded-3xl p-6">
             <div class="text-2xl mb-3">💰</div>
-            <h3 class="font-black text-white">想开始认真管钱</h3>
-            <p class="text-sm text-gray-400 mt-2 leading-relaxed">把消费、储蓄和财务复盘放到一起。</p>
+            <h3 class="font-black text-[#2B2330]">想开始认真管钱</h3>
+            <p class="text-sm text-[#7A6A78] mt-2 leading-relaxed">把消费、储蓄和财务复盘放到一起。</p>
           </div>
 
-          <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-6">
+          <div class="solid-card rounded-3xl p-6">
             <div class="text-2xl mb-3">🧘‍♀️</div>
-            <h3 class="font-black text-white">想照顾身体状态</h3>
-            <p class="text-sm text-gray-400 mt-2 leading-relaxed">管理经期、运动、体态和情绪状态。</p>
+            <h3 class="font-black text-[#2B2330]">想照顾身体状态</h3>
+            <p class="text-sm text-[#7A6A78] mt-2 leading-relaxed">管理经期、运动、体态和情绪状态。</p>
           </div>
 
-          <div class="rounded-3xl bg-white/[0.04] border border-white/10 p-6">
+          <div class="solid-card rounded-3xl p-6">
             <div class="text-2xl mb-3">📝</div>
-            <h3 class="font-black text-white">想建立复盘习惯</h3>
-            <p class="text-sm text-gray-400 mt-2 leading-relaxed">通过周、月、季、年复盘看见长期变化。</p>
+            <h3 class="font-black text-[#2B2330]">想建立复盘习惯</h3>
+            <p class="text-sm text-[#7A6A78] mt-2 leading-relaxed">通过周、月、季、年复盘看见长期变化。</p>
           </div>
         </div>
       </div>
@@ -690,34 +722,34 @@
   </section>
 
   <!-- 最终 CTA -->
-  <section class="py-24 bg-[#070b15] border-t border-white/5">
+  <section class="py-24 bg-[#FFF7FB] border-t border-[#EEDDE8]">
     <div class="max-w-4xl mx-auto px-5 text-center">
-      <div class="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-200 text-xs font-semibold mb-6">
+      <div class="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-white border border-[#EEDDE8] text-[#C94F8C] text-xs font-bold mb-6">
         从今天开始，把自己当作一家公司来经营
       </div>
 
-      <h2 class="text-3xl lg:text-5xl font-black text-white leading-tight">
+      <h2 class="text-3xl lg:text-5xl font-black text-[#2B2330] leading-tight">
         你不需要更焦虑，<br class="hidden sm:block" />
         你需要一个能执行的系统。
       </h2>
 
-      <p class="text-gray-400 mt-5 leading-relaxed">
+      <p class="text-[#7A6A78] mt-5 leading-relaxed">
         把目标、成长、财务、身体、情绪、习惯和复盘放进一个 Notion 总控台，开始你的长期自我经营。
       </p>
 
       <div class="flex flex-col sm:flex-row justify-center gap-3 mt-8">
-        <button onclick="goToNotion()" class="px-8 py-4 rounded-2xl bg-white text-gray-950 hover:bg-gray-200 font-black transition">
+        <button onclick="goToNotion()" class="px-8 py-4 rounded-2xl primary-gradient text-white hover:opacity-90 font-black transition shadow-[0_16px_36px_rgba(201,79,140,0.22)]">
           获取《人生CEO·女性自我经营系统》
         </button>
 
-        <a href="#hero" class="px-8 py-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold transition">
+        <a href="#hero" class="px-8 py-4 rounded-2xl bg-white border border-[#EEDDE8] hover:bg-[#FDF0F7] text-[#A83E77] font-bold transition">
           先体验 AI 状态评估
         </a>
       </div>
     </div>
   </section>
 
-  <footer class="py-8 bg-[#050812] text-center text-xs text-gray-600">
+  <footer class="py-8 bg-[#FFF7FB] text-center text-xs text-[#9A8294] border-t border-[#EEDDE8]">
     <p>© LUMINA · AI 状态评估结果仅作生活管理参考</p>
   </footer>
 
@@ -728,8 +760,8 @@
     let selectedFile = null;
     let previewObjectUrl = null;
 
-    const activeTabClass = "flex-1 py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all";
-    const inactiveTabClass = "flex-1 py-3 text-sm font-semibold rounded-xl text-gray-400 hover:text-white transition-all bg-transparent";
+    const activeTabClass = "flex-1 py-3 text-sm font-bold rounded-xl primary-gradient text-white shadow-lg transition-all";
+    const inactiveTabClass = "flex-1 py-3 text-sm font-bold rounded-xl text-[#7A6A78] hover:text-[#C94F8C] transition-all bg-transparent";
 
     function $(id) {
       return document.getElementById(id);
@@ -782,7 +814,7 @@
       selectedFile = null;
       $("imageInput").value = "";
       $("file-name").textContent = "点击此处选择本地图片";
-      $("drop-zone").classList.remove("border-emerald-400", "bg-emerald-900/15");
+      $("drop-zone").classList.remove("border-[#2E8A56]", "bg-[#EAF8EF]");
       $("upload-icon").classList.remove("hidden");
 
       const preview = $("preview-img");
@@ -812,7 +844,7 @@
       selectedFile = file;
 
       $("file-name").textContent = "已选择：" + (file.name.length > 22 ? file.name.slice(0, 22) + "..." : file.name);
-      $("drop-zone").classList.add("border-emerald-400", "bg-emerald-900/15");
+      $("drop-zone").classList.add("border-[#2E8A56]", "bg-[#EAF8EF]");
       $("upload-icon").classList.add("hidden");
 
       if (previewObjectUrl) {
@@ -943,6 +975,14 @@
     }
 
     function renderResult(data) {
+      if (data.status === "needs_reupload") {
+        renderReuploadResult(data);
+        return;
+      }
+
+      $("result-badge").textContent = "报告已生成";
+      $("result-badge").className = "inline-flex items-center justify-center px-3 py-1 rounded-full bg-[#EAF8EF] border border-[#CFEEDB] text-[#2E8A56] text-xs font-bold mb-3";
+
       $("report-title").textContent = data.title || "状态报告";
       $("report-subtitle").textContent = data.isFallback
         ? "这是一份通用参考建议，你也可以换一张更清晰的照片重新评估"
@@ -959,57 +999,104 @@
         : ["记录今日状态", "完成一个 5 分钟行动", "在 Notion 中做一次复盘"];
 
       const actionHTML = actions.map((action) => {
-        return `<li class="flex gap-2"><span class="text-purple-300">•</span><span>${escapeHTML(action)}</span></li>`;
+        return `<li class="flex gap-2"><span class="text-[#C94F8C]">•</span><span>${escapeHTML(action)}</span></li>`;
       }).join("");
 
       $("result-box").innerHTML = `
-        <div class="flex items-center justify-between gap-4 pb-4 border-b border-white/10">
+        <div class="flex items-center justify-between gap-4 pb-4 border-b border-[#EEDDE8]">
           <div>
-            <div class="text-sm text-gray-500">综合状态分</div>
-            <div class="text-xs text-gray-600 mt-1">分数仅用于自我观察</div>
+            <div class="text-sm text-[#7A6A78]">综合状态分</div>
+            <div class="text-xs text-[#9A8294] mt-1">分数仅用于自我观察</div>
           </div>
-          <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-rose-300">${escapeHTML(score)}</div>
+          <div class="text-4xl font-black gradient-text">${escapeHTML(score)}</div>
         </div>
 
         <div>
-          <div class="text-sm font-bold text-rose-300 mb-2">状态观察</div>
-          <p class="text-sm text-gray-300 leading-relaxed">${issue}</p>
+          <div class="text-sm font-black text-[#C94F8C] mb-2">状态观察</div>
+          <p class="text-sm text-[#5F5360] leading-relaxed">${issue}</p>
         </div>
 
         <div>
-          <div class="text-sm font-bold text-purple-300 mb-2">改善建议</div>
-          <p class="text-sm text-gray-300 leading-relaxed">${suggestion}</p>
+          <div class="text-sm font-black text-[#9B6BC8] mb-2">改善建议</div>
+          <p class="text-sm text-[#5F5360] leading-relaxed">${suggestion}</p>
         </div>
 
-        <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
-          <div class="text-sm font-bold text-white mb-2">今日可以立刻做</div>
-          <ul class="text-sm text-gray-300 leading-relaxed space-y-1">${actionHTML}</ul>
+        <div class="rounded-2xl bg-[#FFF7FB] border border-[#EEDDE8] p-4">
+          <div class="text-sm font-black text-[#2B2330] mb-2">今日可以立刻做</div>
+          <ul class="text-sm text-[#5F5360] leading-relaxed space-y-1">${actionHTML}</ul>
         </div>
 
         <div>
-          <div class="text-sm font-bold text-emerald-300 mb-2">下一步</div>
-          <p class="text-sm text-gray-300 leading-relaxed">${nextStep}</p>
+          <div class="text-sm font-black text-[#2E8A56] mb-2">下一步</div>
+          <p class="text-sm text-[#5F5360] leading-relaxed">${nextStep}</p>
         </div>
 
-        <p class="text-xs text-gray-500 leading-relaxed pt-2 border-t border-white/10">${note}</p>
+        <p class="text-xs text-[#9A8294] leading-relaxed pt-2 border-t border-[#EEDDE8]">${note}</p>
+      `;
+
+      showStep(3);
+    }
+
+    function renderReuploadResult(data) {
+      $("result-badge").textContent = "需要重新上传";
+      $("result-badge").className = "inline-flex items-center justify-center px-3 py-1 rounded-full bg-[#FFF1D6] border border-[#F1D796] text-[#A16E0A] text-xs font-bold mb-3";
+
+      $("report-title").textContent = data.title || "照片不适合识别";
+      $("report-subtitle").textContent = "请按照下方要求重新上传照片";
+
+      const issue = escapeHTML(data.issue || "当前照片不适合识别。");
+      const suggestion = escapeHTML(data.suggestion || "请重新上传一张更清晰的照片。");
+      const note = escapeHTML(data.note || "未成功识别时不生成评分，避免给出不准确结果。");
+
+      const actions = Array.isArray(data.actions) && data.actions.length
+        ? data.actions
+        : ["光线清晰", "主体完整", "背景简单"];
+
+      const actionHTML = actions.map((action) => {
+        return `<li class="flex gap-2"><span class="text-[#C94F8C]">•</span><span>${escapeHTML(action)}</span></li>`;
+      }).join("");
+
+      $("result-box").innerHTML = `
+        <div class="rounded-2xl bg-[#FFF1D6] border border-[#F1D796] p-5">
+          <div class="text-sm font-black text-[#A16E0A] mb-2">为什么无法识别？</div>
+          <p class="text-sm text-[#5F5360] leading-relaxed">${issue}</p>
+        </div>
+
+        <div class="rounded-2xl bg-[#FFF7FB] border border-[#EEDDE8] p-5">
+          <div class="text-sm font-black text-[#2B2330] mb-2">请这样重新上传</div>
+          <p class="text-sm text-[#5F5360] leading-relaxed mb-3">${suggestion}</p>
+          <ul class="text-sm text-[#5F5360] leading-relaxed space-y-1">${actionHTML}</ul>
+        </div>
+
+        <div class="rounded-2xl bg-white border border-[#EEDDE8] p-5">
+          <div class="text-sm font-black text-[#C94F8C] mb-2">也可以先查看模板</div>
+          <p class="text-sm text-[#5F5360] leading-relaxed">
+            你可以先进入 Notion 自我经营系统，从久坐时间、运动打卡、经期状态、身体数据和生活复盘开始记录。
+          </p>
+        </div>
+
+        <p class="text-xs text-[#9A8294] leading-relaxed pt-2 border-t border-[#EEDDE8]">${note}</p>
       `;
 
       showStep(3);
     }
 
     function renderError(error) {
+      $("result-badge").textContent = "请求失败";
+      $("result-badge").className = "inline-flex items-center justify-center px-3 py-1 rounded-full bg-[#FFF1D6] border border-[#F1D796] text-[#A16E0A] text-xs font-bold mb-3";
+
       $("report-title").textContent = "暂时无法生成报告";
       $("report-subtitle").textContent = "你可以重新上传，或稍后再试";
 
       $("result-box").innerHTML = `
-        <div class="rounded-2xl bg-rose-500/10 border border-rose-500/20 p-4">
-          <div class="text-sm font-bold text-rose-300 mb-2">出现了一个小问题</div>
-          <p class="text-sm text-gray-300 leading-relaxed">${escapeHTML(error.message || "请求失败，请稍后重试。")}</p>
+        <div class="rounded-2xl bg-[#FFF1D6] border border-[#F1D796] p-4">
+          <div class="text-sm font-black text-[#A16E0A] mb-2">出现了一个小问题</div>
+          <p class="text-sm text-[#5F5360] leading-relaxed">${escapeHTML(error.message || "请求失败，请稍后重试。")}</p>
         </div>
 
-        <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
-          <div class="text-sm font-bold text-white mb-2">建议你这样做</div>
-          <ul class="text-sm text-gray-300 leading-relaxed space-y-1">
+        <div class="rounded-2xl bg-[#FFF7FB] border border-[#EEDDE8] p-4">
+          <div class="text-sm font-black text-[#2B2330] mb-2">建议你这样做</div>
+          <ul class="text-sm text-[#5F5360] leading-relaxed space-y-1">
             <li>• 换一张光线更清晰的照片</li>
             <li>• 体态照尽量露出肩颈线条</li>
             <li>• 确认 Vercel 环境变量已经配置完成</li>
