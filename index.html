@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>LUMINA｜人生CEO·女性自我经营系统</title>
+  <title>人生CEO·女性自我经营系统</title>
   <meta name="description" content="人生CEO·女性自我经营系统，帮助女性管理目标、成长、复盘、财务、身体、情绪、习惯与生活秩序。" />
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -143,6 +143,18 @@
         linear-gradient(135deg, rgba(253, 240, 247, 0.94), rgba(240, 231, 251, 0.94));
       border-color: rgba(201, 79, 140, 0.58);
     }
+
+    .brand-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      object-fit: cover;
+      object-position: center center;
+      box-shadow: 0 10px 26px rgba(201, 79, 140, 0.18);
+      border: 1px solid rgba(238, 221, 232, 0.95);
+      background: #fff;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 
@@ -152,14 +164,13 @@
   <nav class="fixed top-0 left-0 w-full z-50 cream-nav">
     <div class="max-w-7xl mx-auto px-5 lg:px-8 h-16 lg:h-20 flex items-center justify-between">
       <a href="#hero" class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl primary-gradient flex items-center justify-center font-black text-white shadow-[0_10px_26px_rgba(201,79,140,0.28)]">
-          L
-        </div>
-        <div>
-          <div class="text-lg lg:text-xl font-black tracking-[0.16em] text-[#2B2330]">LUMINA</div>
-          <div class="hidden sm:block text-[11px] text-[#9A8294] tracking-wider -mt-1">
-            人生CEO · 女性自我经营系统
-          </div>
+        <img
+          src="./brand-avatar.png"
+          alt="品牌头像"
+          class="brand-avatar"
+        />
+        <div class="text-[#6E5B68] text-sm sm:text-base lg:text-lg font-bold leading-tight">
+          人生CEO · 女性自我经营系统
         </div>
       </a>
 
@@ -750,7 +761,7 @@
   </section>
 
   <footer class="py-8 bg-[#FFF7FB] text-center text-xs text-[#9A8294] border-t border-[#EEDDE8]">
-    <p>© LUMINA · AI 状态评估结果仅作生活管理参考</p>
+    <p>© 人生CEO·女性自我经营系统 · AI 状态评估结果仅作生活管理参考</p>
   </footer>
 
   <script>
