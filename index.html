@@ -34,7 +34,7 @@
     }
 
     .cream-nav {
-      background: rgba(255, 247, 251, 0.92);
+      background: rgba(255, 247, 251, 0.9);
       backdrop-filter: blur(18px);
       border-bottom: 1px solid rgba(238, 221, 232, 0.9);
     }
@@ -140,31 +140,34 @@
       border-color: rgba(201, 79, 140, 0.58);
     }
 
-    /* 这里是新的小图标样式 */
     .brand-avatar {
-      width: 56px;
-      height: 56px;
-      border-radius: 18px;
+      width: 52px;
+      height: 52px;
       object-fit: cover;
-      object-position: center 20%;
-      box-shadow: 0 10px 24px rgba(201, 79, 140, 0.16);
+      border-radius: 16px;
       border: 1px solid rgba(238, 221, 232, 0.95);
+      box-shadow: 0 10px 26px rgba(201, 79, 140, 0.18);
       background: #fff;
       flex-shrink: 0;
     }
 
-    .brand-title {
-      font-size: 17px;
+    .brand-subtitle {
+      font-size: 15px;
       line-height: 1.2;
-      font-weight: 800;
-      color: #6b5a66;
-      letter-spacing: 0.01em;
+      font-weight: 700;
+      color: #6f5f6b;
       white-space: nowrap;
     }
 
-    @media (min-width: 1024px) {
-      .brand-title {
-        font-size: 20px;
+    @media (max-width: 640px) {
+      .brand-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+      }
+
+      .brand-subtitle {
+        font-size: 13px;
       }
     }
   </style>
@@ -172,17 +175,18 @@
 
 <body class="font-sans selection:bg-[#C94F8C] selection:text-white">
 
-  <!-- 顶部导航 -->
   <nav class="fixed top-0 left-0 w-full z-50 cream-nav">
     <div class="max-w-7xl mx-auto px-5 lg:px-8 h-16 lg:h-20 flex items-center justify-between">
-      <a href="#hero" class="flex items-center gap-3 min-w-0">
+      <a href="#hero" class="flex items-center gap-3">
         <img
-          src="./images/brand-avatar.png"
-          alt="品牌头像"
+          src="./brand-avatar.png"
+          alt=""
           class="brand-avatar"
         />
-        <div class="brand-title truncate">
-          人生CEO · 女性自我经营系统
+        <div class="flex items-center min-h-[40px]">
+          <div class="brand-subtitle">
+            人生CEO · 女性自我经营系统
+          </div>
         </div>
       </a>
 
@@ -199,7 +203,6 @@
     </div>
   </nav>
 
-  <!-- 首屏 -->
   <section id="hero" class="relative min-h-screen pt-28 lg:pt-36 pb-20 overflow-hidden soft-grid">
     <div class="absolute top-12 left-[-9rem] w-[30rem] h-[30rem] rounded-full bg-[#FBE4F0] blur-[120px]"></div>
     <div class="absolute top-36 right-[-10rem] w-[30rem] h-[30rem] rounded-full bg-[#F0E7FB] blur-[120px]"></div>
@@ -207,14 +210,13 @@
 
     <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-      <!-- 左侧文案 -->
       <div class="space-y-7 lg:space-y-8">
         <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 border border-[#EEDDE8] text-[#C94F8C] text-xs font-bold shadow-sm">
           <span class="relative flex h-2 w-2">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C94F8C] opacity-55"></span>
             <span class="relative inline-flex rounded-full h-2 w-2 bg-[#C94F8C]"></span>
           </span>
-          AI 状态评估 · Notion 自我经营计划
+          AI 状态评估 · Notion 自我经营参考
         </div>
 
         <div class="space-y-5">
@@ -226,9 +228,9 @@
           </h1>
 
           <p class="text-base lg:text-lg text-[#7A6A78] leading-relaxed max-w-xl">
-            上传一张照片，获得面容与体态的状态参考，并把改善计划导入你的
-            <span class="text-[#2B2330] font-bold">《人生CEO·女性自我经营系统》</span>。
-            不靠焦虑内耗，靠记录、复盘和执行慢慢变好。
+            上传一张照片，获得面容与体态的状态参考。你可以根据报告建议，在
+            <span class="text-[#2B2330] font-bold">《人生CEO·女性自我经营系统》</span>
+            中手动记录、打卡和复盘。
           </p>
         </div>
 
@@ -257,10 +259,8 @@
         </div>
       </div>
 
-      <!-- 右侧评估卡片 -->
       <div class="soft-card rounded-[32px] p-5 sm:p-6 lg:p-8">
 
-        <!-- Step 1 上传 -->
         <div id="step1" class="space-y-6 fade-in">
           <div class="flex bg-[#FDF0F7] rounded-2xl p-1 border border-[#EEDDE8]">
             <button id="btn-face" onclick="switchType('face')" class="flex-1 py-3 text-sm font-bold rounded-xl primary-gradient text-white shadow-lg transition-all">
@@ -285,7 +285,7 @@
           <div class="rounded-2xl bg-[#FFF7FB] border border-[#EEDDE8] p-4">
             <div class="text-sm font-black text-[#C94F8C] mb-1" id="upload-title">上传一张清晰正脸照</div>
             <p class="text-xs leading-relaxed text-[#7A6A78]" id="upload-hint">
-              建议光线充足、五官无遮挡。系统会生成面容状态参考，并给出适合导入 Notion 的行动建议。
+              建议光线充足、五官无遮挡。系统会生成面容状态参考，并给出适合记录到 Notion 模板中的行动建议。
             </p>
           </div>
 
@@ -300,7 +300,7 @@
             </div>
             <div class="rounded-2xl bg-white border border-[#EEDDE8] p-3">
               <div class="text-lg mb-1">3</div>
-              <div class="text-[#7A6A78]">导入 Notion</div>
+              <div class="text-[#7A6A78]">使用模板记录</div>
             </div>
           </div>
 
@@ -318,7 +318,7 @@
 
           <div class="rounded-2xl bg-white border border-[#EEDDE8] p-4 text-xs leading-relaxed text-[#7A6A78]">
             <span class="text-[#2B2330] font-bold">提示：</span>
-            本结果是生活管理参考，不替代医学诊断或专业建议。若有明显疼痛、长期不适或健康疑虑，请咨询专业人士。
+            本结果是生活管理参考，不替代医学诊断或专业建议。测试结果不会自动写入 Notion，需要你根据建议手动记录和复盘。
           </div>
 
           <button onclick="processAndUpload()" class="w-full primary-gradient text-white hover:opacity-90 font-black py-4 px-5 rounded-2xl transition-all transform hover:scale-[1.015] active:scale-[0.99] shadow-[0_18px_45px_rgba(201,79,140,0.24)]">
@@ -326,7 +326,6 @@
           </button>
         </div>
 
-        <!-- Step 2 加载 -->
         <div id="step2" class="hidden flex-col items-center justify-center py-14 space-y-7 fade-in">
           <div class="scan-container w-36 h-36 flex items-center justify-center">
             <div class="text-5xl text-[#C94F8C]/40">✦</div>
@@ -338,7 +337,6 @@
           </div>
         </div>
 
-        <!-- Step 3 结果 -->
         <div id="step3" class="hidden space-y-5 fade-in">
           <div class="text-center">
             <div id="result-badge" class="inline-flex items-center justify-center px-3 py-1 rounded-full bg-[#EAF8EF] border border-[#CFEEDB] text-[#2E8A56] text-xs font-bold mb-3">
@@ -354,15 +352,15 @@
             <div class="flex items-start gap-3">
               <div class="w-10 h-10 rounded-2xl bg-white/80 flex items-center justify-center">🚀</div>
               <div>
-                <h3 class="font-black text-[#2B2330]">下一步：把建议变成执行系统</h3>
+                <h3 class="font-black text-[#2B2330]">下一步：把建议变成日常记录</h3>
                 <p class="text-sm text-[#6F5F6B] mt-2 leading-relaxed">
-                  状态评估只解决“知道问题”，Notion 自我经营系统解决“持续改变”。你可以把体态、经期、财务、健身和复盘统一记录起来。
+                  测试结果仅作为状态参考。你可以根据报告建议，在 Notion 模板中手动记录、打卡和复盘。
                 </p>
               </div>
             </div>
 
             <button onclick="goToNotion()" class="mt-5 w-full primary-gradient hover:opacity-90 text-white font-black py-3.5 rounded-2xl transition shadow-[0_16px_35px_rgba(201,79,140,0.22)]">
-              导入我的 30 天自我经营计划
+              查看对应的自我经营模板
             </button>
 
             <button onclick="resetAssessment()" class="mt-3 w-full bg-white hover:bg-[#FFF7FB] text-[#A83E77] font-bold py-3 rounded-2xl transition border border-[#EEDDE8]">
@@ -374,14 +372,12 @@
     </div>
   </section>
 
-  <!-- 模板总介绍 -->
   <section id="system" class="relative py-24 bg-[#FFF7FB] border-y border-[#EEDDE8] overflow-hidden">
     <div class="absolute -top-20 left-[-120px] w-[280px] h-[280px] bg-[#FBE4F0] blur-[105px] rounded-full"></div>
     <div class="absolute bottom-0 right-[-100px] w-[260px] h-[260px] bg-[#F0E7FB] blur-[105px] rounded-full"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8">
       <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-center">
-
         <div>
           <div class="text-sm font-black tracking-wider text-[#C94F8C] uppercase mb-3">
             NOTION SYSTEM
@@ -414,7 +410,7 @@
 
           <div class="flex flex-col sm:flex-row gap-3 mt-8">
             <button onclick="goToNotion()" class="rounded-2xl primary-gradient hover:opacity-90 transition text-white font-black py-3.5 px-7 shadow-[0_16px_36px_rgba(201,79,140,0.22)]">
-              立即获取模板
+              获取模板
             </button>
             <a href="#modules" class="rounded-2xl border border-[#EEDDE8] bg-white hover:bg-[#FDF0F7] transition text-[#A83E77] text-center font-bold py-3.5 px-7">
               查看九大模块
@@ -424,7 +420,6 @@
 
         <div class="rounded-[32px] bg-white p-4 lg:p-5 shadow-[0_30px_90px_rgba(122,80,106,0.18)] rotate-0 lg:rotate-1 border border-[#EEDDE8]">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[#c0488f]">
-
             <div class="mini-dashboard-card rounded-2xl p-4">
               <h3 class="font-black text-sm mb-3">✨ 闪耀人生</h3>
               <div class="h-px bg-gray-200 mb-3"></div>
@@ -460,14 +455,12 @@
               <div class="h-px bg-gray-200 mb-3"></div>
               <p class="mini-link text-xs leading-6">🧭 习惯管理<br>💟 打卡记录<br>🔢 月热力图</p>
             </div>
-
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 九大模块 -->
   <section id="modules" class="relative py-24 bg-[#FDF0F7] overflow-hidden">
     <div class="absolute top-20 right-[-120px] w-[260px] h-[260px] rounded-full bg-[#F0E7FB] blur-[110px]"></div>
 
@@ -652,12 +645,10 @@
             <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">月热力图</span>
           </div>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- 使用流程 -->
   <section class="py-24 bg-[#FFF7FB] border-y border-[#EEDDE8]">
     <div class="max-w-7xl mx-auto px-5 lg:px-8">
       <div class="max-w-3xl mb-12">
@@ -695,13 +686,11 @@
     </div>
   </section>
 
-  <!-- 适合人群 -->
   <section id="fit" class="relative py-24 bg-[#FDF0F7] overflow-hidden">
     <div class="absolute top-10 left-[-140px] w-[320px] h-[320px] bg-[#FBE4F0] blur-[120px] rounded-full"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8">
       <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-14 items-center">
-
         <div>
           <div class="text-sm text-[#C94F8C] font-black tracking-wider mb-3">WHO IS IT FOR</div>
           <h2 class="text-3xl lg:text-5xl font-black text-[#2B2330] leading-tight">
@@ -741,7 +730,6 @@
     </div>
   </section>
 
-  <!-- 最终 CTA -->
   <section class="py-24 bg-[#FFF7FB] border-t border-[#EEDDE8]">
     <div class="max-w-4xl mx-auto px-5 text-center">
       <div class="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-white border border-[#EEDDE8] text-[#C94F8C] text-xs font-bold mb-6">
@@ -759,7 +747,7 @@
 
       <div class="flex flex-col sm:flex-row justify-center gap-3 mt-8">
         <button onclick="goToNotion()" class="px-8 py-4 rounded-2xl primary-gradient text-white hover:opacity-90 font-black transition shadow-[0_16px_36px_rgba(201,79,140,0.22)]">
-          获取《人生CEO·女性自我经营系统》
+          领取《人生CEO·女性自我经营系统》
         </button>
 
         <a href="#hero" class="px-8 py-4 rounded-2xl bg-white border border-[#EEDDE8] hover:bg-[#FDF0F7] text-[#A83E77] font-bold transition">
@@ -820,7 +808,7 @@
         btnPosture.className = inactiveTabClass;
         angleSelector.classList.add("hidden");
         uploadTitle.textContent = "上传一张清晰正脸照";
-        uploadHint.textContent = "建议光线充足、五官无遮挡。系统会生成面容状态参考，并给出适合导入 Notion 的行动建议。";
+        uploadHint.textContent = "建议光线充足、五官无遮挡。系统会生成面容状态参考，并给出适合记录到 Notion 模板中的行动建议。";
       } else {
         btnPosture.className = activeTabClass;
         btnFace.className = inactiveTabClass;
@@ -945,7 +933,7 @@
       const loadingMessages = [
         "图片压缩与云端评估中...",
         "正在提取状态参考点...",
-        "正在生成 Notion 行动建议..."
+        "正在生成生活管理建议..."
       ];
 
       let loadingIndex = 0;
@@ -1011,7 +999,7 @@
       const score = data.score ?? "--";
       const issue = escapeHTML(data.issue || "暂未生成状态分析。");
       const suggestion = escapeHTML(data.suggestion || "建议从记录、复盘和小行动开始。");
-      const nextStep = escapeHTML(data.nextStep || "建议导入 Notion 自我经营系统，持续记录 30 天。");
+      const nextStep = escapeHTML(data.nextStep || "建议使用 Notion 自我经营系统，持续记录 30 天。");
       const note = escapeHTML(data.note || "本结果不替代医学诊断或专业建议。");
 
       const actions = Array.isArray(data.actions) && data.actions.length
@@ -1091,7 +1079,7 @@
         <div class="rounded-2xl bg-white border border-[#EEDDE8] p-5">
           <div class="text-sm font-black text-[#C94F8C] mb-2">也可以先查看模板</div>
           <p class="text-sm text-[#5F5360] leading-relaxed">
-            你可以先进入 Notion 自我经营系统，从久坐时间、运动打卡、经期状态、身体数据和生活复盘开始记录。
+            你可以先查看 Notion 自我经营系统，从久坐时间、运动打卡、经期状态、身体数据和生活复盘开始记录。
           </p>
         </div>
 
