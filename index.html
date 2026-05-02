@@ -1,211 +1,703 @@
 <!DOCTYPE html>
 <html lang="zh-CN" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina | 颜值与体态极客研究室</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .glass-nav { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
-        .glow-text { text-shadow: 0 0 20px rgba(168, 85, 247, 0.4); }
-        .scan-container { position: relative; overflow: hidden; border-radius: 1rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(to right, transparent, #a855f7, #ec4899, transparent); box-shadow: 0 0 15px #ec4899; animation: scan 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
-        @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
-        input[type="radio"] { transform: scale(1.2); cursor: pointer; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>LUMINA｜人生CEO·女性自我经营系统</title>
+  <meta name="description" content="上传照片生成 AI 状态评估，并导入 Notion 女性自我经营系统，管理体态、面容、经期、财务与习惯。" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .glass-nav {
+      background: rgba(8, 12, 24, 0.72);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.045);
+      backdrop-filter: blur(22px);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.42);
+    }
+
+    .glow-text {
+      text-shadow: 0 0 26px rgba(168, 85, 247, 0.42);
+    }
+
+    .gradient-border {
+      position: relative;
+    }
+
+    .gradient-border::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 1.5rem;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.7), rgba(236, 72, 153, 0.55), rgba(255, 255, 255, 0.08));
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .scan-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.25rem;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .scan-line {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(to right, transparent, #a855f7, #ec4899, transparent);
+      box-shadow: 0 0 18px rgba(236, 72, 153, 0.95);
+      animation: scan 1.55s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes scan {
+      0% { top: -10%; }
+      100% { top: 110%; }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.35s ease-out both;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .bg-grid {
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+  </style>
 </head>
-<body class="bg-[#0b0f19] text-gray-100 font-sans selection:bg-purple-500 selection:text-white">
 
-    <nav class="fixed w-full z-50 glass-nav">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-rose-500 flex items-center justify-center font-bold text-white shadow-[0_0_15px_rgba(168,85,247,0.5)]">L</div>
-                <span class="text-xl font-bold tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">LUMINA</span>
-            </div>
-            <button onclick="goToNotion()" class="bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-2 rounded-full text-sm font-medium transition-all">
-                获取 Notion 模板
+<body class="bg-[#080c18] text-gray-100 font-sans selection:bg-purple-500 selection:text-white">
+
+  <!-- 顶部导航 -->
+  <nav class="fixed top-0 left-0 w-full z-50 glass-nav">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8 h-16 lg:h-20 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-rose-500 flex items-center justify-center font-black text-white shadow-[0_0_20px_rgba(168,85,247,0.55)]">
+          L
+        </div>
+        <div>
+          <div class="text-lg lg:text-xl font-bold tracking-[0.18em]">LUMINA</div>
+          <div class="hidden sm:block text-[11px] text-gray-500 tracking-wider -mt-1">人生CEO · 女性自我经营系统</div>
+        </div>
+      </a>
+
+      <div class="hidden md:flex items-center gap-8 text-sm text-gray-300">
+        <a href="#hero" class="hover:text-purple-300 transition">AI 状态评估</a>
+        <a href="#system" class="hover:text-purple-300 transition">系统功能</a>
+        <a href="#how" class="hover:text-purple-300 transition">使用流程</a>
+      </div>
+
+      <button onclick="goToNotion()" class="px-4 lg:px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-sm font-semibold transition">
+        获取模板
+      </button>
+    </div>
+  </nav>
+
+  <!-- 首屏 -->
+  <section id="hero" class="relative min-h-screen pt-28 lg:pt-36 pb-16 overflow-hidden bg-grid">
+    <div class="absolute top-10 left-[-10rem] w-[28rem] h-[28rem] rounded-full bg-purple-700/30 blur-[140px]"></div>
+    <div class="absolute top-44 right-[-8rem] w-[28rem] h-[28rem] rounded-full bg-rose-600/25 blur-[150px]"></div>
+    <div class="absolute bottom-0 left-1/3 w-[22rem] h-[22rem] rounded-full bg-fuchsia-600/10 blur-[130px]"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+      <!-- 左侧文案 -->
+      <div class="space-y-7 lg:space-y-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-200 text-xs font-semibold">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-purple-400"></span>
+          </span>
+          AI 状态评估 · Notion 自我经营计划
+        </div>
+
+        <div class="space-y-5">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight glow-text">
+            用数据经营状态<br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-fuchsia-300 to-rose-300">
+              把变美变成系统
+            </span>
+          </h1>
+
+          <p class="text-base lg:text-lg text-gray-400 leading-relaxed max-w-xl">
+            上传一张照片，获得面容与体态的状态参考，并把改善计划导入你的
+            <span class="text-white font-semibold">《人生CEO·女性自我经营系统》</span>。
+            不靠焦虑内耗，靠记录、复盘和执行慢慢变好。
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-3 max-w-xl">
+          <div class="glass-card rounded-2xl p-4">
+            <div class="text-lg font-bold text-white">01</div>
+            <div class="text-sm text-gray-300 mt-1">面容状态</div>
+            <div class="text-xs text-gray-500 mt-1">气色、轮廓、习惯参考</div>
+          </div>
+          <div class="glass-card rounded-2xl p-4">
+            <div class="text-lg font-bold text-white">02</div>
+            <div class="text-sm text-gray-300 mt-1">体态趋势</div>
+            <div class="text-xs text-gray-500 mt-1">肩颈、正侧面、日常风险</div>
+          </div>
+          <div class="glass-card rounded-2xl p-4">
+            <div class="text-lg font-bold text-white">03</div>
+            <div class="text-sm text-gray-300 mt-1">Notion 计划</div>
+            <div class="text-xs text-gray-500 mt-1">打卡、复盘、长期经营</div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2 text-xs text-gray-400">
+          <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">不公开展示照片</span>
+          <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">仅用于本次状态评估</span>
+          <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">结果仅作生活管理参考</span>
+        </div>
+      </div>
+
+      <!-- 右侧评估卡片 -->
+      <div class="glass-card gradient-border rounded-3xl p-5 sm:p-6 lg:p-8">
+
+        <!-- Step 1 上传 -->
+        <div id="step1" class="space-y-6 fade-in">
+          <div class="flex bg-black/35 rounded-2xl p-1 border border-white/10">
+            <button id="btn-face" onclick="switchType('face')" class="flex-1 py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all">
+              ✨ 面容状态
             </button>
+            <button id="btn-posture" onclick="switchType('posture')" class="flex-1 py-3 text-sm font-semibold rounded-xl text-gray-400 hover:text-white transition-all bg-transparent">
+              🧘‍♀️ 体态趋势
+            </button>
+          </div>
+
+          <div id="posture-angle-selector" class="hidden grid grid-cols-2 gap-3">
+            <label class="cursor-pointer rounded-2xl bg-white/5 border border-white/10 hover:border-purple-400/50 p-3 flex items-center gap-2 text-sm text-gray-300 transition">
+              <input type="radio" name="angle" value="front" checked class="accent-purple-500" />
+              <span>正面照</span>
+            </label>
+            <label class="cursor-pointer rounded-2xl bg-white/5 border border-white/10 hover:border-rose-400/50 p-3 flex items-center gap-2 text-sm text-gray-300 transition">
+              <input type="radio" name="angle" value="side" class="accent-rose-500" />
+              <span>侧面照</span>
+            </label>
+          </div>
+
+          <div class="rounded-2xl bg-purple-500/10 border border-purple-500/20 p-4">
+            <div class="text-sm font-semibold text-purple-100 mb-1" id="upload-title">上传一张清晰正脸照</div>
+            <p class="text-xs leading-relaxed text-gray-400" id="upload-hint">
+              建议光线充足、五官无遮挡。系统会生成面容状态参考，并给出适合导入 Notion 的行动建议。
+            </p>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-center text-xs">
+            <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
+              <div class="text-lg mb-1">1</div>
+              <div class="text-gray-400">上传照片</div>
+            </div>
+            <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
+              <div class="text-lg mb-1">2</div>
+              <div class="text-gray-400">生成报告</div>
+            </div>
+            <div class="rounded-2xl bg-white/5 border border-white/10 p-3">
+              <div class="text-lg mb-1">3</div>
+              <div class="text-gray-400">导入 Notion</div>
+            </div>
+          </div>
+
+          <div class="relative group cursor-pointer">
+            <input id="imageInput" type="file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+            <div id="drop-zone" class="min-h-[190px] rounded-3xl border-2 border-dashed border-purple-500/35 bg-black/25 group-hover:bg-purple-900/15 group-hover:border-purple-400/70 transition flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+              <img id="preview-img" alt="预览图" class="hidden max-h-48 rounded-2xl object-contain mb-4 border border-white/10" />
+              <div id="upload-icon" class="w-14 h-14 rounded-2xl bg-purple-500/15 flex items-center justify-center mb-4 text-3xl">
+                ↑
+              </div>
+              <div id="file-name" class="text-sm font-semibold text-gray-200">点击此处选择本地图片</div>
+              <div class="text-xs text-gray-500 mt-2">支持 JPG / PNG / HEIC 截图转存图片</div>
+            </div>
+          </div>
+
+          <div class="rounded-2xl bg-white/[0.035] border border-white/10 p-4 text-xs leading-relaxed text-gray-400">
+            <span class="text-gray-200 font-semibold">提示：</span>
+            本结果是生活管理参考，不替代医学诊断或专业建议。若有明显疼痛、长期不适或健康疑虑，请咨询专业人士。
+          </div>
+
+          <button onclick="processAndUpload()" class="w-full bg-white text-gray-950 hover:bg-gray-200 font-black py-4 px-5 rounded-2xl transition-all transform hover:scale-[1.015] active:scale-[0.99] shadow-[0_18px_45px_rgba(255,255,255,0.12)]">
+            生成我的状态报告
+          </button>
         </div>
-    </nav>
 
-    <section id="hero" class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
-        <div class="absolute top-1/4 left-0 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-30"></div>
-        <div class="absolute top-1/3 right-0 w-96 h-96 bg-rose-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-20"></div>
+        <!-- Step 2 加载 -->
+        <div id="step2" class="hidden flex-col items-center justify-center py-14 space-y-7 fade-in">
+          <div class="scan-container w-36 h-36 flex items-center justify-center">
+            <div class="text-5xl text-purple-300/30">✦</div>
+            <div class="scan-line"></div>
+          </div>
+          <div class="text-center">
+            <div id="loading-title" class="text-lg font-bold text-white">正在生成状态报告</div>
+            <p id="loading-text" class="text-sm text-purple-200 mt-2 animate-pulse">图片压缩与云端评估中...</p>
+          </div>
+        </div>
 
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            
-            <div class="space-y-8">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-semibold uppercase tracking-wider">
-                    <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span></span>
-                    真实 AI 视觉引擎运行中
-                </div>
-                <h1 class="text-5xl lg:text-6xl font-bold leading-tight glow-text">
-                    停止精神内耗<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-rose-400">用真实数据重塑你的美</span>
-                </h1>
-                <p class="text-lg text-gray-400 leading-relaxed max-w-lg">
-                    直接调用原生视觉算法，精准输出骨相与体态的像素级落差，并自动生成可落地的 Notion 管理系统。
+        <!-- Step 3 结果 -->
+        <div id="step3" class="hidden space-y-5 fade-in">
+          <div class="text-center">
+            <div class="inline-flex items-center justify-center px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs mb-3">
+              报告已生成
+            </div>
+            <h2 id="report-title" class="text-2xl font-black text-white">状态报告</h2>
+            <p id="report-subtitle" class="text-sm text-gray-500 mt-1">以下内容仅作为生活管理参考</p>
+          </div>
+
+          <div id="result-box" class="rounded-3xl bg-black/35 border border-white/10 p-5 space-y-4"></div>
+
+          <div class="rounded-3xl bg-gradient-to-br from-purple-900/55 to-rose-900/45 p-5 border border-purple-400/25">
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center">🚀</div>
+              <div>
+                <h3 class="font-black text-white">下一步：把建议变成执行系统</h3>
+                <p class="text-sm text-gray-300 mt-2 leading-relaxed">
+                  状态评估只解决“知道问题”，Notion 自我经营系统解决“持续改变”。你可以把体态、经期、财务、健身和复盘统一记录起来。
                 </p>
+              </div>
             </div>
 
-            <div class="glass-card p-6 lg:p-8 rounded-3xl relative border-purple-500/30 border">
-                <div id="step1" class="space-y-6 block">
-                    <div class="flex bg-black/40 rounded-xl p-1 border border-white/10">
-                        <button id="btn-posture" onclick="switchType('posture')" class="flex-1 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all">🏃‍♀️ 体态评估</button>
-                        <button id="btn-face" onclick="switchType('face')" class="flex-1 py-2.5 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all bg-transparent">✨ 面容分析</button>
-                    </div>
+            <button onclick="goToNotion()" class="mt-5 w-full bg-white hover:bg-gray-200 text-gray-950 font-black py-3.5 rounded-2xl transition">
+              导入我的 30 天自我经营计划
+            </button>
 
-                    <div id="posture-angle-selector" class="flex flex-col gap-3 justify-center mt-4 bg-purple-900/20 p-4 rounded-xl border border-purple-500/30">
-                        <p class="text-xs text-purple-300 font-bold text-center">👇 第一步：请选择你要测算的视角 👇</p>
-                        <div class="flex justify-center gap-6">
-                            <label class="text-sm font-bold text-gray-100 flex items-center gap-2 cursor-pointer hover:text-purple-300 transition">
-                                <input type="radio" name="angle" value="front" checked class="accent-purple-500"> 🧍‍♀️ 正面全身照 (测高低肩)
-                            </label>
-                            <label class="text-sm font-bold text-gray-100 flex items-center gap-2 cursor-pointer hover:text-rose-300 transition">
-                                <input type="radio" name="angle" value="side" class="accent-rose-500"> 🚶‍♀️ 侧面全身照 (测探颈)
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="text-center"><p id="upload-hint" class="text-sm text-rose-400 font-bold">【硬核要求】：请全身入镜，衣服紧身，背景必须干净无杂物！</p></div>
-                    
-                    <div class="relative group cursor-pointer">
-                        <input type="file" id="imageInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
-                        <div id="drop-zone" class="border-2 border-dashed border-purple-500/50 rounded-2xl p-8 text-center transition duration-300 group-hover:border-purple-400 group-hover:bg-purple-900/40 bg-black/40">
-                            <svg class="mx-auto h-10 w-10 text-purple-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-                            <span id="file-name" class="text-base font-bold text-white">点击此处，选取照片</span>
-                        </div>
-                    </div>
-
-                    <button onclick="processAndUpload()" class="w-full bg-gradient-to-r from-gray-100 to-white text-gray-900 hover:scale-105 font-black py-4 px-4 rounded-xl transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                        🚀 启动真实云端测算
-                    </button>
-                </div>
-
-                <div id="step2" class="hidden flex-col items-center justify-center py-10 space-y-6">
-                    <div class="scan-container w-32 h-32 flex items-center justify-center"><svg class="w-16 h-16 text-purple-400/30" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg><div class="scan-line"></div></div>
-                    <div class="text-center">
-                        <p class="text-purple-300 font-medium text-sm animate-pulse">图片已压缩，正在等待百度 AI 返回真实数据...</p>
-                    </div>
-                </div>
-
-                <div id="step3" class="hidden space-y-5">
-                    <div class="text-center"><h2 class="text-2xl font-bold text-white mb-1" id="report-title">诊断报告</h2></div>
-                    <div class="bg-black/40 border border-white/5 p-5 rounded-2xl space-y-3" id="result-box"></div>
-                    <button onclick="goToNotion()" class="w-full flex items-center justify-center gap-2 bg-purple-500 hover:bg-purple-400 text-white font-bold py-3 rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)]">
-                        一键部署到我的 Notion
-                    </button>
-                </div>
-            </div>
+            <button onclick="resetAssessment()" class="mt-3 w-full bg-white/5 hover:bg-white/10 text-gray-300 font-semibold py-3 rounded-2xl transition border border-white/10">
+              重新上传一张照片
+            </button>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        let currentType = 'posture'; 
+  <!-- 使用流程 -->
+  <section id="how" class="py-20 bg-[#070b15] border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="max-w-2xl mb-10">
+        <div class="text-sm text-purple-300 font-semibold mb-3">HOW IT WORKS</div>
+        <h2 class="text-3xl lg:text-4xl font-black text-white">不是测完就结束，而是进入一个可执行系统</h2>
+      </div>
 
-        document.getElementById('imageInput').addEventListener('change', function(e) {
-            const fileNameDisplay = document.getElementById('file-name');
-            const dropZone = document.getElementById('drop-zone');
-            if (this.files && this.files[0]) {
-                const name = this.files[0].name;
-                fileNameDisplay.innerHTML = `<span class="text-emerald-400 font-black text-lg">✅ 已选中: ${name.length > 15 ? name.substring(0,15)+'...' : name}</span>`;
-                dropZone.classList.add('border-emerald-500', 'bg-emerald-900/30');
+      <div class="grid md:grid-cols-3 gap-5">
+        <div class="glass-card rounded-3xl p-6">
+          <div class="text-3xl mb-5">📷</div>
+          <h3 class="text-xl font-bold text-white">上传状态照片</h3>
+          <p class="text-sm text-gray-400 mt-3 leading-relaxed">
+            根据面容或体态模式上传照片。体态模式支持正面和侧面，方便获得不同角度的状态参考。
+          </p>
+        </div>
+
+        <div class="glass-card rounded-3xl p-6">
+          <div class="text-3xl mb-5">🧠</div>
+          <h3 class="text-xl font-bold text-white">生成状态报告</h3>
+          <p class="text-sm text-gray-400 mt-3 leading-relaxed">
+            系统会根据照片给出趋势分析、生活管理建议和今日可执行的小动作。
+          </p>
+        </div>
+
+        <div class="glass-card rounded-3xl p-6">
+          <div class="text-3xl mb-5">📒</div>
+          <h3 class="text-xl font-bold text-white">导入 Notion 模板</h3>
+          <p class="text-sm text-gray-400 mt-3 leading-relaxed">
+            把建议落到经期、财务、健身、饮食、习惯和复盘系统里，持续经营你的状态。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 系统功能 -->
+  <section id="system" class="py-20 bg-[#080c18]">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+        <div>
+          <div class="text-sm text-rose-300 font-semibold mb-3">NOTION SYSTEM</div>
+          <h2 class="text-3xl lg:text-4xl font-black text-white">人生CEO·女性自我经营系统</h2>
+          <p class="text-gray-400 mt-4 max-w-2xl leading-relaxed">
+            不是单一打卡表，而是把身体、金钱、情绪、习惯和目标放进一个总控台，帮助你长期复盘和调整。
+          </p>
+        </div>
+
+        <button onclick="goToNotion()" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-rose-500 hover:opacity-90 font-black text-white transition">
+          立即获取模板
+        </button>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="glass-card rounded-3xl p-6">
+          <div class="text-3xl mb-4">🌙</div>
+          <h3 class="text-lg font-bold text-white">经期状态追踪</h3>
+          <p class="text-sm text-gray-400 mt-3 leading-relaxed">记录周期、情绪、能量、身体反应，找到自己的节律。</p>
+        </div>
+
+        <div class="glass-card rounded-3xl p-6">
+          <div class="text-3xl mb-4">💰</div>
+          <h3 class="text-lg font-bold text-white">财务看板</h3>
+          <p class="text-sm text-gray-400 mt-3 leading-relaxed">一键记账，追踪收入、支出、储蓄目标和消费复盘。</p>
+        </div>
+
+        <div class="glass-card rounded-3xl p-6">
+          <div class="text-3xl mb-4">🏋️‍♀️</div>
+          <h3 class="text-lg font-bold text-white">健身看板</h3>
+          <p class="text-sm text-gray-400 mt-3 leading-relaxed">管理训练计划、体态练习、运动频率和身体数据。</p>
+        </div>
+
+        <div class="glass-card rounded-3xl p-6">
+          <div class="text-3xl mb-4">🧭</div>
+          <h3 class="text-lg font-bold text-white">人生总控台</h3>
+          <p class="text-sm text-gray-400 mt-3 leading-relaxed">把变美、自律、成长和复盘整合成一个长期经营系统。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 底部 CTA -->
+  <section class="py-20 bg-[#070b15] border-t border-white/5">
+    <div class="max-w-4xl mx-auto px-5 text-center">
+      <h2 class="text-3xl lg:text-5xl font-black text-white leading-tight">
+        你不需要更焦虑，<br class="hidden sm:block" />
+        你需要一个能执行的系统。
+      </h2>
+      <p class="text-gray-400 mt-5 leading-relaxed">
+        从今天开始，把身体状态、财务、运动、经期和目标都放进一个可复盘的 Notion 系统。
+      </p>
+      <button onclick="goToNotion()" class="mt-8 px-8 py-4 rounded-2xl bg-white text-gray-950 hover:bg-gray-200 font-black transition">
+        获取《人生CEO·女性自我经营系统》
+      </button>
+    </div>
+  </section>
+
+  <footer class="py-8 bg-[#050812] text-center text-xs text-gray-600">
+    <p>© LUMINA · AI 状态评估结果仅作生活管理参考</p>
+  </footer>
+
+  <script>
+    const NOTION_TEMPLATE_URL = "https://www.notion.so/你的模板分享链接";
+
+    let currentType = "face";
+    let selectedFile = null;
+    let previewObjectUrl = null;
+
+    const activeTabClass = "flex-1 py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all";
+    const inactiveTabClass = "flex-1 py-3 text-sm font-semibold rounded-xl text-gray-400 hover:text-white transition-all bg-transparent";
+
+    function $(id) {
+      return document.getElementById(id);
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function goToNotion() {
+      if (!NOTION_TEMPLATE_URL || NOTION_TEMPLATE_URL.includes("你的模板分享链接")) {
+        alert("请先在 index.html 里把 NOTION_TEMPLATE_URL 替换成你的真实 Notion 模板链接。");
+        return;
+      }
+      window.open(NOTION_TEMPLATE_URL, "_blank", "noopener,noreferrer");
+    }
+
+    function switchType(type) {
+      currentType = type;
+      resetSelectedFile();
+
+      const btnFace = $("btn-face");
+      const btnPosture = $("btn-posture");
+      const angleSelector = $("posture-angle-selector");
+      const uploadTitle = $("upload-title");
+      const uploadHint = $("upload-hint");
+
+      if (type === "face") {
+        btnFace.className = activeTabClass;
+        btnPosture.className = inactiveTabClass;
+        angleSelector.classList.add("hidden");
+        uploadTitle.textContent = "上传一张清晰正脸照";
+        uploadHint.textContent = "建议光线充足、五官无遮挡。系统会生成面容状态参考，并给出适合导入 Notion 的行动建议。";
+      } else {
+        btnPosture.className = activeTabClass;
+        btnFace.className = inactiveTabClass;
+        angleSelector.classList.remove("hidden");
+        uploadTitle.textContent = "上传一张体态照片";
+        uploadHint.textContent = "正面照适合观察肩部平衡，侧面照适合观察头颈重心。建议穿着能看清肩颈线条的衣服，避免背景过乱。";
+      }
+    }
+
+    function resetSelectedFile() {
+      selectedFile = null;
+      $("imageInput").value = "";
+      $("file-name").textContent = "点击此处选择本地图片";
+      $("drop-zone").classList.remove("border-emerald-400", "bg-emerald-900/15");
+      $("upload-icon").classList.remove("hidden");
+
+      const preview = $("preview-img");
+      preview.classList.add("hidden");
+      preview.removeAttribute("src");
+
+      if (previewObjectUrl) {
+        URL.revokeObjectURL(previewObjectUrl);
+        previewObjectUrl = null;
+      }
+    }
+
+    $("imageInput").addEventListener("change", function () {
+      const file = this.files && this.files[0];
+
+      if (!file) {
+        resetSelectedFile();
+        return;
+      }
+
+      if (!file.type.startsWith("image/")) {
+        alert("请上传图片文件。");
+        resetSelectedFile();
+        return;
+      }
+
+      selectedFile = file;
+
+      $("file-name").textContent = "已选择：" + (file.name.length > 22 ? file.name.slice(0, 22) + "..." : file.name);
+      $("drop-zone").classList.add("border-emerald-400", "bg-emerald-900/15");
+      $("upload-icon").classList.add("hidden");
+
+      if (previewObjectUrl) {
+        URL.revokeObjectURL(previewObjectUrl);
+      }
+
+      previewObjectUrl = URL.createObjectURL(file);
+      const preview = $("preview-img");
+      preview.src = previewObjectUrl;
+      preview.classList.remove("hidden");
+    });
+
+    function showStep(stepNumber) {
+      ["step1", "step2", "step3"].forEach((id) => {
+        $(id).classList.add("hidden");
+        $(id).classList.remove("flex");
+      });
+
+      const target = $("step" + stepNumber);
+      target.classList.remove("hidden");
+
+      if (stepNumber === 2) {
+        target.classList.add("flex");
+      }
+    }
+
+    function compressImage(file, maxSide = 1200, quality = 0.82) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onerror = () => reject(new Error("图片读取失败，请换一张照片。"));
+
+        reader.onload = function (event) {
+          const img = new Image();
+
+          img.onerror = () => reject(new Error("图片解析失败，请换一张 JPG 或 PNG 图片。"));
+
+          img.onload = function () {
+            const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+            const width = Math.max(1, Math.round(img.width * scale));
+            const height = Math.max(1, Math.round(img.height * scale));
+
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext("2d");
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const dataUrl = canvas.toDataURL("image/jpeg", quality);
+            const base64 = dataUrl.split(",")[1];
+
+            if (!base64) {
+              reject(new Error("图片压缩失败，请重试。"));
+              return;
             }
+
+            resolve(base64);
+          };
+
+          img.src = event.target.result;
+        };
+
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function processAndUpload() {
+      if (!selectedFile) {
+        alert("请先选择一张照片。");
+        return;
+      }
+
+      showStep(2);
+
+      const loadingMessages = [
+        "图片压缩与云端评估中...",
+        "正在提取状态参考点...",
+        "正在生成 Notion 行动建议..."
+      ];
+
+      let loadingIndex = 0;
+      $("loading-text").textContent = loadingMessages[0];
+
+      const loadingTimer = setInterval(() => {
+        loadingIndex = (loadingIndex + 1) % loadingMessages.length;
+        $("loading-text").textContent = loadingMessages[loadingIndex];
+      }, 1100);
+
+      try {
+        const compressedBase64 = await compressImage(selectedFile);
+
+        const angle = currentType === "posture"
+          ? document.querySelector('input[name="angle"]:checked')?.value || "front"
+          : "front";
+
+        const response = await fetch("/api/analyze", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            image: compressedBase64,
+            type: currentType,
+            angle
+          })
         });
 
-        function switchType(type) {
-            currentType = type;
-            const btnFace = document.getElementById('btn-face');
-            const btnPosture = document.getElementById('btn-posture');
-            const uploadHint = document.getElementById('upload-hint');
-            const angleSelector = document.getElementById('posture-angle-selector');
-
-            document.getElementById('imageInput').value = "";
-            document.getElementById('file-name').innerHTML = "点击此处，选取照片";
-            document.getElementById('drop-zone').classList.remove('border-emerald-500', 'bg-emerald-900/30');
-
-            if (type === 'face') {
-                btnFace.className = "flex-1 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all";
-                btnPosture.className = "flex-1 py-2.5 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all bg-transparent";
-                uploadHint.innerText = "请上传一张清晰的正面五官照片";
-                angleSelector.classList.add('hidden'); 
-            } else {
-                btnPosture.className = "flex-1 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all";
-                btnFace.className = "flex-1 py-2.5 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all bg-transparent";
-                uploadHint.innerText = "【硬核要求】：请全身入镜，衣服紧身，背景必须干净无杂物！";
-                angleSelector.classList.remove('hidden'); 
-                angleSelector.classList.add('flex');
-            }
+        let data = {};
+        try {
+          data = await response.json();
+        } catch (jsonError) {
+          throw new Error("服务器返回异常，请稍后重试。");
         }
 
-        function compressImage(file, callback) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 800; 
-                    let width = img.width;
-                    let height = img.height;
-                    
-                    if (width > MAX_WIDTH) {
-                        height = Math.round((height *= MAX_WIDTH / width));
-                        width = MAX_WIDTH;
-                    }
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    const base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
-                    callback(base64);
-                }
-                img.src = e.target.result;
-            }
-            reader.readAsDataURL(file);
+        if (!response.ok) {
+          throw new Error(data.issue || data.error || "状态评估失败，请稍后重试。");
         }
 
-        async function processAndUpload() {
-            const fileInput = document.getElementById('imageInput');
-            if (!fileInput.files[0]) { alert("❌ 请先点击虚线框，选择一张照片！"); return; }
+        renderResult(data);
+      } catch (error) {
+        renderError(error);
+      } finally {
+        clearInterval(loadingTimer);
+      }
+    }
 
-            document.getElementById('step1').classList.add('hidden');
-            document.getElementById('step2').classList.remove('hidden');
-            document.getElementById('step2').classList.add('flex');
+    function renderResult(data) {
+      $("report-title").textContent = data.title || "状态报告";
+      $("report-subtitle").textContent = data.isFallback
+        ? "这是一份通用参考建议，你也可以换一张更清晰的照片重新评估"
+        : "以下内容仅作为生活管理参考";
 
-            const angle = document.querySelector('input[name="angle"]:checked')?.value || 'front';
+      const score = data.score ?? "--";
+      const issue = escapeHTML(data.issue || "暂未生成状态分析。");
+      const suggestion = escapeHTML(data.suggestion || "建议从记录、复盘和小行动开始。");
+      const nextStep = escapeHTML(data.nextStep || "建议导入 Notion 自我经营系统，持续记录 30 天。");
+      const note = escapeHTML(data.note || "本结果不替代医学诊断或专业建议。");
 
-            compressImage(fileInput.files[0], async function(compressedBase64) {
-                try {
-                    const response = await fetch('/api/analyze', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ image: compressedBase64, type: currentType, angle: angle })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (!response.ok) throw new Error(data.issue || '未知网络错误');
+      const actions = Array.isArray(data.actions) && data.actions.length
+        ? data.actions
+        : ["记录今日状态", "完成一个 5 分钟行动", "在 Notion 中做一次复盘"];
 
-                    document.getElementById('report-title').innerText = data.title;
-                    document.getElementById('result-box').innerHTML = `
-                        <div class="flex justify-between items-center border-b border-white/10 pb-3">
-                            <span class="text-gray-400 text-sm">客观测算评分</span>
-                            <span class="font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-purple-400 text-2xl">${data.score}</span>
-                        </div>
-                        <p class="text-sm text-gray-300 mt-3 whitespace-pre-line"><span class="text-rose-400 font-bold">⚠️ 原始数据解析：</span><br/>${data.issue}</p>
-                        <p class="text-sm text-gray-300 mt-3 whitespace-pre-line"><span class="text-purple-400 font-bold">💡 改善建议：</span><br/>${data.suggestion}</p>
-                    `;
-                    document.getElementById('step2').classList.add('hidden');
-                    document.getElementById('step2').classList.remove('flex');
-                    document.getElementById('step3').classList.remove('hidden');
-                } catch (error) {
-                    alert("❌ 测算中断！\n\n拦截原因：\n" + error.message + "\n\n👇 排查指南 👇\n1. 如果提示 Error_code: 17 或 6 等数字，说明你的百度智能云【没有免费领取】接口额度！请登录百度云控制台领取。\n2. 如果提示未能找到人体，请换一张背景完全干净的全身照！");
-                    location.reload();
-                }
-            });
-        }
+      const actionHTML = actions.map((action) => {
+        return `<li class="flex gap-2"><span class="text-purple-300">•</span><span>${escapeHTML(action)}</span></li>`;
+      }).join("");
 
-        function goToNotion() { window.open("https://www.notion.so/你的模板分享链接", "_blank"); }
-    </script>
+      $("result-box").innerHTML = `
+        <div class="flex items-center justify-between gap-4 pb-4 border-b border-white/10">
+          <div>
+            <div class="text-sm text-gray-500">综合状态分</div>
+            <div class="text-xs text-gray-600 mt-1">分数仅用于自我观察</div>
+          </div>
+          <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-rose-300">${escapeHTML(score)}</div>
+        </div>
+
+        <div>
+          <div class="text-sm font-bold text-rose-300 mb-2">状态观察</div>
+          <p class="text-sm text-gray-300 leading-relaxed">${issue}</p>
+        </div>
+
+        <div>
+          <div class="text-sm font-bold text-purple-300 mb-2">改善建议</div>
+          <p class="text-sm text-gray-300 leading-relaxed">${suggestion}</p>
+        </div>
+
+        <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+          <div class="text-sm font-bold text-white mb-2">今日可以立刻做</div>
+          <ul class="text-sm text-gray-300 leading-relaxed space-y-1">${actionHTML}</ul>
+        </div>
+
+        <div>
+          <div class="text-sm font-bold text-emerald-300 mb-2">下一步</div>
+          <p class="text-sm text-gray-300 leading-relaxed">${nextStep}</p>
+        </div>
+
+        <p class="text-xs text-gray-500 leading-relaxed pt-2 border-t border-white/10">${note}</p>
+      `;
+
+      showStep(3);
+    }
+
+    function renderError(error) {
+      $("report-title").textContent = "暂时无法生成报告";
+      $("report-subtitle").textContent = "你可以重新上传，或稍后再试";
+
+      $("result-box").innerHTML = `
+        <div class="rounded-2xl bg-rose-500/10 border border-rose-500/20 p-4">
+          <div class="text-sm font-bold text-rose-300 mb-2">出现了一个小问题</div>
+          <p class="text-sm text-gray-300 leading-relaxed">${escapeHTML(error.message || "请求失败，请稍后重试。")}</p>
+        </div>
+
+        <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+          <div class="text-sm font-bold text-white mb-2">建议你这样做</div>
+          <ul class="text-sm text-gray-300 leading-relaxed space-y-1">
+            <li>• 换一张光线更清晰的照片</li>
+            <li>• 体态照尽量露出肩颈线条</li>
+            <li>• 确认 Vercel 环境变量已经配置完成</li>
+          </ul>
+        </div>
+      `;
+
+      showStep(3);
+    }
+
+    function resetAssessment() {
+      resetSelectedFile();
+      showStep(1);
+    }
+  </script>
 </body>
 </html>
