@@ -5,10 +5,74 @@ const BODY_API_URL = "https://aip.baidubce.com/rest/2.0/image-classify/v1/body_a
 module.exports = async function handler(req, res) {
   setJsonHeaders(res);
 
+  const AK = process.env.BAIDU_API_KEY;
+  const SK = process.env.BAIDU_SECRET_KEY;
+
+  // 浏览器直接打开 /api/analyze 时，用来检查环境变量是否存在
+  if (req.method === "GET") {
+    const shouldCheckToken = String(req.query?.check || "").toLowerCase() === "token";
+
+    if (!shouldCheckToken) {
+      return res.status(200).json({
+        ok: true,
+        message: "API 自检成功。这个接口需要 POST 图片才能进行 AI 评估。",
+        env: {
+          BAIDU_API_KEY: Boolean(AK),
+          BAIDU_SECRET_KEY: Boolean(SK)
+        },
+        nextCheck: "如果想检测百度 AK/SK 是否有效，请打开 /api/analyze?check=token",
+        note: "这里只显示是否存在环境变量，不会暴露你的真实密钥。"
+      });
+    }
+
+    if (!AK || !SK) {
+      return res.status(500).json({
+        ok: false,
+        message: "百度环境变量未配置完整。",
+        env: {
+          BAIDU_API_KEY: Boolean(AK),
+          BAIDU_SECRET_KEY: Boolean(SK)
+        },
+        fix: [
+          "打开 Vercel 项目后台",
+          "进入 Settings",
+          "进入 Environment Variables",
+          "添加 BAIDU_API_KEY 和 BAIDU_SECRET_KEY",
+          "保存后重新 Redeploy"
+        ]
+      });
+    }
+
+    try {
+      await getBaiduAccessToken(AK, SK);
+
+      return res.status(200).json({
+        ok: true,
+        message: "百度 Access Token 获取成功，说明 BAIDU_API_KEY 和 BAIDU_SECRET_KEY 基本正确。",
+        next: [
+          "如果面容能识别，但体态不能识别，请检查百度应用是否开通了【人体分析 / 人体关键点识别】权限。",
+          "如果体态仍无法识别，请上传能看见双肩、脖子、腰胯的清晰照片。"
+        ]
+      });
+    } catch (error) {
+      return res.status(500).json({
+        ok: false,
+        message: "百度 Access Token 获取失败，说明 API Key / Secret Key 可能填错，或 Vercel 环境变量没有生效。",
+        error: error.message,
+        fix: [
+          "确认 Vercel 环境变量名字必须是 BAIDU_API_KEY 和 BAIDU_SECRET_KEY",
+          "确认填的是百度智能云应用的 API Key 和 Secret Key，不是 AppID",
+          "修改环境变量后必须重新 Redeploy",
+          "如果密钥曾经暴露到 GitHub，建议在百度智能云后台重置密钥"
+        ]
+      });
+    }
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({
-      error: "只允许 POST 请求",
-      issue: "请求方式不正确，请刷新页面后重试。"
+      error: "只允许 GET 自检或 POST 评估",
+      issue: "请求方式不正确。"
     });
   }
 
@@ -28,9 +92,6 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  const AK = process.env.BAIDU_API_KEY;
-  const SK = process.env.BAIDU_SECRET_KEY;
-
   if (!AK || !SK) {
     return res.status(500).json({
       error: "服务器 API 密钥未配置",
@@ -42,7 +103,8 @@ module.exports = async function handler(req, res) {
       actions: [
         "打开 Vercel 项目设置",
         "进入 Environment Variables",
-        "添加 BAIDU_API_KEY 和 BAIDU_SECRET_KEY"
+        "添加 BAIDU_API_KEY 和 BAIDU_SECRET_KEY",
+        "重新 Redeploy 项目"
       ],
       note: "请不要把 API Key 写进前端或提交到 GitHub。",
       isFallback: true
@@ -65,15 +127,16 @@ module.exports = async function handler(req, res) {
     console.error("Analyze error:", error);
 
     return res.status(500).json({
-      error: "云端评估暂时不可用",
+      error: "云端评估失败",
       title: "暂时无法生成报告",
       score: "--",
-      issue: "云端评估暂时不稳定，可能是网络、接口响应或服务器配置导致。",
-      suggestion: "请稍后重试，或者检查 Vercel 环境变量和百度智能云接口是否可用。",
-      nextStep: "你也可以先查看 Notion 自我经营系统，从日常记录开始使用。",
+      issue: error.message || "云端评估暂时不稳定，可能是网络、接口权限、接口额度或服务器配置导致。",
+      suggestion: "请先检查 Vercel 环境变量是否正确，再确认百度智能云应用是否开通了对应接口权限。",
+      nextStep: "如果面容能识别但体态不能识别，重点检查百度应用是否开通了【人体分析 / 人体关键点识别】。",
       actions: [
-        "确认 BAIDU_API_KEY 是否正确",
-        "确认 BAIDU_SECRET_KEY 是否正确",
+        "打开 /api/analyze 检查环境变量是否存在",
+        "打开 /api/analyze?check=token 检查 AK/SK 是否有效",
+        "确认百度应用已开通人体分析",
         "重新部署 Vercel 项目"
       ],
       note: "系统错误时不生成评分，避免给出不准确结果。",
@@ -96,11 +159,13 @@ async function getBaiduAccessToken(apiKey, secretKey) {
     method: "POST"
   });
 
-  const data = await response.json();
+  const data = await response.json().catch(() => ({}));
 
   if (!response.ok || !data.access_token) {
-    console.error("Baidu token response:", data);
-    throw new Error("百度 Access Token 获取失败");
+    const code = data.error || data.error_code || "UNKNOWN_TOKEN_ERROR";
+    const msg = data.error_description || data.error_msg || "百度 Access Token 获取失败";
+
+    throw new Error(`百度 Token 获取失败：${code} - ${msg}`);
   }
 
   return data.access_token;
@@ -119,16 +184,21 @@ async function analyzeFaceState(token, image) {
     })
   });
 
-  const data = await response.json();
+  const data = await response.json().catch(() => ({}));
 
-  if (
-    !response.ok ||
-    data.error_code ||
-    !data.result ||
-    !Array.isArray(data.result.face_list) ||
-    data.result.face_list.length === 0
-  ) {
-    console.warn("Face API needs reupload:", data);
+  if (!response.ok) {
+    throw new Error(`百度人脸接口请求失败：HTTP ${response.status}`);
+  }
+
+  if (data.error_code) {
+    const errorMessage = formatBaiduError("百度人脸接口返回错误", data);
+
+    return getFaceReuploadResult(
+      `${errorMessage}。如果你上传的是正脸照仍然失败，请检查百度应用是否开通了【人脸识别 / 人脸检测与属性分析】权限。`
+    );
+  }
+
+  if (!data.result || !Array.isArray(data.result.face_list) || data.result.face_list.length === 0) {
     return getFaceReuploadResult("这张照片没有稳定识别到清晰人脸，可能是光线、角度、遮挡或画面距离导致。");
   }
 
@@ -210,21 +280,29 @@ async function analyzePostureState(token, image, angle) {
     body: params
   });
 
-  const data = await response.json();
+  const data = await response.json().catch(() => ({}));
 
-  if (
-    !response.ok ||
-    data.error_code ||
-    !data.person_num ||
-    !Array.isArray(data.person_info) ||
-    data.person_info.length === 0 ||
-    !data.person_info[0].body_parts
-  ) {
-    console.warn("Body API needs reupload:", data);
-    return getPostureReuploadResult("照片角度、光线、衣物或背景可能影响了人体关键点识别。");
+  if (!response.ok) {
+    throw new Error(`百度人体接口请求失败：HTTP ${response.status}`);
   }
 
-  const parts = data.person_info[0].body_parts;
+  if (data.error_code) {
+    throw new Error(
+      `${formatBaiduError("百度人体接口返回错误", data)}。这通常不是照片问题，而是接口权限、额度、图片格式或应用配置问题。请确认百度应用已开通【人体分析 / 人体关键点识别】。`
+    );
+  }
+
+  if (!data.person_num || !Array.isArray(data.person_info) || data.person_info.length === 0) {
+    return getPostureReuploadResult("百度人体接口没有识别到人体。请上传能看见头、脖子、双肩和上半身的清晰照片。");
+  }
+
+  const selectedPerson = selectBestPerson(data.person_info);
+
+  if (!selectedPerson || !selectedPerson.body_parts) {
+    return getPostureReuploadResult("百度人体接口返回了人体结果，但没有稳定返回身体关键点。");
+  }
+
+  const parts = selectedPerson.body_parts;
 
   if (angle === "side") {
     return analyzeSidePosture(parts);
@@ -233,12 +311,33 @@ async function analyzePostureState(token, image, angle) {
   return analyzeFrontPosture(parts);
 }
 
+function selectBestPerson(personInfoList) {
+  if (!Array.isArray(personInfoList) || personInfoList.length === 0) {
+    return null;
+  }
+
+  const scored = personInfoList.map((person) => {
+    const parts = person.body_parts || {};
+    const locationScore = Number(person.location?.score || 0);
+    const validPartCount = Object.values(parts).filter((part) => Number(part?.score || 0) >= 0.2).length;
+
+    return {
+      person,
+      score: locationScore * 10 + validPartCount
+    };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+
+  return scored[0].person;
+}
+
 function analyzeFrontPosture(parts) {
   const leftShoulder = getPart(parts, "left_shoulder");
   const rightShoulder = getPart(parts, "right_shoulder");
 
   if (!leftShoulder || !rightShoulder) {
-    return getPostureReuploadResult("这张照片没有稳定识别到左右肩位置。");
+    return getPostureReuploadResult("这张照片没有稳定识别到左右肩位置。请上传正面站立照，并露出双肩。");
   }
 
   const shoulderWidth = Math.abs(leftShoulder.x - rightShoulder.x);
@@ -296,11 +395,11 @@ function analyzeSidePosture(parts) {
   const leftShoulder = getPart(parts, "left_shoulder");
   const rightShoulder = getPart(parts, "right_shoulder");
   const neck = getPart(parts, "neck");
-  const leftHip = getPart(parts, "left_hip");
-  const rightHip = getPart(parts, "right_hip");
+  const leftHip = getPart(parts, "left_hip", 0.1);
+  const rightHip = getPart(parts, "right_hip", 0.1);
 
   if (!leftShoulder || !rightShoulder || !neck) {
-    return getPostureReuploadResult("这张侧面照没有稳定识别到肩颈位置。");
+    return getPostureReuploadResult("这张侧面照没有稳定识别到肩颈位置。请上传能看见头、脖子、肩膀和躯干线条的侧面照。");
   }
 
   const shoulderCenter = {
@@ -372,7 +471,7 @@ function analyzeSidePosture(parts) {
   };
 }
 
-function getPart(parts, name) {
+function getPart(parts, name, minScore = 0.2) {
   const part = parts && parts[name];
 
   if (
@@ -382,6 +481,12 @@ function getPart(parts, name) {
     Number.isNaN(part.x) ||
     Number.isNaN(part.y)
   ) {
+    return null;
+  }
+
+  const score = Number(part.score || 0);
+
+  if (score < minScore) {
     return null;
   }
 
@@ -422,6 +527,12 @@ function getPostureReuploadResult(reason) {
     note: "未成功识别时不生成体态评分，避免给出不准确结果。",
     isFallback: true
   };
+}
+
+function formatBaiduError(prefix, data) {
+  const code = data.error_code || data.error || "UNKNOWN_ERROR";
+  const msg = data.error_msg || data.error_description || "未知错误";
+  return `${prefix}：error_code=${code}，error_msg=${msg}`;
 }
 
 function clamp(value, min, max) {
