@@ -57,7 +57,7 @@ module.exports = async function handler(req, res) {
                 title: "面容骨相客观诊断",
                 score: Math.round(faceInfo.beauty || 75),
                 issue: `[AI 骨相识别判定：${shapeText}]\n\n${shapeIssue}`,
-                suggestion: "单纯的焦虑无法带来改变。系统已根据您的骨皮相特征，在 Notion 中生成了专属的抗衰干预策略（含早C晚A护肤公式与面部抗衰提拉打卡库），请严格执行。"
+                suggestion: "单纯的焦虑无法带来改变。"
             };
 
         } else {
@@ -83,10 +83,10 @@ module.exports = async function handler(req, res) {
                 if (shoulderDiff > 12) {
                     postureScore = 65;
                     issueText = `AI 节点测算结果：左右肩存在明显的垂直高度差（像素落差达 ${Math.round(shoulderDiff)}px）。\n\n🔍 深度体态解析：系统已确诊您存在显著的【高低肩】及潜在的【脊柱侧弯】风险。这绝不仅仅是视觉上的不美观，它通常意味着您存在严重的单侧发力习惯（如长期单肩背包、歪斜坐姿）。长此以往，会导致单侧斜方肌代偿性严重肥大（视觉上脖子变短），甚至引发胸椎及腰椎的连带代偿扭曲。`;
-                    suggestionText = "体态危机已触发！请立刻停止一切错误的发力习惯。Notion 中已为您生成针对性的【双侧肌肉张力平衡计划】与【斜方肌定向拉伸】，请务必每日打卡跟练。";
+                    suggestionText = "体态危机已触发！请立刻停止一切错误的发力习惯。";
                 } else {
                     issueText = `AI 节点测算结果：左右肩高度差仅 ${Math.round(shoulderDiff)}px，处于极佳的健康阈值内。\n\n🔍 深度体态解析：您的肩部水平对称性表现优异，未发现明显的代偿性发力问题，骨骼对齐度良好，展现出了极好的仪态底气。`;
-                    suggestionText = "请继续保持这份自律。可在 Notion 中解锁更高阶的核心巩固与马甲线雕刻计划。";
+                    suggestionText = "请继续保持这份自律。";
                 }
             } else if (angle === 'side') {
                 const shoulderCenterX = (parts.left_shoulder.x + parts.right_shoulder.x) / 2;
@@ -96,7 +96,7 @@ module.exports = async function handler(req, res) {
                 if (headForwardDiff > 15) {
                     postureScore = 60;
                     issueText = `AI 节点测算结果：您的颈椎中心已明显偏离肩部垂直生理中轴线（偏离值高达 ${Math.round(headForwardDiff)}px）。\n\n🔍 深度体态解析：系统确诊您存在严重的【头前倾（探颈）】及圆肩问题。这种不良体态不仅会从侧面毁掉气质，更可怕的是，会导致颈后大包（富贵包）脂肪堆积、下颌线消失（假性双下巴），以及长期的慢性肩颈酸痛。`;
-                    suggestionText = "不要任由体态继续恶化！Notion 专属库中已为您匹配了【胸锁乳突肌拉伸】及【深层颈屈肌强化】等系统性回位训练，请务必导入并强制执行。";
+                    suggestionText = "不要任由体态继续恶化！";
                 } else {
                     issueText = `AI 节点测算结果：颈部偏离值仅 ${Math.round(headForwardDiff)}px，无明显探颈问题。\n\n🔍 深度体态解析：侧面颈椎曲度处于非常健康的生理范围内。耳垂与肩峰基本保持在同一条垂直线上，侧颜气质仪态管理得非常到位。`;
                     suggestionText = "侧面仪态十分优雅。建议日常工作保持屏幕与视线平齐，并使用 Notion 持续追踪体态数据。";
