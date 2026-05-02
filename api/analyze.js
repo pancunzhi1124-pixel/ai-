@@ -8,7 +8,6 @@ module.exports = async function handler(req, res) {
   const AK = process.env.BAIDU_API_KEY;
   const SK = process.env.BAIDU_SECRET_KEY;
 
-  // 浏览器直接打开 /api/analyze 时，用来检查环境变量是否存在
   if (req.method === "GET") {
     const shouldCheckToken = String(req.query?.check || "").toLowerCase() === "token";
 
@@ -180,7 +179,7 @@ async function analyzeFaceState(token, image) {
     body: JSON.stringify({
       image,
       image_type: "BASE64",
-      face_field: "age,beauty,face_shape,quality"
+      face_field: "beauty,face_shape,quality"
     })
   });
 
@@ -210,16 +209,11 @@ async function analyzeFaceState(token, image) {
   const shapeType = face.face_shape && face.face_shape.type;
   const shapeInfo = getFaceShapeInfo(shapeType);
 
-  const age = Number(face.age);
-  const ageText = Number.isFinite(age)
-    ? `视觉状态参考约 ${Math.round(age)} 岁，仅供观察。`
-    : "视觉状态参考未稳定识别。";
-
   return {
     status: "success",
     title: "面容状态评估",
     score,
-    issue: `AI 识别到你的脸型倾向为「${shapeInfo.label}」。${shapeInfo.issue} ${ageText}`,
+    issue: `AI 识别到你的脸型倾向为「${shapeInfo.label}」。${shapeInfo.issue}`,
     suggestion: shapeInfo.suggestion,
     nextStep: "建议把睡眠、饮水、经期状态、饮食和护肤执行情况记录到 Notion，看 7 天后的状态变化。",
     actions: [
