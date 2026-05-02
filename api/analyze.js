@@ -4,9 +4,9 @@ module.exports = async function handler(req, res) {
     const { image, type, angle } = req.body;
     if (!image) return res.status(400).json({ error: '未接收到图片' });
 
-    // ✅ 你的全新双权限万能钥匙已配置
-    const AK = process.env.BAIDU_API_KEY || "EVJS9M05hqWukheZoqii0TPg";
-    const SK = process.env.BAIDU_SECRET_KEY || "abuyt7rbhDLspy3nL7L0jJqYfXCOjoVU";
+    // 🔒 终极锁死配置：完全抛弃 process.env，只认这把新钥匙！
+    const AK = "EVJS9M05hqWukheZoqii0TPg";
+    const SK = "abuyt7rbhDLspy3nL7L0jJqYfXCOjoVU";
 
     try {
         const tokenUrl = `https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=${AK}&client_secret=${SK}`;
@@ -22,7 +22,6 @@ module.exports = async function handler(req, res) {
         let report = {};
 
         if (type === 'face') {
-            // ✨ 真实面容分析模式
             const faceApiUrl = `https://aip.baidubce.com/rest/2.0/face/v3/detect?access_token=${token}`;
             const faceRes = await fetch(faceApiUrl, {
                 method: 'POST',
@@ -31,7 +30,6 @@ module.exports = async function handler(req, res) {
             });
             const faceData = await faceRes.json();
 
-            // 拦截百度错误码
             if (faceData.error_code) {
                 return res.status(400).json({ issue: `百度AI拒绝 (错误码: ${faceData.error_code})\n具体原因: ${faceData.error_msg}\n解决: 确保已【免费领取】人脸检测额度。` });
             }
@@ -51,14 +49,12 @@ module.exports = async function handler(req, res) {
             };
 
         } else {
-            // 🏃‍♀️ 真实体态评估模式
             const bodyApiUrl = `https://aip.baidubce.com/rest/2.0/image-classify/v1/body_analysis?access_token=${token}`;
             const params = new URLSearchParams();
             params.append('image', image);
             const bodyRes = await fetch(bodyApiUrl, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: params });
             const bodyData = await bodyRes.json();
 
-            // 拦截百度错误码
             if (bodyData.error_code) {
                 return res.status(400).json({ issue: `百度云权限不足 (错误码: ${bodyData.error_code})\n原因: ${bodyData.error_msg}\n解决：请去百度控制台【免费领取】人体分析调用额度！` });
             }
