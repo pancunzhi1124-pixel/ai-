@@ -12,7 +12,6 @@
         .scan-container { position: relative; overflow: hidden; border-radius: 1rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255, 255, 255, 0.1); }
         .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(to right, transparent, #a855f7, #ec4899, transparent); box-shadow: 0 0 15px #ec4899; animation: scan 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
         @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
-        /* 让单选按钮更明显 */
         input[type="radio"] { transform: scale(1.2); cursor: pointer; }
     </style>
 </head>
@@ -51,14 +50,11 @@
 
             <div class="glass-card p-6 lg:p-8 rounded-3xl relative border-purple-500/30 border">
                 <div id="step1" class="space-y-6 block">
-                    <!-- 顶部分类 -->
                     <div class="flex bg-black/40 rounded-xl p-1 border border-white/10">
-                        <!-- 注意：这次默认激活的是 体态评估 -->
                         <button id="btn-posture" onclick="switchType('posture')" class="flex-1 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all">🏃‍♀️ 体态评估</button>
                         <button id="btn-face" onclick="switchType('face')" class="flex-1 py-2.5 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all bg-transparent">✨ 面容分析</button>
                     </div>
 
-                    <!-- 【正侧面选择器】默认直接显示！ -->
                     <div id="posture-angle-selector" class="flex flex-col gap-3 justify-center mt-4 bg-purple-900/20 p-4 rounded-xl border border-purple-500/30">
                         <p class="text-xs text-purple-300 font-bold text-center">👇 第一步：请选择你要测算的视角 👇</p>
                         <div class="flex justify-center gap-6">
@@ -105,7 +101,6 @@
     </section>
 
     <script>
-        // 默认状态改为体态评估
         let currentType = 'posture'; 
 
         document.getElementById('imageInput').addEventListener('change', function(e) {
@@ -133,17 +128,16 @@
                 btnFace.className = "flex-1 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all";
                 btnPosture.className = "flex-1 py-2.5 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all bg-transparent";
                 uploadHint.innerText = "请上传一张清晰的正面五官照片";
-                angleSelector.classList.add('hidden'); // 测脸时隐藏选择器
+                angleSelector.classList.add('hidden'); 
             } else {
                 btnPosture.className = "flex-1 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg transition-all";
                 btnFace.className = "flex-1 py-2.5 text-sm font-medium rounded-lg text-gray-400 hover:text-white transition-all bg-transparent";
                 uploadHint.innerText = "【硬核要求】：请全身入镜，衣服紧身，背景必须干净无杂物！";
-                angleSelector.classList.remove('hidden'); // 测体态时显示选择器
+                angleSelector.classList.remove('hidden'); 
                 angleSelector.classList.add('flex');
             }
         }
 
-        // 强力图片压缩
         function compressImage(file, callback) {
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -190,7 +184,6 @@
                     
                     const data = await response.json();
                     
-                    // 核心报错拦截：如果报错，把详细原因抛出来
                     if (!response.ok) throw new Error(data.issue || '未知网络错误');
 
                     document.getElementById('report-title').innerText = data.title;
@@ -206,7 +199,6 @@
                     document.getElementById('step2').classList.remove('flex');
                     document.getElementById('step3').classList.remove('hidden');
                 } catch (error) {
-                    // 【终极排错弹窗】
                     alert("❌ 测算中断！\n\n拦截原因：\n" + error.message + "\n\n👇 排查指南 👇\n1. 如果提示 Error_code: 17 或 6 等数字，说明你的百度智能云【没有免费领取】接口额度！请登录百度云控制台领取。\n2. 如果提示未能找到人体，请换一张背景完全干净的全身照！");
                     location.reload();
                 }
