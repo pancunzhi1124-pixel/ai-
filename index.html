@@ -34,13 +34,13 @@
     }
 
     .cream-nav {
-      background: rgba(255, 247, 251, 0.9);
+      background: rgba(255, 247, 251, 0.92);
       backdrop-filter: blur(18px);
       border-bottom: 1px solid rgba(238, 221, 232, 0.9);
     }
 
     .soft-card {
-      background: rgba(255, 255, 255, 0.86);
+      background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(18px);
       border: 1px solid var(--border);
       box-shadow: 0 24px 60px rgba(122, 80, 106, 0.12);
@@ -68,6 +68,32 @@
         linear-gradient(rgba(201, 79, 140, 0.055) 1px, transparent 1px),
         linear-gradient(90deg, rgba(201, 79, 140, 0.055) 1px, transparent 1px);
       background-size: 42px 42px;
+    }
+
+    .brand-avatar-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(238, 221, 232, 0.95);
+      box-shadow: 0 10px 26px rgba(201, 79, 140, 0.18);
+      background: #fff;
+      flex-shrink: 0;
+    }
+
+    .brand-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .brand-subtitle {
+      font-size: 15px;
+      line-height: 1.2;
+      font-weight: 800;
+      color: #6f5f6b;
+      white-space: nowrap;
     }
 
     .scan-container {
@@ -108,6 +134,18 @@
       }
     }
 
+    .upload-zone {
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(253, 240, 247, 0.84));
+      border: 2px dashed rgba(201, 79, 140, 0.32);
+    }
+
+    .upload-zone:hover {
+      background:
+        linear-gradient(135deg, rgba(253, 240, 247, 0.94), rgba(240, 231, 251, 0.94));
+      border-color: rgba(201, 79, 140, 0.58);
+    }
+
     .module-card {
       transition: all 0.28s ease;
     }
@@ -128,39 +166,8 @@
       color: #c0488f;
     }
 
-    .upload-zone {
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(253, 240, 247, 0.84));
-      border: 2px dashed rgba(201, 79, 140, 0.32);
-    }
-
-    .upload-zone:hover {
-      background:
-        linear-gradient(135deg, rgba(253, 240, 247, 0.94), rgba(240, 231, 251, 0.94));
-      border-color: rgba(201, 79, 140, 0.58);
-    }
-
-    .brand-avatar {
-      width: 52px;
-      height: 52px;
-      object-fit: cover;
-      border-radius: 16px;
-      border: 1px solid rgba(238, 221, 232, 0.95);
-      box-shadow: 0 10px 26px rgba(201, 79, 140, 0.18);
-      background: #fff;
-      flex-shrink: 0;
-    }
-
-    .brand-subtitle {
-      font-size: 15px;
-      line-height: 1.2;
-      font-weight: 700;
-      color: #6f5f6b;
-      white-space: nowrap;
-    }
-
     @media (max-width: 640px) {
-      .brand-avatar {
+      .brand-avatar-wrap {
         width: 44px;
         height: 44px;
         border-radius: 14px;
@@ -178,11 +185,14 @@
   <nav class="fixed top-0 left-0 w-full z-50 cream-nav">
     <div class="max-w-7xl mx-auto px-5 lg:px-8 h-16 lg:h-20 flex items-center justify-between">
       <a href="#hero" class="flex items-center gap-3">
-        <img
-          src="./brand-avatar.png"
-          alt=""
-          class="brand-avatar"
-        />
+        <div class="brand-avatar-wrap">
+          <img
+            src="data:image/jpeg;base64,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"
+            alt=""
+            class="brand-avatar-img"
+          />
+        </div>
+
         <div class="flex items-center min-h-[40px]">
           <div class="brand-subtitle">
             人生CEO · 女性自我经营系统
@@ -209,7 +219,6 @@
     <div class="absolute bottom-0 left-1/3 w-[22rem] h-[22rem] rounded-full bg-[#FFF1D6] blur-[130px]"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
       <div class="space-y-7 lg:space-y-8">
         <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 border border-[#EEDDE8] text-[#C94F8C] text-xs font-bold shadow-sm">
           <span class="relative flex h-2 w-2">
@@ -260,7 +269,6 @@
       </div>
 
       <div class="soft-card rounded-[32px] p-5 sm:p-6 lg:p-8">
-
         <div id="step1" class="space-y-6 fade-in">
           <div class="flex bg-[#FDF0F7] rounded-2xl p-1 border border-[#EEDDE8]">
             <button id="btn-face" onclick="switchType('face')" class="flex-1 py-3 text-sm font-bold rounded-xl primary-gradient text-white shadow-lg transition-all">
@@ -425,31 +433,26 @@
               <div class="h-px bg-gray-200 mb-3"></div>
               <p class="mini-link text-xs leading-6">📖 长期目标<br>🎯 核心目标<br>🚩 关键结果</p>
             </div>
-
             <div class="mini-dashboard-card rounded-2xl p-4">
               <h3 class="font-black text-sm mb-3">🪄 成长工坊</h3>
               <div class="h-px bg-gray-200 mb-3"></div>
               <p class="mini-link text-xs leading-6">🗂️ 我的项目<br>💎 我的任务<br>✅ 我的待办</p>
             </div>
-
             <div class="mini-dashboard-card rounded-2xl p-4">
               <h3 class="font-black text-sm mb-3">🌙 自我对话</h3>
               <div class="h-px bg-gray-200 mb-3"></div>
               <p class="mini-link text-xs leading-6">🗓️ 周度复盘<br>📅 月度复盘<br>🧾 季度复盘<br>📆 年度复盘</p>
             </div>
-
             <div class="mini-dashboard-card rounded-2xl p-4">
               <h3 class="font-black text-sm mb-3">💰 富足指南</h3>
               <div class="h-px bg-gray-200 mb-3"></div>
               <p class="mini-link text-xs leading-6">🧾 账单记录<br>📊 月度报表<br>🧭 年度报表</p>
             </div>
-
             <div class="mini-dashboard-card rounded-2xl p-4">
               <h3 class="font-black text-sm mb-3">🫶 身心疗愈</h3>
               <div class="h-px bg-gray-200 mb-3"></div>
               <p class="mini-link text-xs leading-6">🏋️ 训练动作<br>📈 身体数据<br>🌧️ 情绪急救箱<br>🌙 经期与状态追踪</p>
             </div>
-
             <div class="mini-dashboard-card rounded-2xl p-4">
               <h3 class="font-black text-sm mb-3">🗓️ 日常节律</h3>
               <div class="h-px bg-gray-200 mb-3"></div>
@@ -462,8 +465,6 @@
   </section>
 
   <section id="modules" class="relative py-24 bg-[#FDF0F7] overflow-hidden">
-    <div class="absolute top-20 right-[-120px] w-[260px] h-[260px] rounded-full bg-[#F0E7FB] blur-[110px]"></div>
-
     <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8">
       <div class="max-w-3xl mb-12">
         <div class="text-sm text-[#C94F8C] font-black tracking-wider mb-3">9 CORE MODULES</div>
@@ -475,177 +476,7 @@
         </p>
       </div>
 
-      <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
-
-        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-[#FBE4F0] flex items-center justify-center text-2xl">✨</div>
-            <div>
-              <h3 class="text-xl font-black text-[#2B2330]">闪耀人生</h3>
-              <p class="text-xs text-[#C94F8C] mt-1">目标系统</p>
-            </div>
-          </div>
-          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
-            明确长期方向，把人生愿景拆成可持续推进的目标与结果。
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">长期目标</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">核心目标</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">关键结果</span>
-          </div>
-        </div>
-
-        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-[#F0E7FB] flex items-center justify-center text-2xl">🪄</div>
-            <div>
-              <h3 class="text-xl font-black text-[#2B2330]">成长工坊</h3>
-              <p class="text-xs text-[#9B6BC8] mt-1">项目执行区</p>
-            </div>
-          </div>
-          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
-            管理个人项目、任务和待办，让成长不再靠临时冲动。
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">我的项目</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">我的任务</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">我的待办</span>
-          </div>
-        </div>
-
-        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-[#FBE4F0] flex items-center justify-center text-2xl">🌙</div>
-            <div>
-              <h3 class="text-xl font-black text-[#2B2330]">自我对话</h3>
-              <p class="text-xs text-[#C94F8C] mt-1">复盘系统</p>
-            </div>
-          </div>
-          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
-            通过周、月、季、年复盘，看见自己的节奏、成长与偏离。
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">周度复盘</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">月度复盘</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">季度复盘</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">年度复盘</span>
-          </div>
-        </div>
-
-        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-[#F0E7FB] flex items-center justify-center text-2xl">💡</div>
-            <div>
-              <h3 class="text-xl font-black text-[#2B2330]">灵感花园</h3>
-              <p class="text-xs text-[#9B6BC8] mt-1">信息收藏区</p>
-            </div>
-          </div>
-          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
-            收纳灵感、信息、文档、课程、书籍和媒体内容。
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">灵感</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">信息</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">文档</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">课程</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">书籍</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">媒体</span>
-          </div>
-        </div>
-
-        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-[#F0E7FB] flex items-center justify-center text-2xl">🧠</div>
-            <div>
-              <h3 class="text-xl font-black text-[#2B2330]">理想生活蓝图</h3>
-              <p class="text-xs text-[#9B6BC8] mt-1">认知与内在区</p>
-            </div>
-          </div>
-          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
-            从底层逻辑、自我认知到心理整理，建立稳定的内在秩序。
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">底层逻辑</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">自我认知</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">心理整理</span>
-          </div>
-        </div>
-
-        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-[#FFF1D6] flex items-center justify-center text-2xl">💰</div>
-            <div>
-              <h3 class="text-xl font-black text-[#2B2330]">富足指南</h3>
-              <p class="text-xs text-[#B78322] mt-1">财务系统</p>
-            </div>
-          </div>
-          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
-            记录账单、查看月度和年度报表，建立更清晰的财富意识。
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">账单记录</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">月度报表</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">年度报表</span>
-          </div>
-        </div>
-
-        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-[#FFF1D6] flex items-center justify-center text-2xl">🧺</div>
-            <div>
-              <h3 class="text-xl font-black text-[#2B2330]">质感生活</h3>
-              <p class="text-xs text-[#B78322] mt-1">物品管理区</p>
-            </div>
-          </div>
-          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
-            管理保质期物品、长期物品和物品日志，减少浪费与混乱。
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">保质期物品</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">长期物品</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">物品日志</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">物品统计</span>
-          </div>
-        </div>
-
-        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-[#EAF8EF] flex items-center justify-center text-2xl">🫶</div>
-            <div>
-              <h3 class="text-xl font-black text-[#2B2330]">身心疗愈</h3>
-              <p class="text-xs text-[#2E8A56] mt-1">身体管理区</p>
-            </div>
-          </div>
-          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
-            整合训练、健身、身体数据、情绪急救与经期状态追踪。
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">训练动作</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">健身安排</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">身体数据</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">情绪急救箱</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">经期与状态追踪</span>
-          </div>
-        </div>
-
-        <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-[#EAF5FF] flex items-center justify-center text-2xl">🗓️</div>
-            <div>
-              <h3 class="text-xl font-black text-[#2B2330]">日常节律</h3>
-              <p class="text-xs text-[#3F7DB7] mt-1">习惯追踪区</p>
-            </div>
-          </div>
-          <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
-            通过习惯管理、打卡记录和月热力图，把坚持变成可视化行动。
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">习惯管理</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">打卡记录</span>
-            <span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">月热力图</span>
-          </div>
-        </div>
-      </div>
+      <div id="moduleGrid" class="grid md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
     </div>
   </section>
 
@@ -687,8 +518,6 @@
   </section>
 
   <section id="fit" class="relative py-24 bg-[#FDF0F7] overflow-hidden">
-    <div class="absolute top-10 left-[-140px] w-[320px] h-[320px] bg-[#FBE4F0] blur-[120px] rounded-full"></div>
-
     <div class="relative z-10 max-w-7xl mx-auto px-5 lg:px-8">
       <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-14 items-center">
         <div>
@@ -707,19 +536,16 @@
             <h3 class="font-black text-[#2B2330]">想变美但不想焦虑</h3>
             <p class="text-sm text-[#7A6A78] mt-2 leading-relaxed">用记录和行动替代自我攻击。</p>
           </div>
-
           <div class="solid-card rounded-3xl p-6">
             <div class="text-2xl mb-3">💰</div>
             <h3 class="font-black text-[#2B2330]">想开始认真管钱</h3>
             <p class="text-sm text-[#7A6A78] mt-2 leading-relaxed">把消费、储蓄和财务复盘放到一起。</p>
           </div>
-
           <div class="solid-card rounded-3xl p-6">
             <div class="text-2xl mb-3">🧘‍♀️</div>
             <h3 class="font-black text-[#2B2330]">想照顾身体状态</h3>
             <p class="text-sm text-[#7A6A78] mt-2 leading-relaxed">管理经期、运动、体态和情绪状态。</p>
           </div>
-
           <div class="solid-card rounded-3xl p-6">
             <div class="text-2xl mb-3">📝</div>
             <h3 class="font-black text-[#2B2330]">想建立复盘习惯</h3>
@@ -1119,6 +945,123 @@
       resetSelectedFile();
       showStep(1);
     }
+
+    const moduleData = [
+      {
+        icon: "✨",
+        title: "闪耀人生",
+        type: "目标系统",
+        color: "#C94F8C",
+        bg: "#FBE4F0",
+        desc: "明确长期方向，把人生愿景拆成可持续推进的目标与结果。",
+        tags: ["长期目标", "核心目标", "关键结果"]
+      },
+      {
+        icon: "🪄",
+        title: "成长工坊",
+        type: "项目执行区",
+        color: "#9B6BC8",
+        bg: "#F0E7FB",
+        desc: "管理个人项目、任务和待办，让成长不再靠临时冲动。",
+        tags: ["我的项目", "我的任务", "我的待办"]
+      },
+      {
+        icon: "🌙",
+        title: "自我对话",
+        type: "复盘系统",
+        color: "#C94F8C",
+        bg: "#FBE4F0",
+        desc: "通过周、月、季、年复盘，看见自己的节奏、成长与偏离。",
+        tags: ["周度复盘", "月度复盘", "季度复盘", "年度复盘"]
+      },
+      {
+        icon: "💡",
+        title: "灵感花园",
+        type: "信息收藏区",
+        color: "#9B6BC8",
+        bg: "#F0E7FB",
+        desc: "收纳灵感、信息、文档、课程、书籍和媒体内容。",
+        tags: ["灵感", "信息", "文档", "课程", "书籍", "媒体"]
+      },
+      {
+        icon: "🧠",
+        title: "理想生活蓝图",
+        type: "认知与内在区",
+        color: "#9B6BC8",
+        bg: "#F0E7FB",
+        desc: "从底层逻辑、自我认知到心理整理，建立稳定的内在秩序。",
+        tags: ["底层逻辑", "自我认知", "心理整理"]
+      },
+      {
+        icon: "💰",
+        title: "富足指南",
+        type: "财务系统",
+        color: "#B78322",
+        bg: "#FFF1D6",
+        desc: "记录账单、查看月度和年度报表，建立更清晰的财富意识。",
+        tags: ["账单记录", "月度报表", "年度报表"]
+      },
+      {
+        icon: "🧺",
+        title: "质感生活",
+        type: "物品管理区",
+        color: "#B78322",
+        bg: "#FFF1D6",
+        desc: "管理保质期物品、长期物品和物品日志，减少浪费与混乱。",
+        tags: ["保质期物品", "长期物品", "物品日志", "物品统计"]
+      },
+      {
+        icon: "🫶",
+        title: "身心疗愈",
+        type: "身体管理区",
+        color: "#2E8A56",
+        bg: "#EAF8EF",
+        desc: "整合训练、健身、身体数据、情绪急救与经期状态追踪。",
+        tags: ["训练动作", "健身安排", "身体数据", "情绪急救箱", "经期与状态追踪"]
+      },
+      {
+        icon: "🗓️",
+        title: "日常节律",
+        type: "习惯追踪区",
+        color: "#3F7DB7",
+        bg: "#EAF5FF",
+        desc: "通过习惯管理、打卡记录和月热力图，把坚持变成可视化行动。",
+        tags: ["习惯管理", "打卡记录", "月热力图"]
+      }
+    ];
+
+    function renderModules() {
+      const grid = $("moduleGrid");
+      if (!grid) return;
+
+      grid.innerHTML = moduleData.map((item) => {
+        const tags = item.tags.map((tag) => {
+          return `<span class="px-3 py-1 rounded-full bg-[#FFF7FB] text-xs text-[#7A6A78] border border-[#EEDDE8]">${escapeHTML(tag)}</span>`;
+        }).join("");
+
+        return `
+          <div class="module-card rounded-[28px] border border-[#EEDDE8] bg-white p-6">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl" style="background:${item.bg};">
+                ${item.icon}
+              </div>
+              <div>
+                <h3 class="text-xl font-black text-[#2B2330]">${escapeHTML(item.title)}</h3>
+                <p class="text-xs mt-1" style="color:${item.color};">${escapeHTML(item.type)}</p>
+              </div>
+            </div>
+            <p class="text-sm text-[#7A6A78] leading-relaxed mb-4">
+              ${escapeHTML(item.desc)}
+            </p>
+            <div class="flex flex-wrap gap-2">
+              ${tags}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    renderModules();
   </script>
 </body>
 </html>
