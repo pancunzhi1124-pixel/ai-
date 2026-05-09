@@ -1,0 +1,87 @@
+:root {
+  --bg: #f5f7fb;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --primary: #2563eb;
+  --border: #e5e7eb;
+  --success: #0f766e;
+  --error: #b91c1c;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app { max-width: 860px; margin: 0 auto; padding: 16px; }
+.hero { text-align: center; margin: 10px 0 16px; }
+h1 { font-size: 1.5rem; margin: 0 0 8px; }
+h2 { font-size: 1.1rem; margin-top: 0; }
+h3 { margin: 12px 0 8px; font-size: 1rem; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.row { display: flex; gap: 8px; align-items: center; }
+.wrap { flex-wrap: wrap; }
+
+input, select, button {
+  font-size: 1rem;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+input, select { flex: 1; }
+
+button { background: var(--primary); color: #fff; border: none; }
+.meta-list p { margin: 6px 0; }
+.steps { margin: 8px 0 0 18px; padding: 0; }
+.steps li { margin-bottom: 4px; }
+
+.question-list { padding-left: 20px; margin: 10px 0 0; }
+.question-list li { margin-bottom: 8px; }
+
+.answer-item { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+.answer-head { width: 100%; text-align: left; background: #f9fafb; color: var(--text); border: none; padding: 10px; }
+.answer-body { padding: 10px; border-top: 1px solid var(--border); }
+
+.msg { margin: 8px 0 0; font-size: 0.92rem; }
+.msg.success { color: var(--success); }
+.msg.error { color: var(--error); }
+.muted { color: var(--muted); }
+
+video { width: 100%; margin-top: 10px; border-radius: 12px; border: 1px solid var(--border); }
+.link-grid { display: grid; gap: 10px; }
+.action-link {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  background: #eff6ff;
+  color: #1d4ed8;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #bfdbfe;
+  text-align: left;
+}
+.action-link.lock {
+  background: #f3f4f6;
+  color: #4b5563;
+  border-color: #d1d5db;
+}
+
+.hidden { display: none !important; }
+footer { margin: 18px 0 10px; color: var(--muted); font-size: 0.9rem; }
+
+@media (min-width: 768px) {
+  h1 { font-size: 1.8rem; }
+  .card { padding: 16px; }
+}
